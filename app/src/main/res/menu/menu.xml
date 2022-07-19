@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ic_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/ic_like"
+        android:icon="@drawable/ic_like"
+        android:title="Preferiti"/>
+
+    <item
+        android:id="@+id/ic_search"
+        android:icon="@drawable/ic_search"
+        android:title="Cerca"/>
+
+    <item
+        android:id="@+id/ic_message"
+        android:icon="@drawable/ic_message"
+        android:title="Messaggi"/>
+
+    <item
+        android:id="@+id/ic_user"
+        android:icon="@drawable/ic_user"
+        android:title="Account" />
+
+</menu>
