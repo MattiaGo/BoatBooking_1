@@ -1,28 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
-    tools:context=".ui.auth.Registration">
+    tools:context=".ui.auth.RegistrationFragment">
 
-    <TextView
-        android:id="@+id/txt_SignIn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/crea_account"
-        android:textColor="@color/navyblue"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/back_btn"
+            android:contentDescription="@string/backBtn"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/txt_Register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/crea_account"
+            android:textColor="@color/navyblue"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/textName"
@@ -81,14 +100,14 @@
             android:textColorHint="@color/colorHint" />
 
         <Button
-            android:id="@+id/confirmRegistrationBtn"
+            android:id="@+id/registrationBtn"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_shape1"
             android:text="@string/registration"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
         <View
             android:layout_width="200dp"
@@ -133,7 +152,6 @@
                 android:src="@drawable/ic_facebook" />
 
         </LinearLayout>
-
     </LinearLayout>
 
 </FrameLayout>

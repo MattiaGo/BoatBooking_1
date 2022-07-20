@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/favorites"
+    app:startDestination="@id/like">
+
+    <fragment
+        android:id="@+id/like"
+        android:name="com.example.boatbooking_1.ui.navigation.FavoritesFragment"
+        android:label="fragment_preferiti"
+        tools:layout="@layout/fragment_favorites" />
+</navigation>

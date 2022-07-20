@@ -27,6 +27,12 @@
     <string name="logout_button_text">Logout</string>
     <string name="login_button_text">Login</string>
     <string name="otherwise_use">Oppure registrati con</string>
-    <string name="backBtn">back button</string>
+    <string name="backBtn">back</string>
+    <string name="remember_me">Ricordami</string>
+    <string name="account">Account</string>
+    <string name="home">Home</string>
+    <string name="cerca">Cerca</string>
+    <string name="preferiti">Preferiti</string>
+    <string name="messaggi">Messaggi</string>
 
 </resources>

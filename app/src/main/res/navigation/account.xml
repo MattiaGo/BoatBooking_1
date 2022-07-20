@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/account"
+    app:startDestination="@id/main_account">
+
+    <fragment
+        android:id="@+id/main_account"
+        android:name="com.example.boatbooking_1.ui.navigation.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account">
+        <action
+            android:id="@+id/action_main_account_to_userProfile"
+            app:destination="@id/userProfile" />
+        <action
+            android:id="@+id/action_main_account_to_passwordResetFragment"
+            app:destination="@id/passwordResetFragment" />
+        <action
+            android:id="@+id/action_main_account_to_registration"
+            app:destination="@id/registration" />
+    </fragment>
+    <fragment
+        android:id="@+id/registration"
+        android:name="com.example.boatbooking_1.ui.auth.RegistrationFragment"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_registration_to_main_account"
+            app:destination="@id/main_account" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfile"
+        android:name="com.example.boatbooking_1.ui.auth.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.boatbooking_1.ui.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/passwordResetFragment"
+        android:name="com.example.boatbooking_1.PasswordResetFragment"
+        android:label="fragment_password_reset"
+        tools:layout="@layout/fragment_password_reset">
+        <action
+            android:id="@+id/action_passwordResetFragment_to_main_account"
+            app:destination="@id/main_account" />
+    </fragment>
+</navigation>

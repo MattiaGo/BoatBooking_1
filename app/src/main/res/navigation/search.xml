@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search"
+    app:startDestination="@id/main_search">
+
+
+    <fragment
+        android:id="@+id/main_search"
+        android:name="com.example.boatbooking_1.ui.navigation.SearchFragment"
+        android:label="fragment_cerca"
+        tools:layout="@layout/fragment_search" />
+
+
+</navigation>

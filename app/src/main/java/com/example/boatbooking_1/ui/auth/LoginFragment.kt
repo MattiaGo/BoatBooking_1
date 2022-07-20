@@ -38,11 +38,10 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentLoginBinding.inflate(
-            inflater, container, false )
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        //binding.loginBtn.setOnClickListener { launchSignInFlow() }
-
+        binding.textEmailAddress
+        binding.loginBtn.setOnClickListener { launchSignInFlow() }
         return binding.root
     }
 
@@ -53,7 +52,7 @@ class LoginFragment : Fragment() {
 
         // If the user presses the back button, bring them back to the home screen.
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            navController.popBackStack(R.id.ic_home, false)
+            navController.popBackStack(R.id.home, false)
         }
 
         // Observe the authentication state so we can know if the user has logged in successfully.

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/messages"
+    app:startDestination="@id/main_messages">
+
+    <fragment
+        android:id="@+id/main_messages"
+        android:name="com.example.boatbooking_1.ui.navigation.MessagesFragment"
+        android:label="fragment_messaggi"
+        tools:layout="@layout/fragment_messages" />
+
+
+</navigation>

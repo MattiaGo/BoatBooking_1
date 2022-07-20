@@ -1,10 +1,10 @@
 package com.example.boatbooking_1.ui.navigation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.boatbooking_1.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -17,7 +17,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [Cerca.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Cerca : Fragment() {
+class SearchFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -50,7 +50,7 @@ class Cerca : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            Cerca().apply {
+            SearchFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.firebase.crashlytics'
+    id("androidx.navigation.safeargs.kotlin")
+
 }
 
 apply plugin: 'com.android.application'
@@ -35,7 +37,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 }
