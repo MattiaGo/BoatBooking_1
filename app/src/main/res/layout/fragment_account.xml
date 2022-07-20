@@ -7,12 +7,21 @@
     android:background="@color/light_grey"
     tools:context=".ui.navigation.AccountFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/txt_SignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/accedi"
+        android:textColor="@color/navyblue"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
+        android:layout_marginTop="100dp"
         android:orientation="vertical">
 
         <EditText
@@ -79,7 +88,7 @@
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_shape2"
-            android:text="@string/registrati"
+            android:text="@string/registration"
             android:textColor="@color/navyblue"
             app:cornerRadius="3dp"
             app:strokeColor="@color/navyblue"
@@ -97,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_margin="10dp"
-            android:text="@string/registrati_con"
+            android:text="@string/register_with"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -130,16 +139,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/txt_SignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/accedi"
-        android:textColor="@color/navyblue"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
 
 </FrameLayout>

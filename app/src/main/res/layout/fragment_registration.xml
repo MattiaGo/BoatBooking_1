@@ -4,15 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_grey"
     tools:context=".ui.auth.Registration">
 
-    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/txt_SignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:text="@string/crea_account"
+        android:textColor="@color/navyblue"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="100dp">
 
         <EditText
             android:id="@+id/textName"
@@ -23,7 +33,7 @@
             android:autofillHints=""
             android:background="@drawable/input_shape"
             android:ems="10"
-            android:hint="@string/nome"
+            android:hint="@string/name"
             android:inputType="textEmailAddress"
             android:minHeight="50dp"
             android:textColorHint="@color/colorHint" />
@@ -56,47 +66,29 @@
             android:minHeight="50dp"
             android:textColorHint="@color/colorHint" />
 
+        <EditText
+            android:id="@+id/textPasswordConfirm"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/input_shape"
+            android:ems="10"
+            android:hint="@string/confirm_password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:minHeight="50dp"
+            android:textColorHint="@color/colorHint" />
+
         <Button
-            android:id="@+id/loginBtn"
+            android:id="@+id/confirmRegistrationBtn"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_shape1"
-            android:text="@string/login"
+            android:text="@string/registration"
             android:textColor="@color/white"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_margin="5dp"
-            android:text="@string/activity_link"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_margin="10dp"
-            android:text="@string/altrimenti"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/registerBtn"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/btn_shape2"
-            android:text="@string/registrati"
-            android:textColor="@color/navyblue"
-            app:cornerRadius="3dp"
-            app:strokeColor="@color/navyblue"
-            app:strokeWidth="5dp"/>
 
         <View
             android:layout_width="200dp"
@@ -109,8 +101,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_margin="10dp"
-            android:text="@string/registrati_con"
+            android:layout_margin="20dp"
+            android:text="@string/otherwise_use"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -143,16 +135,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/txt_SignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/crea_account"
-        android:textColor="@color/navyblue"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
 
 </FrameLayout>
