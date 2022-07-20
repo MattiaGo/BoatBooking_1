@@ -1,4 +1,4 @@
-package com.example.boatbooking_1
+package com.example.boatbooking_1.ui.auth
 
 import android.app.Activity
 import android.content.Intent
@@ -7,14 +7,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.activity.addCallback
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.boatbooking_1.LoginViewModel
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentLoginBinding
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse

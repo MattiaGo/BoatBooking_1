@@ -1,10 +1,10 @@
-package com.example.boatbooking_1
+package com.example.boatbooking_1.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
