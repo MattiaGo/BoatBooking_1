@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/ic_home">
+
+    <fragment
+        android:id="@+id/ic_account"
+        android:name="com.example.boatbooking_1.AccountFragment"
+        android:label="fragment_account">
+        <!--tools:layout="@layout/fragment_account" > -->
+        <action
+            android:id="@+id/action_ic_account_to_userProfile"
+            app:destination="@id/userProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/ic_message"
+        android:name="com.example.boatbooking_1.Messaggi"
+        android:label="fragment_messaggi"
+        tools:layout="@layout/fragment_messages" />
+    <fragment
+        android:id="@+id/ic_search"
+        android:name="com.example.boatbooking_1.Cerca"
+        android:label="fragment_cerca"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/ic_like"
+        android:name="com.example.boatbooking_1.Preferiti"
+        android:label="fragment_preferiti"
+        tools:layout="@layout/fragment_favorites" />
+    <fragment
+        android:id="@+id/ic_home"
+        android:name="com.example.boatbooking_1.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/registration"
+        android:name="com.example.boatbooking_1.Registration"
+        android:label="fragment_registration"
+        tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/userProfile"
+        android:name="com.example.boatbooking_1.UserProfile"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.boatbooking_1.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+</navigation>

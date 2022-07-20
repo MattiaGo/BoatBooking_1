@@ -3,6 +3,8 @@ package com.example.boatbooking_1
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.boatbooking_1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,25 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Home())
 
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.ic_home -> replaceFragment(Home())
-                R.id.ic_like -> replaceFragment(Preferiti())
-                R.id.ic_search -> replaceFragment(Cerca())
-                R.id.ic_message -> replaceFragment(Messaggi())
-                R.id.ic_user -> replaceFragment(Account())
-                else ->{}
-            }
-            true
-        }
-    }
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+        val navController = navHostFragment.navController
 
-    private fun replaceFragment(fragment : Fragment){
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frameLayout, fragment)
-            commit()
-        }
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 }

@@ -10,16 +10,19 @@
         android:roundIcon="@drawable/ic_rudder"
         android:supportsRtl="true">
         <activity
-            android:theme="@style/Theme.BoatBooking_1.Main"
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
-        />
+            android:theme="@style/Theme.BoatBooking_1.Main" />
         <activity
-            android:theme="@style/Theme.BoatBooking_1"
             android:name=".SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.BoatBooking_1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
