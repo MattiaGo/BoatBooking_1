@@ -5,29 +5,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.boatbooking_1.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.boatbooking_1.databinding.FragmentMessagesBinding
+import com.example.boatbooking_1.model.ChatPreview
+import com.example.boatbooking_1.model.ChatPreviewAdapter
+import com.example.boatbooking_1.model.User
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Messaggi.newInstance] factory method to
+ * Use the [Messages.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class MessagesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    // View Binding
+    private lateinit var binding: FragmentMessagesBinding
+
+    private lateinit var chatPreviewRecyclerView: RecyclerView
+    private lateinit var chatPreviewList : ArrayList<ChatPreview>
+    // Fake data to test RecyclerView
+    lateinit var userList : Array<User>
+    lateinit var lastMessageList : Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        userList = arrayOf(
+            User("Admin", "admin@boatbooking.com", "0"),
+            User("Matteo", "matteo@mail.com", "1"),
+            User("Mattia", "mattia@mail.com", "2")
+        )
+
+        lastMessageList = arrayOf(
+            "Ciao, come stai?",
+            "È possibile effettuare una prenotazione?",
+            "Mi dispiace non è più disponibile!"
+        )
     }
 
     override fun onCreateView(
@@ -35,26 +49,26 @@ class MessagesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_messages, container, false)
+//        return inflater.inflate(R.layout.fragment_messages, container, false)
+
+        binding = FragmentMessagesBinding.inflate(inflater, container, false)
+
+        chatPreviewRecyclerView = binding.rvChatPreview
+        chatPreviewRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        chatPreviewRecyclerView.setHasFixedSize(true)
+
+        chatPreviewList = arrayListOf()
+        getFakeData()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Messaggi.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MessagesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun getFakeData() {
+        for (i in userList.indices) {
+            val chatPreview = ChatPreview(userList[i], lastMessageList[i])
+            chatPreviewList.add(chatPreview)
+        }
+
+        chatPreviewRecyclerView.adapter = ChatPreviewAdapter(chatPreviewList)
     }
 }

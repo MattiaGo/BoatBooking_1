@@ -41,7 +41,7 @@
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/passwordResetFragment"
-        android:name="com.example.boatbooking_1.PasswordResetFragment"
+        android:name="com.example.boatbooking_1.ui.auth.PasswordResetFragment"
         android:label="fragment_password_reset"
         tools:layout="@layout/fragment_password_reset">
         <action
