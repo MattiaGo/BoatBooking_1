@@ -9,7 +9,7 @@ import com.example.boatbooking_1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    //view binding
+    // View Binding
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

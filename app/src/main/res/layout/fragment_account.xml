@@ -14,7 +14,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:text="@string/accedi"
-        android:textColor="@color/navyblue"
+        android:textColor="@color/navy_blue"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -56,7 +56,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="80dp"
             android:text="@string/remember_me"
-            android:textColor="@color/navyblue" />
+            android:textColor="@color/navy_blue" />
 
         <Button
             android:id="@+id/loginBtn"
@@ -95,9 +95,9 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_shape2"
             android:text="@string/registration"
-            android:textColor="@color/navyblue"
+            android:textColor="@color/navy_blue"
             app:cornerRadius="3dp"
-            app:strokeColor="@color/navyblue"
+            app:strokeColor="@color/navy_blue"
             app:strokeWidth="5dp" />
 
         <View

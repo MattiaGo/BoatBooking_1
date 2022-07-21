@@ -8,8 +8,6 @@
     <fragment
         android:id="@+id/main_messages"
         android:name="com.example.boatbooking_1.ui.navigation.MessagesFragment"
-        android:label="fragment_messaggi"
+        android:label="fragment_messages"
         tools:layout="@layout/fragment_messages" />
-
-
 </navigation>

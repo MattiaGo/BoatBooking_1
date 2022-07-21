@@ -81,9 +81,9 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_shape2"
             android:text="@string/registration"
-            android:textColor="@color/navyblue"
+            android:textColor="@color/navy_blue"
             app:cornerRadius="3dp"
-            app:strokeColor="@color/navyblue"
+            app:strokeColor="@color/navy_blue"
             app:strokeWidth="5dp" />
 
         <View
@@ -139,7 +139,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:text="PROVA"
-        android:textColor="@color/navyblue"
+        android:textColor="@color/navy_blue"
         android:textSize="30sp"
         android:textStyle="bold" />
 
