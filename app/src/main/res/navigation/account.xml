@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/account"
-    app:startDestination="@id/main_account">
+    app:startDestination="@+id/main_account">
 
     <fragment
         android:id="@+id/main_account"
         android:name="com.example.boatbooking_1.ui.navigation.AccountFragment"
-        android:label="fragment_account"
+        android:label="@string/account"
         tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_main_account_to_userProfile"
@@ -33,7 +33,11 @@
         android:id="@+id/userProfile"
         android:name="com.example.boatbooking_1.ui.auth.UserProfileFragment"
         android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" />
+        tools:layout="@layout/fragment_user_profile" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/login"
         android:name="com.example.boatbooking_1.ui.auth.LoginFragment"

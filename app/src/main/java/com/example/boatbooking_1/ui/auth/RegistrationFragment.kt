@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentRegistrationBinding
 import com.example.boatbooking_1.ui.navigation.AccountFragmentDirections
 import com.google.firebase.auth.FirebaseAuth

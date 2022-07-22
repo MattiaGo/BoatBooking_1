@@ -58,10 +58,10 @@ class AccountFragment : Fragment() {
         const val GOOGLE_SIGN_IN = 1903
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initFBGoogleSignIn()
-    }
+    //override fun onCreate(savedInstanceState: Bundle?) {
+    //    super.onCreate(savedInstanceState)
+        //initFBGoogleSignIn()
+    //}
 
 
     override fun onCreateView(
@@ -138,7 +138,7 @@ class AccountFragment : Fragment() {
         mFirebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener({ task ->
                 if (task.isSuccessful) {
-                    val action = AccountFragmentDirections.actionMainAccountToUserProfile()
+                    val action = AccountFragmentDirections.actionMainAccountToUserProfile(email = "cazzo")
                     findNavController().navigate(action)
                 } else {
                     binding.loginBtn.isEnabled = true
@@ -166,7 +166,7 @@ class AccountFragment : Fragment() {
         fAuth.signInWithEmailAndPassword(email.text.toString(), password.text.toString())
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val action = AccountFragmentDirections.actionMainAccountToUserProfile()
+                    val action = AccountFragmentDirections.actionMainAccountToUserProfile(email = "cazzo")
                     findNavController().navigate(action)
                 } else {
                     binding.loginBtn.isEnabled = true
