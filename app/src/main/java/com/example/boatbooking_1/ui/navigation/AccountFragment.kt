@@ -58,10 +58,10 @@ class AccountFragment : Fragment() {
         const val GOOGLE_SIGN_IN = 1903
     }
 
-    //override fun onCreate(savedInstanceState: Bundle?) {
-    //    super.onCreate(savedInstanceState)
-        //initFBGoogleSignIn()
-    //}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initFBGoogleSignIn()
+    }
 
 
     override fun onCreateView(

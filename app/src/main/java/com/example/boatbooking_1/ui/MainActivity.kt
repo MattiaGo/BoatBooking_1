@@ -1,16 +1,20 @@
 package com.example.boatbooking_1.ui
 
+//import android.R
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,19 +29,19 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-       navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
         binding.bottomNav.setupWithNavController(navController)
+
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.passwordResetFragment -> hideBottomNav()
-                //R.id.mineFragment -> showBottomNav()
+                R.id.account -> hideBottomNav()
+                R.id.account -> hideBottomNav()
                 else -> showBottomNav()
             }
         }
-
-        navController.navigateUp()
-
     }
 
     private fun showBottomNav() {
@@ -47,6 +51,4 @@ class MainActivity : AppCompatActivity() {
     private fun hideBottomNav() {
         binding.bottomNav.visibility = View.GONE
     }
-
-
 }
