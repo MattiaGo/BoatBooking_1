@@ -89,17 +89,17 @@ class ChatFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-//        sendButton.setOnClickListener {
-//            if (messageBox.text.isNotEmpty()) {
-//                val message = messageBox.text.toString()
-//                val messageObject = MyMessage(message, "0")
-//
-//                messageArrayList.add(messageObject)
-//                chatRecyclerView.adapter = MyMessageAdapter(messageArrayList)
-//
-//                messageBox.text = ""
-//            }
-//        }
+        sendButton.setOnClickListener {
+            if (messageBox.text.isNotEmpty()) {
+                val message = messageBox.text.toString()
+                val messageObject = MyMessage(message, "1")
+
+                messageArrayList.add(messageObject)
+                chatRecyclerView.adapter = MyMessageAdapter(messageArrayList)
+
+                messageBox.text = ""
+            }
+        }
     }
 
     private fun getFakeData() {
