@@ -23,10 +23,11 @@ class MessagesFragment : Fragment() {
     private lateinit var binding: FragmentMessagesBinding
 
     private lateinit var chatPreviewRecyclerView: RecyclerView
-    private lateinit var chatPreviewList : ArrayList<ChatPreview>
+    private lateinit var chatPreviewList: ArrayList<ChatPreview>
+
     // Fake data to test RecyclerView
-    lateinit var userList : Array<User>
-    lateinit var lastMessageList : Array<String>
+    lateinit var userList: Array<User>
+    lateinit var lastMessageList: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,11 @@ class MessagesFragment : Fragment() {
             "È possibile effettuare una prenotazione?",
             "Mi dispiace non è più disponibile!"
         )
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
     }
 
     override fun onCreateView(

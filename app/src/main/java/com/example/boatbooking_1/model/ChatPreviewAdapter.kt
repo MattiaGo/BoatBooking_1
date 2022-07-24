@@ -1,11 +1,15 @@
 package com.example.boatbooking_1.model
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
+
 
 class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
     RecyclerView.Adapter<ChatPreviewAdapter.MyViewHolder>() {
@@ -20,8 +24,14 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = chatPreviewList[position]
 
-        holder.tvName.text = currentItem.user!!.name
-        holder.tvLastMessage.text = currentItem.lastMessage
+        holder.tvName.text = currentItem.user!!.name.toString()
+        holder.tvLastMessage.text = currentItem.lastMessage.toString()
+
+        holder.itemView.setOnClickListener { view ->
+            val uid: String = currentItem.user!!.uid.toString()
+            val bundle = bundleOf("uid" to uid)
+            Navigation.findNavController(view).navigate(R.id.action_main_messages_to_chatFragment, bundle)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -33,4 +43,5 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
         val tvLastMessage: TextView = itemView.findViewById(R.id.tv_last_message)
 
     }
+
 }

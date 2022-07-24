@@ -1,6 +1,6 @@
 package com.example.boatbooking_1.model
 
-class Message {
+class MyMessage {
     var message: String? = null
     var senderID: String? = null
 

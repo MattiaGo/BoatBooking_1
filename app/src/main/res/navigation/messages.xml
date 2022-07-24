@@ -3,11 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/messages"
-    app:startDestination="@+id/main_messages">
-
+    app:startDestination="@id/main_messages"
+    >
     <fragment
         android:id="@+id/main_messages"
         android:name="com.example.boatbooking_1.ui.navigation.MessagesFragment"
-        android:label="@string/messaggi"
-        tools:layout="@layout/fragment_messages" />
+        android:label="fragment_messages"
+        tools:layout="@layout/fragment_messages">
+        <action
+            android:id="@+id/action_main_messages_to_chatFragment"
+            app:destination="@id/chat_fragment"
+
+            app:popUpTo="@+id/messages"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/chat_fragment"
+        android:name="com.example.boatbooking_1.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+
+        <action
+            android:id="@+id/action_chat_fragment_to_main_messages"
+            app:destination="@id/main_messages" />
+    </fragment>
 </navigation>
