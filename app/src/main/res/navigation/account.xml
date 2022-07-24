@@ -18,19 +18,19 @@
             app:destination="@id/passwordResetFragment"
             app:popUpTo="@+id/account"
             app:popUpToInclusive="true"
-            app:popUpToSaveState="true"/>
+            app:popUpToSaveState="true" />
         <action
             android:id="@+id/action_main_account_to_registration"
-            app:destination="@id/registration"
-            app:popUpTo="@+id/account"
-            app:popUpToInclusive="true"
-            app:popUpToSaveState="true"/>
+            app:destination="@id/registration" />
     </fragment>
     <fragment
         android:id="@+id/registration"
         android:name="com.example.boatbooking_1.ui.auth.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration">
+        <action
+            android:id="@+id/action_registration_to_userProfile"
+            app:destination="@id/userProfile" />
         <action
             android:id="@+id/action_registration_to_main_account"
             app:destination="@id/main_account" />
@@ -39,16 +39,18 @@
         android:id="@+id/userProfile"
         android:name="com.example.boatbooking_1.ui.auth.UserProfileFragment"
         android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" >
+        tools:layout="@layout/fragment_user_profile">
         <argument
             android:name="email"
             app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string"
+            />
+        <action
+            android:id="@+id/action_userProfile_to_main_account"
+            app:destination="@id/main_account" />
     </fragment>
-    <fragment
-        android:id="@+id/login"
-        android:name="com.example.boatbooking_1.ui.auth.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/passwordResetFragment"
         android:name="com.example.boatbooking_1.ui.auth.PasswordResetFragment"
@@ -56,7 +58,6 @@
         tools:layout="@layout/fragment_password_reset">
         <action
             android:id="@+id/action_passwordResetFragment_to_main_account"
-            app:destination="@id/main_account"
-            />
+            app:destination="@id/main_account" />
     </fragment>
 </navigation>

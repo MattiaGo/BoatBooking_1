@@ -34,5 +34,8 @@
     <string name="cerca">Cerca</string>
     <string name="preferiti">Preferiti</string>
     <string name="messaggi">Messaggi</string>
+    <string name="type_a_message">Inserisci un messaggio</string>
+    <string name="logout">Esci</string>
+    <string name="searchQueryHint">Inserisci una città</string>
 
 </resources>

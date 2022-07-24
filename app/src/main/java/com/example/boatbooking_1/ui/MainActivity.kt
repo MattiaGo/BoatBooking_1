@@ -28,12 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNav.setupWithNavController(navController)
 
-
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.passwordResetFragment -> hideBottomNav()
                 R.id.account -> hideBottomNav()
-                R.id.account -> hideBottomNav()
+                R.id.chatFragment -> hideBottomNav()
+                R.id.registration -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

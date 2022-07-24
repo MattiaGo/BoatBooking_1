@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_messages">
         <action
             android:id="@+id/action_main_messages_to_chatFragment"
-            app:destination="@id/chat_fragment"
+            app:destination="@id/chatFragment"
 
             app:popUpTo="@+id/messages"
             app:popUpToInclusive="true"
@@ -20,7 +20,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/chat_fragment"
+        android:id="@+id/chatFragment"
         android:name="com.example.boatbooking_1.ui.chat.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
