@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.boatbooking_1.LoginViewModel
+import com.example.boatbooking_1.UserViewModel
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentLoginBinding
 import com.firebase.ui.auth.AuthUI
@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
     }
 
     // Get a reference to the ViewModel scoped to this Fragment
-    private val viewModel by viewModels<LoginViewModel>()
+    private val viewModel by viewModels<UserViewModel>()
     private lateinit var binding: FragmentLoginBinding
 
     private lateinit var navController: NavController
@@ -58,10 +58,10 @@ class LoginFragment : Fragment() {
         // Observe the authentication state so we can know if the user has logged in successfully.
         // If the user has logged in successfully, bring them back to the home screen.
         // If the user did not log in successfully, display an error message.
-        viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
+        /* viewModel.authenticationState.observe(viewLifecycleOwner, Observer { authenticationState ->
             when (authenticationState) {
-                LoginViewModel.AuthenticationState.AUTHENTICATED -> navController.popBackStack()
-                LoginViewModel.AuthenticationState.INVALID_AUTHENTICATION -> Snackbar.make(
+                UserViewModel.AuthenticationState.AUTHENTICATED -> navController.popBackStack()
+                UserViewModel.AuthenticationState.INVALID_AUTHENTICATION -> Snackbar.make(
                     view, requireActivity().getString(R.string.login_unsuccessful_msg),
                     Snackbar.LENGTH_LONG
                 ).show()
@@ -71,6 +71,8 @@ class LoginFragment : Fragment() {
                 )
             }
         })
+        
+         */
     }
 
     private fun launchSignInFlow() {

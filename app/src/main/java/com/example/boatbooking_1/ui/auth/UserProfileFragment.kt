@@ -1,10 +1,14 @@
 package com.example.boatbooking_1.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -12,6 +16,8 @@ import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,15 +26,24 @@ private const val ARG_NAME = "name"
 
 class UserProfileFragment : Fragment() {
 
-    private lateinit var userProfileBinding: FragmentUserProfileBinding
+    private lateinit var binding: FragmentUserProfileBinding
     private lateinit var fAuth: FirebaseAuth
     private lateinit var btnLogout: Button
     private lateinit var etEmail: EditText
     private lateinit var etName: EditText
 
+    lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fAuth = FirebaseAuth.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        /*mAuthListener = AuthStateListener {
+            val user = FirebaseAuth.getInstance().currentUser
+            if (user != null) {
+                Toast.makeText(context, "already logged", Toast.LENGTH_SHORT).show()
+            }
+        }*/
     }
 
     override fun onCreateView(
@@ -36,42 +51,37 @@ class UserProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        userProfileBinding = FragmentUserProfileBinding.inflate(inflater, container, false)
-        btnLogout = userProfileBinding.btnLogout
-        etEmail = userProfileBinding.etEmail
-        etName = userProfileBinding.etName
+        binding = FragmentUserProfileBinding.inflate(inflater, container, false)
+        etEmail = binding.etEmail
+        etName = binding.etName
 
         etEmail.setText(arguments?.getString(ARG_EMAIL))
         etName.setText(arguments?.getString(ARG_NAME))
 
-        return (userProfileBinding.root)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //firebaseAuth.addAuthStateListener(mAuthListener)
 
-        btnLogout.setOnClickListener {
-            fAuth.signOut()
+        val user = Firebase.auth.currentUser
+        if(!user!!.isEmailVerified) {
+            Toast.makeText(context, "ricordati di confermare la mail", Toast.LENGTH_SHORT).show()
 
-            val action = UserProfileFragmentDirections.actionUserProfileToMainAccount()
-            findNavController().navigate(action)
-
-            Toast.makeText(context, "Logout effettuato con successo!", Toast.LENGTH_SHORT).show()
         }
 
+        binding.logoutBtn.setOnClickListener{
+            signOut()
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         */
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UserProfileFragment().apply {
-                arguments = Bundle().apply {
 
-                }
-            }
+    private fun signOut() {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            firebaseAuth.signOut()
+            findNavController().navigate(R.id.account)
+        }
     }
 }

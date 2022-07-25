@@ -12,4 +12,5 @@
     <color name="grey">#B8B8B8</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="colorHint">#757575</color>
+    <color name="error">#FF0000</color>
 </resources>

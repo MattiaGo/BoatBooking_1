@@ -51,12 +51,15 @@
             android:minHeight="50dp"
             android:textColorHint="@color/colorHint" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginStart="80dp"
-            android:text="@string/remember_me"
-            android:textColor="@color/navy_blue" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/login_error_message"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/error"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal|center_vertical"/>
 
         <Button
             android:id="@+id/loginBtn"
@@ -112,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_margin="10dp"
-            android:text="@string/register_with"
+            android:text="@string/sing_in_with"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -133,14 +136,14 @@
                 android:contentDescription="@string/google_login"
                 android:src="@drawable/ic_google" />
 
-            <ImageButton
+            <!--<ImageButton
                 android:id="@+id/facebookBtn"
                 android:layout_width="69dp"
                 android:layout_height="60dp"
                 android:layout_marginEnd="10dp"
                 android:backgroundTint="#00FFFFFF"
                 android:contentDescription="@string/facebook_login"
-                android:src="@drawable/ic_facebook" />
+                android:src="@drawable/ic_facebook" />-->
 
         </LinearLayout>
 

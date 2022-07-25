@@ -99,6 +99,16 @@
             android:minHeight="50dp"
             android:textColorHint="@color/colorHint" />
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/signUp_error_message"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/error"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+
         <Button
             android:id="@+id/registrationBtn"
             android:layout_width="250dp"
@@ -109,49 +119,6 @@
             android:text="@string/registration"
             android:textColor="@color/white" />
 
-        <View
-            android:layout_width="200dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginTop="15dp"
-            android:background="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_margin="20dp"
-            android:text="@string/otherwise_use"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/googleBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="30dp"
-                android:background="@drawable/btn_shape2"
-                android:backgroundTint="#00FFFFFF"
-                android:contentDescription="@string/google_login"
-                android:src="@drawable/ic_google" />
-
-            <ImageButton
-                android:id="@+id/facebookBtn"
-                android:layout_width="69dp"
-                android:layout_height="60dp"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="#00FFFFFF"
-                android:contentDescription="@string/facebook_login"
-                android:src="@drawable/ic_facebook" />
-
-        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>
