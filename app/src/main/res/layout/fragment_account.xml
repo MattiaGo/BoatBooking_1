@@ -68,14 +68,15 @@
             android:layout_gravity="center_horizontal|center_vertical"
             android:background="@drawable/btn_shape1"
             android:text="@string/login"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_marginTop="15dp"/>
 
         <TextView
             android:id="@+id/pwdForget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_margin="5dp"
+            android:layout_marginTop="10dp"
             android:text="@string/activity_link"
             android:textColor="@color/black"
             android:textSize="16sp"

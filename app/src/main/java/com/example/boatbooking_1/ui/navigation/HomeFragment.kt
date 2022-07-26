@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
 //        return inflater.inflate(R.layout.fragment_home, container, false)
 
         if (Firebase.auth.currentUser != null) {
-            Toast.makeText(context, "${Firebase.auth.currentUser}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, Firebase.auth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
         }
 
         return inflater.inflate(R.layout.fragment_home, container, false)

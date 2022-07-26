@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.databinding.FragmentChatBinding
 import com.example.boatbooking_1.model.MyMessage
 import com.example.boatbooking_1.model.MyMessageAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 /**
  * A simple [Fragment] subclass.
@@ -32,31 +34,43 @@ class ChatFragment : Fragment() {
     private lateinit var sendButton: ImageView
     private lateinit var messageBox: TextView
     private lateinit var chatTitle: TextView
-
-    // Fake data to test RecyclerView
-    lateinit var messageList: Array<MyMessage>
+    private lateinit var mDatabase: DatabaseReference
+    private lateinit var senderRoom: String
+    private lateinit var receiverRoom: String
+    private lateinit var myMessageAdapter: MyMessageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        messageList = arrayOf(
-            MyMessage("Ciao!", "0"),
-            MyMessage("Ciao, come stai?", "1"),
-            MyMessage("Bene dai, tu?", "0"),
-            MyMessage("Bene", "1"),
-            MyMessage("Ciao!", "1"),
-            MyMessage("Okay", "0"),
-            MyMessage("Arrivederci", "0"),
-        )
-    }
+        mDatabase = FirebaseDatabase.getInstance().reference
+        val user = FirebaseAuth.getInstance().currentUser
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//
-//        arguments?.getString("ARG_UID")?.let {
-//            title = it
-//        }
-//    }
+        senderRoom = user!!.uid
+        receiverRoom = arguments?.getString(ARG_UID).toString()
+
+        messageArrayList = ArrayList()
+        myMessageAdapter = MyMessageAdapter(messageArrayList)
+
+        // TODO: Firebase actions
+        mDatabase.child("messages").child(senderRoom)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    messageArrayList.clear()
+
+                    for (postSnapshot in snapshot.children) {
+                        val message = postSnapshot.getValue(MyMessage::class.java)
+                        messageArrayList.add(message!!)
+                    }
+
+                    myMessageAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,13 +84,14 @@ class ChatFragment : Fragment() {
         messageBox = binding.etTextMessage
         chatRecyclerView = binding.rvChatMessages
 
-        chatTitle.text = arguments?.getString("uid") ?: "null"
+        chatTitle.text = arguments?.getString("name")
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this.context)
         chatRecyclerView.setHasFixedSize(true)
 
-        messageArrayList = arrayListOf()
-        getFakeData()
+        messageArrayList = ArrayList()
+
+        chatRecyclerView.adapter = MyMessageAdapter(messageArrayList)
 
         return binding.root
     }
@@ -89,25 +104,23 @@ class ChatFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        // TODO: Firebase actions
         sendButton.setOnClickListener {
             if (messageBox.text.isNotEmpty()) {
                 val message = messageBox.text.toString()
-                val messageObject = MyMessage(message, "1")
+                val messageObject = MyMessage(message, FirebaseAuth.getInstance().currentUser!!.uid)
+
+                mDatabase.child("messages").child(senderRoom).child(receiverRoom).push()
+                    .setValue(messageObject).addOnSuccessListener {
+                        mDatabase.child("messages").child(receiverRoom).child(senderRoom).push()
+                            .setValue(messageObject)
+                    }
 
                 messageArrayList.add(messageObject)
-                chatRecyclerView.adapter = MyMessageAdapter(messageArrayList)
 
                 messageBox.text = ""
             }
         }
-    }
-
-    private fun getFakeData() {
-        for (message in messageList) {
-            messageArrayList.add(message)
-        }
-
-        chatRecyclerView.adapter = MyMessageAdapter(messageArrayList)
     }
 
     companion object {

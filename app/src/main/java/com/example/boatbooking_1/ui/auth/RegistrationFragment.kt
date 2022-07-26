@@ -3,21 +3,22 @@ package com.example.boatbooking_1.ui.auth
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentRegistrationBinding
+import com.example.boatbooking_1.model.ChatPreview
+import com.example.boatbooking_1.model.User
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
 
@@ -30,9 +31,17 @@ class RegistrationFragment : Fragment() {
     private lateinit var confirmPassword: EditText
 
     private lateinit var cnfPassword: EditText
-    private lateinit var signUpErrorMessage : TextView
+    private lateinit var signUpErrorMessage: TextView
 
     private lateinit var mFirebaseAuth: FirebaseAuth
+    private lateinit var mDatabase: DatabaseReference
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        mFirebaseAuth = Firebase.auth
+        mDatabase = FirebaseDatabase.getInstance().reference
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,20 +108,30 @@ class RegistrationFragment : Fragment() {
         binding.registrationBtn.isEnabled = false
         binding.registrationBtn.alpha = 0.5f
 
-        if (email.text.isEmpty() or password.text.isEmpty() or cnfPassword.text.isEmpty()){
+        if (email.text.isEmpty() or password.text.isEmpty() or cnfPassword.text.isEmpty()) {
             signUpErrorMessage.text = "Attenzione compilare tutti i campi"
             signUpErrorMessage.isVisible = true
         } else {
-            mFirebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+            mFirebaseAuth.createUserWithEmailAndPassword(
+                email.text.toString(),
+                password.text.toString()
+            )
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val user = Firebase.auth.currentUser
                         user!!.sendEmailVerification()
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    signUpErrorMessage.text = "Una mail di conferma è stata inviata all'indirizzo"
+                                    signUpErrorMessage.text =
+                                        "Una mail di conferma è stata inviata all'indirizzo"
                                     signUpErrorMessage.setTextColor(getResources().getColor(R.color.black))
                                     signUpErrorMessage.isVisible = true
+
+                                    addUserToDatabase(
+                                        name.text.toString(),
+                                        user.email.toString(),
+                                        user.uid
+                                    )
                                 }
                                 binding.registrationBtn.isVisible = false
                             }
@@ -128,6 +147,41 @@ class RegistrationFragment : Fragment() {
             binding.registrationBtn.isEnabled = true
             binding.registrationBtn.alpha = 1f
         }
+    }
+
+    private fun addUserToDatabase(name: String, email: String, uid: String) {
+        mDatabase = FirebaseDatabase.getInstance().reference
+        mDatabase.child("users").child(uid).setValue(User(name, email, uid, "Brescia", false))
+
+        // Test
+        storeFakeDataOnDatabase(uid)
+    }
+
+    private fun storeFakeDataOnDatabase(uid: String) {
+        mDatabase.child("chats").child(uid).child("VED1f7yQbUc7YWrvKglJrNMfu8u1")
+            .setValue(
+                ChatPreview(
+                    User(
+                        "Test 1",
+                        "e-mail",
+                        "VED1f7yQbUc7YWrvKglJrNMfu8u1",
+                        "Brescia",
+                        false
+                    ), "Ciao!", Timestamp.now().seconds
+                )
+            )
+        mDatabase.child("chats").child(uid).child("kXcSNSsofwWCng7e0kGtKAJclRb2")
+            .setValue(
+                ChatPreview(
+                    User(
+                        "Test 2",
+                        "e-mail",
+                        "kXcSNSsofwWCng7e0kGtKAJclRb2",
+                        "Brescia",
+                        false
+                    ), "Hola...", Timestamp.now().seconds
+                )
+            )
     }
 
 //    private fun firebaseSignUp() {
