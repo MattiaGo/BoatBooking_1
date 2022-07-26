@@ -50,6 +50,10 @@
         <action
             android:id="@+id/action_userProfile_to_main_account"
             app:destination="@id/main_account" />
+        <action
+            android:id="@+id/action_userProfile_to_addBoatFragment"
+            app:destination="@id/addBoatFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/passwordResetFragment"
@@ -59,5 +63,14 @@
         <action
             android:id="@+id/action_passwordResetFragment_to_main_account"
             app:destination="@id/main_account" />
+    </fragment>
+    <fragment
+        android:id="@+id/addBoatFragment"
+        android:name="com.example.boatbooking_1.AddBoatFragment"
+        android:label="fragment_add_boat"
+        tools:layout="@layout/fragment_add_boat" >
+        <action
+            android:id="@+id/action_addBoatFragment_to_userProfile"
+            app:destination="@id/userProfile" />
     </fragment>
 </navigation>

@@ -18,7 +18,7 @@
             android:name=".ui.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.BoatBooking_1.Main"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name="com.example.boatbooking_1.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.BoatBooking_1">

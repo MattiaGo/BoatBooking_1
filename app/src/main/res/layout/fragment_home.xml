@@ -3,12 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.navigation.HomeFragment">
+    tools:context=".ui.navigation.HomeFragment"
+    android:id="@+id/main_home_fragment"
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Home" />
+        android:text="Home"
+        android:textStyle="bold"
+        android:textSize="50sp"
+        android:textAllCaps="true"
+        android:gravity="center_horizontal"
+        android:textColor="@color/navy_blue"/>
 
 </FrameLayout>

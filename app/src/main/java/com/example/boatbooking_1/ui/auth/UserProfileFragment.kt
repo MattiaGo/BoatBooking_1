@@ -10,11 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
-import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -27,16 +28,19 @@ private const val ARG_NAME = "name"
 class UserProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentUserProfileBinding
-    private lateinit var fAuth: FirebaseAuth
     private lateinit var btnLogout: Button
-    private lateinit var etEmail: EditText
+    private lateinit var btnAddBoat: Button
+    private lateinit var etEmail: TextInputEditText
     private lateinit var etName: EditText
 
     lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         firebaseAuth = FirebaseAuth.getInstance()
+
+        disableOnBackClick()
 
         /*mAuthListener = AuthStateListener {
             val user = FirebaseAuth.getInstance().currentUser
@@ -55,10 +59,23 @@ class UserProfileFragment : Fragment() {
         etEmail = binding.etEmail
         etName = binding.etName
 
-        etEmail.setText(arguments?.getString(ARG_EMAIL))
-        etName.setText(arguments?.getString(ARG_NAME))
+        btnAddBoat = binding.btnAddBoat
+
+        if (firebaseAuth.currentUser != null) {
+            etEmail.setText(firebaseAuth.currentUser?.email)
+            etName.setText(firebaseAuth.currentUser?.displayName)
+        } else {
+            etEmail.setText(arguments?.getString(ARG_EMAIL))
+            etName.setText(arguments?.getString(ARG_NAME))
+        }
 
         return binding.root
+    }
+
+    private fun disableOnBackClick() {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            // With blank your fragment BackPressed will be disabled.
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,22 +83,46 @@ class UserProfileFragment : Fragment() {
         //firebaseAuth.addAuthStateListener(mAuthListener)
 
         val user = Firebase.auth.currentUser
-        if(!user!!.isEmailVerified) {
-            Toast.makeText(context, "ricordati di confermare la mail", Toast.LENGTH_SHORT).show()
-
-        }
 
         binding.logoutBtn.setOnClickListener{
             signOut()
+        }
+
+        binding.btnAddBoat.setOnClickListener {
+            val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+            findNavController().navigate(action)
         }
     }
 
 
     private fun signOut() {
         val user = FirebaseAuth.getInstance().currentUser
+
         if (user != null) {
             firebaseAuth.signOut()
-            findNavController().navigate(R.id.account)
+            val action = UserProfileFragmentDirections.actionUserProfileToMainAccount()
+            findNavController().navigate(action)
         }
+
+        btnAddBoat.setOnClickListener {
+            val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+            findNavController().navigate(action)
+        }
+
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         */
+        @JvmStatic
+        fun newInstance(email: String?, name: String?) =
+            UserProfileFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_EMAIL, email)
+                    putString(ARG_NAME, name)
+                }
+            }
     }
 }

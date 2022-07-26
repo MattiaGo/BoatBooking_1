@@ -19,6 +19,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -29,7 +32,7 @@ class AccountFragment : Fragment() {
 
     private lateinit var email: EditText
     private lateinit var password: EditText
-    private lateinit var loginMessageError : TextView
+    private lateinit var loginMessageError: TextView
 
     //for google log in
     private lateinit var mFirebaseAuth: FirebaseAuth
@@ -42,17 +45,20 @@ class AccountFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mFirebaseAuth = Firebase.auth
+
         val user = FirebaseAuth.getInstance().currentUser
-        if(user!=null){
-            updateUI(user)
-        }
+//        if (user != null) {
+//            updateUI(user)
+//        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         binding = FragmentAccountBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -65,7 +71,7 @@ class AccountFragment : Fragment() {
         loginMessageError = binding.loginErrorMessage
 
 
-        binding.googleBtn.setOnClickListener{
+        binding.googleBtn.setOnClickListener {
             signInWithGoogle()
         }
 
@@ -98,13 +104,16 @@ class AccountFragment : Fragment() {
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        val action = AccountFragmentDirections.actionMainAccountToUserProfile(name = "prova", email = user?.email.toString())
+        val action = AccountFragmentDirections.actionMainAccountToUserProfile(
+            name = user?.displayName.toString(),
+            email = user?.email.toString()
+        )
         findNavController().navigate(action)
     }
 
     // [EMAIL/PWD Authentication]
     private fun signInWithEmailAndPassword() {
-        if (email.text.isEmpty() or password.text.isEmpty()){
+        if (email.text.isEmpty() or password.text.isEmpty()) {
             loginMessageError.text = "Inserire i dati per il login"
             loginMessageError.isVisible = true
         } else {
@@ -114,11 +123,15 @@ class AccountFragment : Fragment() {
             )
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val action = AccountFragmentDirections.actionMainAccountToUserProfile(name = "prova", email = email.text.toString())
+                        val action = AccountFragmentDirections.actionMainAccountToUserProfile(
+                            name = FirebaseAuth.getInstance().currentUser?.displayName.toString(),
+                            email = email.text.toString()
+                        )
                         findNavController().navigate(action)
                     } else {
                         loginMessageError.text = task.exception?.message
-                        loginMessageError.isVisible = true                  //Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
+                        loginMessageError.isVisible = true
+                    //Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
                     }
                 }
         }
@@ -128,7 +141,7 @@ class AccountFragment : Fragment() {
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         mFirebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener({ task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = FirebaseAuth.getInstance().currentUser
                     updateUI(user)
@@ -137,7 +150,7 @@ class AccountFragment : Fragment() {
                     binding.loginBtn.alpha = 1.0f
                     Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
     }
 
     private fun signInWithGoogle() {
@@ -147,7 +160,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun getGSO(): GoogleSignInOptions {
-        return  GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        return GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()

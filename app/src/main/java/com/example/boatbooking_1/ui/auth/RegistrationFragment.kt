@@ -130,25 +130,25 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    /*private fun firebaseSignUp() {
-        mFirebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val profileUpdates = UserProfileChangeRequest.Builder()
-                        .setDisplayName(name.text.toString())
-                        .build()
-
-                    mFirebaseAuth.currentUser!!.updateProfile(profileUpdates)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Log.d("NAME_UPDATED", "User profile updated.")
-                            }
-                        }
-                    val action = RegistrationFragmentDirections.actionRegistrationToUserProfile(email.text.toString(), name.text.toString())
-                    findNavController().navigate(action)
-                } else {
-                    Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
-                }
-            }
-    }*/
+//    private fun firebaseSignUp() {
+//        mFirebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    val profileUpdates = UserProfileChangeRequest.Builder()
+//                        .setDisplayName(name.text.toString())
+//                        .build()
+//
+//                    mFirebaseAuth.currentUser!!.updateProfile(profileUpdates)
+//                        .addOnCompleteListener { task ->
+//                            if (task.isSuccessful) {
+//                                Log.d("NAME_UPDATED", "User profile updated.")
+//                            }
+//                        }
+//                    val action = RegistrationFragmentDirections.actionRegistrationToUserProfile(email.text.toString(), name.text.toString())
+//                    findNavController().navigate(action)
+//                } else {
+//                    Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
 }

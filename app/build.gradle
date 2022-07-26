@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.6'
     implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
     implementation 'com.google.firebase:firebase-messaging:23.0.6'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.11'
 

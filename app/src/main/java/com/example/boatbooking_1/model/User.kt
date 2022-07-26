@@ -4,6 +4,7 @@ class User {
     var name: String? = null
     var email: String? = null
     var uid: String? = null
+    var location: String? = null
 
     // Firebase needs empty constructor
     constructor() {}
@@ -13,4 +14,5 @@ class User {
         this.email = email
         this.uid = uid
     }
+
 }
