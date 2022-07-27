@@ -154,34 +154,10 @@ class RegistrationFragment : Fragment() {
         mDatabase.child("users").child(uid).setValue(User(name, email, uid, "Brescia", false))
 
         // Test
-        storeFakeDataOnDatabase(uid)
+//        storeFakeDataOnDatabase(uid)
     }
 
     private fun storeFakeDataOnDatabase(uid: String) {
-        mDatabase.child("chats").child(uid).child("VED1f7yQbUc7YWrvKglJrNMfu8u1")
-            .setValue(
-                ChatPreview(
-                    User(
-                        "Test 1",
-                        "e-mail",
-                        "VED1f7yQbUc7YWrvKglJrNMfu8u1",
-                        "Brescia",
-                        false
-                    ), "Ciao!", Timestamp.now().seconds
-                )
-            )
-        mDatabase.child("chats").child(uid).child("kXcSNSsofwWCng7e0kGtKAJclRb2")
-            .setValue(
-                ChatPreview(
-                    User(
-                        "Test 2",
-                        "e-mail",
-                        "kXcSNSsofwWCng7e0kGtKAJclRb2",
-                        "Brescia",
-                        false
-                    ), "Hola...", Timestamp.now().seconds
-                )
-            )
     }
 
 //    private fun firebaseSignUp() {

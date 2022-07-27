@@ -1,6 +1,7 @@
 package com.example.boatbooking_1.ui.chat
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.databinding.FragmentChatBinding
+import com.example.boatbooking_1.model.ChatPreview
 import com.example.boatbooking_1.model.MyMessage
-import com.example.boatbooking_1.model.MyMessageAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -50,26 +51,6 @@ class ChatFragment : Fragment() {
 
         messageArrayList = ArrayList()
         myMessageAdapter = MyMessageAdapter(messageArrayList)
-
-        // TODO: Firebase actions
-        mDatabase.child("messages").child(senderRoom)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    messageArrayList.clear()
-
-                    for (postSnapshot in snapshot.children) {
-                        val message = postSnapshot.getValue(MyMessage::class.java)
-                        messageArrayList.add(message!!)
-                    }
-
-                    myMessageAdapter.notifyDataSetChanged()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
     }
 
     override fun onCreateView(
@@ -87,24 +68,39 @@ class ChatFragment : Fragment() {
         chatTitle.text = arguments?.getString("name")
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this.context)
-        chatRecyclerView.setHasFixedSize(true)
+        chatRecyclerView.adapter = myMessageAdapter
+//        chatRecyclerView.setHasFixedSize(true)
 
-        messageArrayList = ArrayList()
+        // View chat messages
+        mDatabase.child("messages").child(senderRoom).child(receiverRoom)
+            .addValueEventListener(object : ValueEventListener {
 
-        chatRecyclerView.adapter = MyMessageAdapter(messageArrayList)
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    messageArrayList.clear()
 
-        return binding.root
-    }
+                    for (postSnapshot in snapshot.children) {
+                        val message = postSnapshot.getValue(MyMessage::class.java)
+                        messageArrayList.add(message!!)
+                        Log.d("message", "${message.message}")
+                    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+                    Log.d("messageList", messageArrayList.toString())
+
+                    myMessageAdapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
 
         binding.btnBack.setOnClickListener {
             val action = ChatFragmentDirections.actionChatFragmentToMainMessages()
             findNavController().navigate(action)
         }
 
-        // TODO: Firebase actions
+        // Update chat messages on Firebase
         sendButton.setOnClickListener {
             if (messageBox.text.isNotEmpty()) {
                 val message = messageBox.text.toString()
@@ -114,13 +110,29 @@ class ChatFragment : Fragment() {
                     .setValue(messageObject).addOnSuccessListener {
                         mDatabase.child("messages").child(receiverRoom).child(senderRoom).push()
                             .setValue(messageObject)
-                    }
 
-                messageArrayList.add(messageObject)
+                        // Update chat preview last message [chats > uid > uid]
+                        mDatabase.child("chats").child(senderRoom).child(receiverRoom)
+                            .child("lastMessage").setValue(messageObject.message)
+                        mDatabase.child("chats").child(senderRoom).child(receiverRoom)
+                            .child("timestamp").setValue(messageObject.timestamp)
+
+                        mDatabase.child("chats").child(receiverRoom).child(senderRoom)
+                            .child("lastMessage").setValue(messageObject.message)
+                        mDatabase.child("chats").child(receiverRoom).child(senderRoom)
+                            .child("timestamp").setValue(messageObject.timestamp)
+                    }
 
                 messageBox.text = ""
             }
         }
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     companion object {

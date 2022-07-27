@@ -6,10 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.boatbooking_1.HomeAuthedFragment
 import com.example.boatbooking_1.R
+import com.example.boatbooking_1.model.ChatPreview
+import com.example.boatbooking_1.model.User
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
@@ -24,6 +28,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class HomeFragment : Fragment() {
 
+    private lateinit var mDatabase: DatabaseReference
+
 //    private lateinit var binding: FragmentHomeBinding
 
     // TODO: Rename and change types of parameters
@@ -36,6 +42,8 @@ class HomeFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        mDatabase = FirebaseDatabase.getInstance().reference
     }
 
     override fun onCreateView(
@@ -47,10 +55,45 @@ class HomeFragment : Fragment() {
 
         if (Firebase.auth.currentUser != null) {
             Toast.makeText(context, Firebase.auth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, Firebase.auth.currentUser.toString(), Toast.LENGTH_SHORT).show()
         }
+
+        // Test
+//        storeFakeDataToDatabase()
 
         return inflater.inflate(R.layout.fragment_home, container, false)
 
+    }
+
+    private fun storeFakeDataToDatabase() {
+        mDatabase.child("chats").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
+            .child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
+            .setValue(
+                ChatPreview(
+                    User(
+                        "Matteo",
+                        "e-mail",
+                        "LD3qWBHBFmWVN87S1r9reBgGx6H3",
+                        "Brescia",
+                        false
+                    ), "Ciao!", Timestamp.now().seconds
+                )
+            )
+
+        mDatabase.child("chats").child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
+            .child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
+            .setValue(
+                ChatPreview(
+                    User(
+                        "Admin",
+                        "e-mail",
+                        "2PH1sbnjT4e1RkI0TYD6X1e1nD72",
+                        "Brescia",
+                        false
+                    ), "Ciao!", Timestamp.now().seconds
+                )
+            )
     }
 
     companion object {

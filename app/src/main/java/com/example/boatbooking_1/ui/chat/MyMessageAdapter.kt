@@ -1,18 +1,19 @@
-package com.example.boatbooking_1.model
+package com.example.boatbooking_1.ui.chat
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
+import com.example.boatbooking_1.model.MyMessage
+import com.google.firebase.auth.FirebaseAuth
+
+private const val ITEM_RECEIVED = 1
+private const val ITEM_SENT = 2
 
 class MyMessageAdapter(private val messageList: ArrayList<MyMessage>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    val ITEM_RECEIVED = 1
-    val ITEM_SENT = 2
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == 1) { // RECEIVED
@@ -52,10 +53,9 @@ class MyMessageAdapter(private val messageList: ArrayList<MyMessage>) :
 
     override fun getItemViewType(position: Int): Int {
         val currentMessage = messageList[position]
-        val currentUID = "1" // Fake user authenticated
+//        val currentUID = FirebaseAuth.getInstance().currentUser?.uid
 
-//        if (FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderId)) {
-        return if (currentMessage.senderID.equals(currentUID)) {
+        return if (FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderID)) {
             ITEM_SENT
         } else {
             ITEM_RECEIVED
