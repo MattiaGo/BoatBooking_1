@@ -18,6 +18,7 @@ import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
 import com.example.boatbooking_1.model.ChatPreview
 import com.example.boatbooking_1.model.User
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -33,7 +34,8 @@ class UserProfileFragment : Fragment() {
     private lateinit var binding: FragmentUserProfileBinding
     private lateinit var btnAddBoat: Button
     private lateinit var etEmail: TextInputEditText
-    private lateinit var etName: EditText
+    private lateinit var etName: TextInputEditText
+    private lateinit var tvLocation: MaterialTextView
     private lateinit var mDatabase: DatabaseReference
 
     lateinit var firebaseAuth: FirebaseAuth
@@ -62,6 +64,7 @@ class UserProfileFragment : Fragment() {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         etEmail = binding.etEmail
         etName = binding.etName
+        tvLocation = binding.tvLocation
 
         btnAddBoat = binding.btnAddBoat
 
@@ -80,6 +83,7 @@ class UserProfileFragment : Fragment() {
 
                     etName.setText(user?.name.toString())
                     etEmail.setText(user?.email.toString())
+                    tvLocation.text = user?.location.toString()
                 }
 
                 override fun onCancelled(error: DatabaseError) {

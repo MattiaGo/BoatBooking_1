@@ -16,10 +16,6 @@
             app:popUpTo="@+id/messages"
             app:popUpToInclusive="true"
             app:popUpToSaveState="true" />
-        <action
-            android:id="@+id/action_main_messages_to_account"
-            app:destination="@id/account"
-            />
     </fragment>
 
     <fragment
@@ -35,5 +31,4 @@
             app:popUpToInclusive="true"
             />
     </fragment>
-    <include app:graph="@navigation/account" />
 </navigation>

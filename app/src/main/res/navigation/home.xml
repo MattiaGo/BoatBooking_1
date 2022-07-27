@@ -10,9 +10,4 @@
         android:name="com.example.boatbooking_1.ui.navigation.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/homeAuthedFragment"
-        android:name="com.example.boatbooking_1.HomeAuthedFragment"
-        android:label="fragment_home_authed"
-        tools:layout="@layout/fragment_home_authed" />
 </navigation>

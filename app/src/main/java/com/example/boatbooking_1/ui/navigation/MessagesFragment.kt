@@ -32,9 +32,6 @@ class MessagesFragment : Fragment() {
     private lateinit var chatPreviewAdapter: ChatPreviewAdapter
     private lateinit var chatPreviewList: ArrayList<ChatPreview>
 
-    lateinit var userList: ArrayList<User>
-    lateinit var lastMessageList: ArrayList<String>
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 

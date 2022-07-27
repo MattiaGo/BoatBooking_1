@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.databinding.FragmentChatBinding
-import com.example.boatbooking_1.model.ChatPreview
 import com.example.boatbooking_1.model.MyMessage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -81,10 +80,7 @@ class ChatFragment : Fragment() {
                     for (postSnapshot in snapshot.children) {
                         val message = postSnapshot.getValue(MyMessage::class.java)
                         messageArrayList.add(message!!)
-                        Log.d("message", "${message.message}")
                     }
-
-                    Log.d("messageList", messageArrayList.toString())
 
                     myMessageAdapter.notifyDataSetChanged()
                 }
