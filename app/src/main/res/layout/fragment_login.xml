@@ -119,15 +119,6 @@
                 android:contentDescription="@string/google_login"
                 android:src="@drawable/ic_google" />
 
-            <ImageButton
-                android:id="@+id/facebookBtn"
-                android:layout_width="69dp"
-                android:layout_height="60dp"
-                android:layout_marginEnd="10dp"
-                android:backgroundTint="#00FFFFFF"
-                android:contentDescription="@string/facebook_login"
-                android:src="@drawable/ic_facebook" />
-
         </LinearLayout>
 
     </LinearLayout>

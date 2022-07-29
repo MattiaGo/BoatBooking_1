@@ -1,4 +1,4 @@
-package com.example.boatbooking_1.Utils
+package com.example.boatbooking_1.utils
 
 import android.app.Activity
 import android.view.View

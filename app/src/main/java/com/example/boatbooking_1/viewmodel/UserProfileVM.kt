@@ -1,13 +1,9 @@
-package com.example.boatbooking_1.viewModels
+package com.example.boatbooking_1.viewmodel
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.boatbooking_1.Repository.ProfileRepository
+import com.example.boatbooking_1.repository.ProfileRepository
 import com.example.boatbooking_1.model.User
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 
 
 class UserProfileVM : ViewModel() {

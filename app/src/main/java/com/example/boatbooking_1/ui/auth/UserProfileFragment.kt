@@ -16,12 +16,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
-import com.example.boatbooking_1.Utils.Util
+import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
 import com.example.boatbooking_1.model.User
-import com.example.boatbooking_1.viewModels.UserProfileVM
+import com.example.boatbooking_1.viewmodel.UserProfileVM
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -40,6 +39,7 @@ class UserProfileFragment : Fragment() {
     private lateinit var profileViewModel: UserProfileVM
     private lateinit var imageUri: Uri
     private lateinit var util: Util
+
     //private lateinit var permissions: Permissions
     private lateinit var alertDialog: AlertDialog
     private lateinit var user: User
@@ -81,12 +81,14 @@ class UserProfileFragment : Fragment() {
 
         util = Util()
 
-        sharedPreferences = context!!.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
+        sharedPreferences =
+            context!!.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
         sharedPreferencesEdit = sharedPreferences.edit()
 
-        profileViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application).create(
-            UserProfileVM::class.java
-        )
+        profileViewModel =
+            ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application).create(
+                UserProfileVM::class.java
+            )
 
 
         val model: UserProfileVM by activityViewModels()
@@ -163,21 +165,6 @@ class UserProfileFragment : Fragment() {
     }
 */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private fun disableOnBackClick() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             // With blank your fragment BackPressed will be disabled.
@@ -190,7 +177,7 @@ class UserProfileFragment : Fragment() {
 
         val user = Firebase.auth.currentUser
 
-        binding.logoutBtn.setOnClickListener{
+        binding.logoutBtn.setOnClickListener {
             signOut()
         }
 

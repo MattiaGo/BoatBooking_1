@@ -46,7 +46,9 @@ class ChatFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser
 
         senderRoom = user!!.uid
+        Log.d("UID", senderRoom.toString())
         receiverRoom = arguments?.getString(ARG_UID).toString()
+        Log.d("UID", receiverRoom.toString())
 
         messageArrayList = ArrayList()
         myMessageAdapter = MyMessageAdapter(messageArrayList)
@@ -105,18 +107,18 @@ class ChatFragment : Fragment() {
                 mDatabase.child("messages").child(senderRoom).child(receiverRoom).push()
                     .setValue(messageObject).addOnSuccessListener {
                         mDatabase.child("messages").child(receiverRoom).child(senderRoom).push()
-                            .setValue(messageObject)
+                            .setValue(messageObject).addOnSuccessListener {
+                                // Update chat preview last message [chats > uid > uid]
+                                mDatabase.child("chats").child(senderRoom).child(receiverRoom)
+                                    .child("lastMessage").setValue(messageObject.message)
+                                mDatabase.child("chats").child(senderRoom).child(receiverRoom)
+                                    .child("timestamp").setValue(messageObject.timestamp)
 
-                        // Update chat preview last message [chats > uid > uid]
-                        mDatabase.child("chats").child(senderRoom).child(receiverRoom)
-                            .child("lastMessage").setValue(messageObject.message)
-                        mDatabase.child("chats").child(senderRoom).child(receiverRoom)
-                            .child("timestamp").setValue(messageObject.timestamp)
-
-                        mDatabase.child("chats").child(receiverRoom).child(senderRoom)
-                            .child("lastMessage").setValue(messageObject.message)
-                        mDatabase.child("chats").child(receiverRoom).child(senderRoom)
-                            .child("timestamp").setValue(messageObject.timestamp)
+                                mDatabase.child("chats").child(receiverRoom).child(senderRoom)
+                                    .child("lastMessage").setValue(messageObject.message)
+                                mDatabase.child("chats").child(receiverRoom).child(senderRoom)
+                                    .child("timestamp").setValue(messageObject.timestamp)
+                            }
                     }
 
                 messageBox.text = ""

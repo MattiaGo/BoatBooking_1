@@ -2,6 +2,7 @@ package com.example.boatbooking_1.ui.navigation
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentMessagesBinding
 import com.example.boatbooking_1.model.ChatPreview
-import com.example.boatbooking_1.model.User
 import com.example.boatbooking_1.ui.chat.ChatPreviewAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -55,6 +57,15 @@ class MessagesFragment : Fragment() {
         chatPreviewAdapter = ChatPreviewAdapter(chatPreviewList)
 
         // TODO: Redirect to login fragment (if user == null)
+        if (fAuth.currentUser == null) {
+            Snackbar.make(
+                activity!!.findViewById(android.R.id.content),
+                "Effettua il login per visualizzare i tuoi messaggi", Snackbar.LENGTH_LONG
+            ).setAnchorView(com.example.boatbooking_1.R.id.bottom_nav).setAction("HO CAPITO") {
+                // Responds to click on the action
+            }.show()
+//            Toast.makeText(context, "Effettua il login per visualizzare i tuoi messaggi", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -71,29 +82,20 @@ class MessagesFragment : Fragment() {
         chatPreviewRecyclerView.layoutManager = LinearLayoutManager(this.context)
         chatPreviewRecyclerView.setHasFixedSize(true)
         chatPreviewRecyclerView.adapter = chatPreviewAdapter
+
         fAuth = FirebaseAuth.getInstance()
 
         val currentUser = fAuth.currentUser
 
-        if (currentUser != null) {                  //questa
+        if (currentUser != null) {
             binding.rvChatPreview.isVisible = true
-            mDatabase.child("chats").child(currentUser!!.uid).orderByChild("timestamp")
+            mDatabase.child("chats").child(currentUser.uid).orderByChild("timestamp")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         chatPreviewList.clear()
 
                         for (postSnapshot in snapshot.children) {
-//                        val uid = postSnapshot.key.toString()
-//                        mDatabase.child("users").child(uid).get().addOnSuccessListener {
-//                            val user = it.getValue(User::class.java)
-//                            name = user?.name
-//                            Log.i("firebase", "Got value ${it.value}")
-//                        }.addOnFailureListener {
-//                            Log.e("firebase", "Error getting data", it)
-//                        }
-
                             val chatPreview = postSnapshot.getValue(ChatPreview::class.java)
-
                             chatPreviewList.add(chatPreview!!)
                         }
 
@@ -108,7 +110,7 @@ class MessagesFragment : Fragment() {
 
                 })
 
-        } else{
+        } else {
             binding.msgLogin.isVisible = true
         }
         return binding.root

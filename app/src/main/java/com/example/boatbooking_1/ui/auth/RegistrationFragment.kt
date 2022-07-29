@@ -10,9 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.boatbooking_1.viewModels.UserProfileVM
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentRegistrationBinding
 import com.example.boatbooking_1.model.User
@@ -127,7 +125,7 @@ class RegistrationFragment : Fragment() {
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     signUpErrorMessage.text =
-                                        "Una mail di conferma è stata inviata all'indirizzo"
+                                        "Una mail di conferma è stata inviata all'indirizzo e-mail utilizzato durante la registrazione"
                                     signUpErrorMessage.setTextColor(getResources().getColor(R.color.black))
                                     signUpErrorMessage.isVisible = true
 

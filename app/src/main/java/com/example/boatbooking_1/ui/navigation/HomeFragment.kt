@@ -53,14 +53,14 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_home, container, false)
 
-        if (Firebase.auth.currentUser != null) {
-            Toast.makeText(context, Firebase.auth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, Firebase.auth.currentUser.toString(), Toast.LENGTH_SHORT).show()
-        }
+//        if (Firebase.auth.currentUser != null) {
+        Toast.makeText(context, Firebase.auth.currentUser?.uid, Toast.LENGTH_SHORT).show()
+//        } else {
+//            Toast.makeText(context, Firebase.auth.currentUser.toString(), Toast.LENGTH_SHORT).show()
+//        }
 
         // Test
-//        storeFakeDataToDatabase()
+        storeFakeDataToDatabase()
 
         return inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -71,13 +71,14 @@ class HomeFragment : Fragment() {
             .child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
             .setValue(
                 ChatPreview(
-                    User(
+                    user = User(
                         "Matteo",
-                        "e-mail",
+                        "",
                         "LD3qWBHBFmWVN87S1r9reBgGx6H3",
                         "Brescia",
+                        "",
                         false
-                    ), "Ciao!", Timestamp.now().seconds
+                    ), "Ciao!", timestamp = Timestamp.now().seconds
                 )
             )
 
@@ -85,13 +86,38 @@ class HomeFragment : Fragment() {
             .child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
             .setValue(
                 ChatPreview(
-                    User(
+                    user = User(
                         "Admin",
-                        "e-mail",
+                        "",
                         "2PH1sbnjT4e1RkI0TYD6X1e1nD72",
                         "Brescia",
+                        "",
                         false
-                    ), "Ciao!", Timestamp.now().seconds
+                    ), "Ciao!", timestamp = Timestamp.now().seconds
+                )
+            )
+
+        mDatabase.child("users").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
+            .setValue(
+                User(
+                    "Admin",
+                    "admin@ciao.com",
+                    "2PH1sbnjT4e1RkI0TYD6X1e1nD72",
+                    "Brescia",
+                    "",
+                    isShipOwner = true
+                )
+            )
+
+        mDatabase.child("users").child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
+            .setValue(
+                User(
+                    "Matteo",
+                    "ciao@mail.org",
+                    "LD3qWBHBFmWVN87S1r9reBgGx6H3",
+                    "Brescia",
+                    "",
+                    false
                 )
             )
     }

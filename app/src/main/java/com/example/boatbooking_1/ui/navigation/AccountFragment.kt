@@ -52,6 +52,10 @@ class AccountFragment : Fragment() {
         mFirebaseAuth = Firebase.auth
 
         val user = FirebaseAuth.getInstance().currentUser
+
+        if (user != null) {
+            findNavController().graph.setStartDestination(R.id.userProfile)
+        }
 //        if (user != null) {
 //            updateUI(user)
 //        }

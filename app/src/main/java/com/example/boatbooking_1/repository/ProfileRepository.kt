@@ -1,7 +1,7 @@
-package com.example.boatbooking_1.Repository
+package com.example.boatbooking_1.repository
 
 import android.util.Log
-import com.example.boatbooking_1.Utils.Util
+import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.model.User
 import com.google.firebase.database.DatabaseReference
 import androidx.lifecycle.MutableLiveData

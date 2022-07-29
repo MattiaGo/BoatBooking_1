@@ -3,7 +3,7 @@ package com.example.boatbooking_1.model
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 
-data class User(var name: String? = null, var email: String? = null, var image: String? = null, var isShipOwner: Boolean = false) {
+data class User(var name: String? = null, var email: String? = null, var uid: String? = null, var location: String? = null, var image: String? = null, var isShipOwner: Boolean = false) {
 
     // Firebase needs empty constructor
      //constructor() : this() {}
@@ -24,8 +24,6 @@ data class User(var name: String? = null, var email: String? = null, var image: 
         Glide.with(view.context).load(image).into(view)
     }
 }
-
-
 
 /*data class User(val name: String? = null, val email: String? = null, val image: String? = null, val isShipOwner: Boolean? = false) {
     // Null default values create a no-argument default constructor, which is needed

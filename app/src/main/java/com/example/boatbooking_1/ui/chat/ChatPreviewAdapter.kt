@@ -24,11 +24,11 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = chatPreviewList[position]
 
-        holder.tvName.text = currentItem.user!!.name.toString()
+        holder.tvName.text = currentItem.user?.name.toString()
         holder.tvLastMessage.text = currentItem.lastMessage.toString()
 
         holder.itemView.setOnClickListener { view ->
-            val uid: String = currentItem.user!!.email.toString()
+            val uid: String = currentItem.user!!.uid.toString()
             //val uid: String = currentItem.user!!.uid.toString()
             val bundle = bundleOf("uid" to uid, "name" to currentItem.user!!.name.toString())
             Navigation.findNavController(view).navigate(R.id.action_main_messages_to_chatFragment, bundle)
@@ -42,7 +42,6 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvName: TextView = itemView.findViewById(R.id.tv_name)
         val tvLastMessage: TextView = itemView.findViewById(R.id.tv_last_message)
-
     }
 
 }
