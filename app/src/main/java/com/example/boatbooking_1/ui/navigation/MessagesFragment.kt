@@ -1,7 +1,7 @@
 package com.example.boatbooking_1.ui.navigation
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentMessagesBinding
 import com.example.boatbooking_1.model.ChatPreview
-import com.example.boatbooking_1.model.ChatPreviewAdapter
-import com.example.boatbooking_1.model.MyMessage
 import com.example.boatbooking_1.model.User
-import com.example.boatbooking_1.ui.auth.UserProfileFragmentDirections
-import com.google.common.collect.Lists.reverse
-import com.google.firebase.Timestamp
+import com.example.boatbooking_1.ui.chat.ChatPreviewAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-
 
 /**
  * A simple [Fragment] subclass.
@@ -40,29 +35,27 @@ class MessagesFragment : Fragment() {
     private lateinit var chatPreviewAdapter: ChatPreviewAdapter
     private lateinit var chatPreviewList: ArrayList<ChatPreview>
 
-    lateinit var userList: ArrayList<User>
-    lateinit var lastMessageList: ArrayList<String>
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        fAuth = FirebaseAuth.getInstance()
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        if (fAuth.currentUser == null) {
+//            val action = MessagesFragmentDirections.actionMainMessagesToAccount()
+//            findNavController().navigate(action)
+//        }
 
         chatPreviewList = ArrayList()
         mDatabase = FirebaseDatabase.getInstance().reference
         chatPreviewAdapter = ChatPreviewAdapter(chatPreviewList)
 
+        // TODO: Redirect to login fragment (if user == null)
 
-
-//        userList = arrayOf(
-//            User("Admin", "admin@boatbooking.com", "0"),
-//            User("Matteo", "matteo@mail.com", "1"),
-//            User("Mattia", "mattia@mail.com", "2")
-//        )
-//
-//        lastMessageList = arrayOf(
-//            "Ciao, come stai?",
-//            "È possibile effettuare una prenotazione?",
-//            "Mi dispiace non è più disponibile!"
-//        )
     }
 
     override fun onCreateView(

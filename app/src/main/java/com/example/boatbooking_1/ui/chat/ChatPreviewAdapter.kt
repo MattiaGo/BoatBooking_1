@@ -1,6 +1,5 @@
-package com.example.boatbooking_1.model
+package com.example.boatbooking_1.ui.chat
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
+import com.example.boatbooking_1.model.ChatPreview
 
 
 class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :

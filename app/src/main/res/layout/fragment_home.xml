@@ -17,5 +17,5 @@
         android:textAllCaps="true"
         android:gravity="center_horizontal"
         android:textColor="@color/navy_blue"/>
-
+    
 </FrameLayout>

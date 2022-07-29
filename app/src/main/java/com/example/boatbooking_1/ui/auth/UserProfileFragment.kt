@@ -21,6 +21,7 @@ import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
 import com.example.boatbooking_1.model.User
 import com.example.boatbooking_1.viewModels.UserProfileVM
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -78,7 +79,6 @@ class UserProfileFragment : Fragment() {
         etEmail = binding.etEmail
         etName = binding.etName
 
-
         util = Util()
 
         sharedPreferences = context!!.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
@@ -128,6 +128,7 @@ class UserProfileFragment : Fragment() {
 
                     etName.setText(user?.name.toString())
                     etEmail.setText(user?.email.toString())
+                    tvLocation.text = user?.location.toString()
                 }
 
                 override fun onCancelled(error: DatabaseError) {

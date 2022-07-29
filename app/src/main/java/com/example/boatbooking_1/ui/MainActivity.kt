@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
 
         if (FirebaseAuth.getInstance().currentUser != null) {
-            val node = navController.graph.findNode(R.id.account)
+            var node = navController.graph.findNode(R.id.account)
             (node as NavGraph).setStartDestination(R.id.userProfile)
         }
 

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/input_profile_shape"
+            android:background="@drawable/title_bar_background"
             android:orientation="horizontal">
 
             <ImageButton
@@ -38,104 +38,123 @@
 
         </LinearLayout>
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_margin="5dp"-->
-<!--            android:autofillHints=""-->
-<!--            android:hint="Costruttore"-->
-<!--            android:inputType="text"-->
-<!--            android:minHeight="50dp"-->
-<!--            android:textColorHint="@color/colorHint">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/tiet_builder"-->
-<!--                android:layout_width="250dp"-->
-<!--                android:layout_height="wrap_content" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="380dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/form_background"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_builder"
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"
                     android:autofillHints=""
-                    android:background="@drawable/input_shape"
-                    android:gravity=""
                     android:hint="Costruttore"
-                    android:inputType="text"
-                    android:minHeight="50dp"
-                    android:textColorHint="@color/colorHint" />
+                    android:textColorHint="@color/colorHint">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_model"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_builder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="250dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"
+                    android:layout_marginTop="15dp"
                     android:autofillHints=""
-                    android:background="@drawable/input_shape"
                     android:hint="Modello"
                     android:inputType="text"
-                    android:minHeight="50dp"
-                    android:textColorHint="@color/colorHint" />
+                    android:textColorHint="@color/colorHint">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="250dp"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_model"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="Anno"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="100dp"
+                        android:entries="@array/years_array"
+                        android:gravity="center"
+                        android:minHeight="40dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:layout_marginStart="10dp"
+                        android:gravity="center_horizontal"
+                        android:text="Lunghezza (m)"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/spinner_length"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="100dp"
+                        android:entries="@array/lengths_array"
+                        android:gravity="center"
+                        android:minHeight="40dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"
-                    android:autofillHints=""
-                    android:background="@drawable/input_shape"
-                    android:hint="Anno"
-                    android:inputType="text"
-                    android:minHeight="50dp"
-                    android:textColorHint="@color/colorHint" />
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_length"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"
-                    android:autofillHints=""
-                    android:background="@drawable/input_shape"
-                    android:hint="Lunghezza (m)"
-                    android:inputType="text"
-                    android:minHeight="50dp"
-                    android:textColorHint="@color/colorHint" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="Passeggeri"
+                        android:textSize="15sp"
+                        android:layout_marginTop="15dp"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_max_passengers"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"
-                    android:autofillHints=""
-                    android:background="@drawable/input_shape"
-                    android:hint="Numero di passeggeri"
-                    android:inputType="text"
-                    android:minHeight="50dp"
-                    android:textColorHint="@color/colorHint" />
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_max_passengers"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:minHeight="50dp"
+                        android:stepSize="1"
+                        android:value="5"
+                        android:valueFrom="1"
+                        android:valueTo="20"
+                        app:labelBehavior="visible"
+                        app:labelStyle="@style/SliderTooltip" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -159,8 +178,8 @@
 
                 <Button
                     android:id="@+id/btn_add"
-                    android:layout_width="250dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="50dp"
                     android:padding="10dp"

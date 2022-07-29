@@ -17,7 +17,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/input_profile_shape"
+        android:background="@drawable/title_bar_background"
         android:orientation="horizontal">
 
         <ImageButton
@@ -39,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="Title"
+            android:text="Chat"
             android:textColor="@color/navy_blue"
             android:textSize="25dp"
             android:textStyle="bold" />
@@ -52,15 +52,14 @@
         android:layout_below="@+id/custom_action_bar"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:weightSum="10"
-        >
+        android:weightSum="10">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_chat_messages"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
-            android:layout_weight="10"/>
+            android:layout_weight="10"
+            android:padding="5dp" />
 
         <LinearLayout
             android:id="@+id/bottom_layout"
@@ -68,9 +67,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            android:weightSum="100"
             android:padding="5dp"
-            >
+            android:weightSum="100">
 
             <EditText
                 android:id="@+id/et_text_message"
@@ -90,8 +88,7 @@
                 android:background="@drawable/ic_circle"
                 android:contentDescription="Send"
                 android:padding="8dp"
-                android:src="@drawable/ic_send"
-                />
+                android:src="@drawable/ic_send" />
 
         </LinearLayout>
 

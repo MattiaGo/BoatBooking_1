@@ -189,6 +189,7 @@ class RegistrationFragment : Fragment() {
             )
     }*/
 
+
 //    private fun firebaseSignUp() {
 //        mFirebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
 //            .addOnCompleteListener { task ->
