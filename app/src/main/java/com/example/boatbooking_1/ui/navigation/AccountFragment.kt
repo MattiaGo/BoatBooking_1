@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentAccountBinding
@@ -38,8 +39,12 @@ class AccountFragment : Fragment() {
     private lateinit var mFirebaseAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
+
+
     companion object {
         const val GOOGLE_SIGN_IN = 1903
+        const val LOGIN_SUCCESSFUL: String = "LOGIN_SUCCESSFUL"
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +61,6 @@ class AccountFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         binding = FragmentAccountBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -69,7 +73,6 @@ class AccountFragment : Fragment() {
         password = binding.textPassword
 
         loginMessageError = binding.loginErrorMessage
-
 
         binding.googleBtn.setOnClickListener {
             signInWithGoogle()
@@ -104,10 +107,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        val action = AccountFragmentDirections.actionMainAccountToUserProfile(
-            name = user?.displayName.toString(),
-            email = user?.email.toString()
-        )
+        val action = AccountFragmentDirections.actionMainAccountToUserProfile()
         findNavController().navigate(action)
     }
 
@@ -123,11 +123,10 @@ class AccountFragment : Fragment() {
             )
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val action = AccountFragmentDirections.actionMainAccountToUserProfile(
-                            name = FirebaseAuth.getInstance().currentUser?.displayName.toString(),
-                            email = email.text.toString()
-                        )
-                        findNavController().navigate(action)
+                            val action = AccountFragmentDirections.actionMainAccountToUserProfile()
+                            findNavController().navigate(action)
+
+
                     } else {
                         loginMessageError.text = task.exception?.message
                         loginMessageError.isVisible = true

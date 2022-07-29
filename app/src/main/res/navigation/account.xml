@@ -40,13 +40,6 @@
         android:name="com.example.boatbooking_1.ui.auth.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile">
-        <argument
-            android:name="email"
-            app:argType="string" />
-        <argument
-            android:name="name"
-            app:argType="string"
-            />
         <action
             android:id="@+id/action_userProfile_to_main_account"
             app:destination="@id/main_account" />

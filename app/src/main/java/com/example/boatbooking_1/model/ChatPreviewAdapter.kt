@@ -28,7 +28,8 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
         holder.tvLastMessage.text = currentItem.lastMessage.toString()
 
         holder.itemView.setOnClickListener { view ->
-            val uid: String = currentItem.user!!.uid.toString()
+            val uid: String = currentItem.user!!.email.toString()
+            //val uid: String = currentItem.user!!.uid.toString()
             val bundle = bundleOf("uid" to uid, "name" to currentItem.user!!.name.toString())
             Navigation.findNavController(view).navigate(R.id.action_main_messages_to_chatFragment, bundle)
         }

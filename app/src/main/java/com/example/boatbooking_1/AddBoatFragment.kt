@@ -54,10 +54,7 @@ class AddBoatFragment : Fragment() {
 
         binding.btnBack.setOnClickListener {
             val action =
-                AddBoatFragmentDirections.actionAddBoatFragmentToUserProfile(
-                    FirebaseAuth.getInstance().currentUser?.email.toString(),
-                    FirebaseAuth.getInstance().currentUser?.displayName.toString()
-                )
+                AddBoatFragmentDirections.actionAddBoatFragmentToUserProfile()
             findNavController().navigate(action)
         }
 

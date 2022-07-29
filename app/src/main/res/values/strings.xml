@@ -36,5 +36,8 @@
     <string name="type_a_message">Inserisci un messaggio</string>
     <string name="logout">Esci</string>
     <string name="searchQueryHint">Inserisci una città</string>
+    <string name="profilo">Profilo</string>
+    <string name="profile_image">profile_image</string>
+    <string name="my_reservation">Le mie prenotazioni</string>
 
 </resources>

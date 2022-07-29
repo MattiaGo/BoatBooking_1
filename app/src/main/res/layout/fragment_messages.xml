@@ -5,10 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.navigation.MessagesFragment">
 
+    <TextView
+        android:id="@+id/msg_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Loggati per leggere i messaggi"
+        android:visibility="gone"/>
+
     <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chat_preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package com.example.boatbooking_1.model
 
-import com.google.firebase.Timestamp
 
 class ChatPreview {
     var user: User? = null

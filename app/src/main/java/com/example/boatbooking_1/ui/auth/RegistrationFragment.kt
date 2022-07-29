@@ -10,16 +10,19 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.boatbooking_1.viewModels.UserProfileVM
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentRegistrationBinding
-import com.example.boatbooking_1.model.ChatPreview
 import com.example.boatbooking_1.model.User
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+
+private lateinit var database: DatabaseReference
+
 
 
 class RegistrationFragment : Fragment() {
@@ -35,6 +38,8 @@ class RegistrationFragment : Fragment() {
 
     private lateinit var mFirebaseAuth: FirebaseAuth
     private lateinit var mDatabase: DatabaseReference
+
+    //internal lateinit var viewModel: UserProfileVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +69,6 @@ class RegistrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.registrationBtn.isEnabled = false
         binding.registrationBtn.alpha = 0.8f
 
@@ -151,12 +155,13 @@ class RegistrationFragment : Fragment() {
 
     private fun addUserToDatabase(name: String, email: String, uid: String) {
         mDatabase = FirebaseDatabase.getInstance().reference
-        mDatabase.child("users").child(uid).setValue(User(name, email, uid, "Brescia", false))
+        mDatabase.child("users").child(uid).setValue(User(name, email))
 
         // Test
-        storeFakeDataOnDatabase(uid)
+        //storeFakeDataOnDatabase(uid)
     }
 
+    /*
     private fun storeFakeDataOnDatabase(uid: String) {
         mDatabase.child("chats").child(uid).child("VED1f7yQbUc7YWrvKglJrNMfu8u1")
             .setValue(
@@ -182,7 +187,7 @@ class RegistrationFragment : Fragment() {
                     ), "Hola...", Timestamp.now().seconds
                 )
             )
-    }
+    }*/
 
 //    private fun firebaseSignUp() {
 //        mFirebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())

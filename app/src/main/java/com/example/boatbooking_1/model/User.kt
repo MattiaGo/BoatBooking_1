@@ -1,27 +1,35 @@
 package com.example.boatbooking_1.model
 
-class User {
-    var name: String? = null
-    var email: String? = null
-    var uid: String? = null
-    var location: String? = null
-    var shipOwner: Boolean? = null
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+
+data class User(var name: String? = null, var email: String? = null, var image: String? = null, var isShipOwner: Boolean = false) {
 
     // Firebase needs empty constructor
-    constructor() {}
+     //constructor() : this() {}
 
+    /*
     constructor(
-        name: String?,
-        email: String?,
-        uid: String?,
-        location: String?,
-        shipOwner: Boolean?
-    ) {
-        this.name = name
-        this.email = email
-        this.uid = uid
-        this.location = location
-        this.shipOwner = shipOwner
+        name: String,
+        email: String,
+        image: String,
+        isShipOwner: Boolean
+    ) :
+        this(name)
+        this(email)
+        this(image)
+        this(isShipOwner)
+*/
+    fun loadImage(view: ImageView, image: String) {
+        Glide.with(view.context).load(image).into(view)
     }
-
 }
+
+
+
+/*data class User(val name: String? = null, val email: String? = null, val image: String? = null, val isShipOwner: Boolean? = false) {
+    // Null default values create a no-argument default constructor, which is needed
+    // for deserialization from a DataSnapshot.
+
+    var image: String
+*/

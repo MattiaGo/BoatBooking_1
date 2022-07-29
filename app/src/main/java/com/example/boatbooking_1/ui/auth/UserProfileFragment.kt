@@ -1,26 +1,30 @@
 package com.example.boatbooking_1.ui.auth
 
-import android.content.Intent
+import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
-import android.view.*
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.Button
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
+import com.example.boatbooking_1.Utils.Util
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
-import com.example.boatbooking_1.model.ChatPreview
 import com.example.boatbooking_1.model.User
+import com.example.boatbooking_1.viewModels.UserProfileVM
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,9 +35,20 @@ private const val ARG_NAME = "name"
 class UserProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentUserProfileBinding
+
+    private lateinit var profileViewModel: UserProfileVM
+    private lateinit var imageUri: Uri
+    private lateinit var util: Util
+    //private lateinit var permissions: Permissions
+    private lateinit var alertDialog: AlertDialog
+    private lateinit var user: User
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferencesEdit: SharedPreferences.Editor
+
+
     private lateinit var btnAddBoat: Button
     private lateinit var etEmail: TextInputEditText
-    private lateinit var etName: EditText
+    private lateinit var etName: TextInputEditText
     private lateinit var mDatabase: DatabaseReference
 
     lateinit var firebaseAuth: FirebaseAuth
@@ -63,7 +78,40 @@ class UserProfileFragment : Fragment() {
         etEmail = binding.etEmail
         etName = binding.etName
 
-        btnAddBoat = binding.btnAddBoat
+
+        util = Util()
+
+        sharedPreferences = context!!.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
+        sharedPreferencesEdit = sharedPreferences.edit()
+
+        profileViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application).create(
+            UserProfileVM::class.java
+        )
+
+
+        val model: UserProfileVM by activityViewModels()
+        /*model.getUser()?.observe(viewLifecycleOwner,Observer<User?>{ user ->
+            etName.setText(user.name)
+        })
+
+         */
+
+        sharedPreferencesEdit.putString("name", "paperino").apply()
+
+        val observer: Observer<User?> =
+            Observer<User?> { userModel ->
+                binding.user = userModel
+                //user = userModel
+                val name: String? = userModel.name
+                val email: String? = userModel.email
+                binding.etName.setText(name)
+                binding.etEmail.setText(email)
+            }
+
+        profileViewModel.getUser()!!.observe(viewLifecycleOwner, observer)
+
+
+        btnAddBoat = binding.myBoatBtn
 
 //        if (firebaseAuth.currentUser != null) {
 //            etEmail.setText(firebaseAuth.currentUser?.email)
@@ -73,7 +121,7 @@ class UserProfileFragment : Fragment() {
 //            etName.setText(arguments?.getString(ARG_NAME))
 //        }
 
-        mDatabase.child("users").child(firebaseAuth.currentUser!!.uid)
+        /*mDatabase.child("users").child(firebaseAuth.currentUser!!.uid)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue(User::class.java)
@@ -88,8 +136,46 @@ class UserProfileFragment : Fragment() {
 
             })
 
+         */
+
+        /*binding.button2.setOnClickListener {
+            //val name = binding.etName.text.toString()
+            //profileViewModel.edtUsername(name)
+            etName.setText(sharedPreferences.getString("name",null))
+
+
+        }*/
+
         return binding.root
     }
+
+
+    /*
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null) {
+                val name = data.getStringExtra("name")
+                profileViewModel.edtUsername(name)
+                sharedPreferences.putString("username", name).apply()
+            }
+    }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private fun disableOnBackClick() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
@@ -107,8 +193,9 @@ class UserProfileFragment : Fragment() {
             signOut()
         }
 
-        binding.btnAddBoat.setOnClickListener {
+        binding.myBoatBtn.setOnClickListener {
             val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+            findNavController().navigate(R.id.account)
             findNavController().navigate(action)
         }
     }

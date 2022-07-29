@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.boatbooking_1.UserViewModel
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentLoginBinding
 import com.firebase.ui.auth.AuthUI
@@ -30,7 +29,6 @@ class LoginFragment : Fragment() {
     }
 
     // Get a reference to the ViewModel scoped to this Fragment
-    private val viewModel by viewModels<UserViewModel>()
     private lateinit var binding: FragmentLoginBinding
 
     private lateinit var navController: NavController
