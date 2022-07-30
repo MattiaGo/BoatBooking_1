@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,16 +17,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
-import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
 import com.example.boatbooking_1.model.User
+import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.UserProfileVM
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks.await
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import kotlin.math.sign
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,6 +54,8 @@ class UserProfileFragment : Fragment() {
     private lateinit var etEmail: TextInputEditText
     private lateinit var etName: TextInputEditText
     private lateinit var mDatabase: DatabaseReference
+    private var isOwner: Boolean = false
+    private var stato: String = "false"
 
     lateinit var firebaseAuth: FirebaseAuth
 
@@ -59,6 +64,8 @@ class UserProfileFragment : Fragment() {
 
         firebaseAuth = FirebaseAuth.getInstance()
         mDatabase = FirebaseDatabase.getInstance().reference
+
+
 
         disableOnBackClick()
 
@@ -90,7 +97,6 @@ class UserProfileFragment : Fragment() {
                 UserProfileVM::class.java
             )
 
-
         val model: UserProfileVM by activityViewModels()
         /*model.getUser()?.observe(viewLifecycleOwner,Observer<User?>{ user ->
             etName.setText(user.name)
@@ -103,7 +109,7 @@ class UserProfileFragment : Fragment() {
         val observer: Observer<User?> =
             Observer<User?> { userModel ->
                 binding.user = userModel
-                //user = userModel
+                user = userModel
                 val name: String? = userModel.name
                 val email: String? = userModel.email
                 binding.etName.setText(name)
@@ -112,9 +118,11 @@ class UserProfileFragment : Fragment() {
 
         profileViewModel.getUser()!!.observe(viewLifecycleOwner, observer)
 
-
         btnAddBoat = binding.myBoatBtn
 
+        if (stato == "false") {
+            binding.myBoatBtn.setText("Attiva la modalità proprietario")
+        }
 //        if (firebaseAuth.currentUser != null) {
 //            etEmail.setText(firebaseAuth.currentUser?.email)
 //            etName.setText(firebaseAuth.currentUser?.displayName)
@@ -165,6 +173,20 @@ class UserProfileFragment : Fragment() {
     }
 */
 
+
+
+
+
+
+
+
+
+    private fun activateOwnerModality(){
+        profileViewModel.editStatus(true)
+    }
+
+
+
     private fun disableOnBackClick() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             // With blank your fragment BackPressed will be disabled.
@@ -175,19 +197,23 @@ class UserProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //firebaseAuth.addAuthStateListener(mAuthListener)
 
-        val user = Firebase.auth.currentUser
+            binding.logoutBtn.setOnClickListener {
+                signOut()
+            }
 
-        binding.logoutBtn.setOnClickListener {
-            signOut()
-        }
-
-        binding.myBoatBtn.setOnClickListener {
+            binding.myBoatBtn.setOnClickListener {
+                //val name = binding.etName.text.toString()
+                //profileViewModel.edtUsername(name)
+                activateOwnerModality()
+            }
+            /*binding.myBoatBtn.setOnClickListener {
             val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
             findNavController().navigate(R.id.account)
             findNavController().navigate(action)
         }
-    }
 
+         */
+        }
 
     private fun signOut() {
         val user = FirebaseAuth.getInstance().currentUser

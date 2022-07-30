@@ -81,10 +81,7 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_shape2"
             android:text="@string/registration"
-            android:textColor="@color/navy_blue"
-            app:cornerRadius="3dp"
-            app:strokeColor="@color/navy_blue"
-            app:strokeWidth="5dp" />
+            android:textColor="@color/navy_blue"/>
 
         <View
             android:layout_width="200dp"
@@ -119,6 +116,14 @@
                 android:contentDescription="@string/google_login"
                 android:src="@drawable/ic_google" />
 
+            <!--<ImageButton
+                android:id="@+id/facebookBtn"
+                android:layout_width="69dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="#00FFFFFF"
+                android:contentDescription="@string/facebook_login"
+                android:src="@drawable/ic_facebook" />-->
         </LinearLayout>
 
     </LinearLayout>
@@ -129,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
-        android:text="PROVA"
+        android:text="@string/accedi"
         android:textColor="@color/navy_blue"
         android:textSize="30sp"
         android:textStyle="bold" />

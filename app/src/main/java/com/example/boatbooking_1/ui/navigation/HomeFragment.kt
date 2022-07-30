@@ -60,12 +60,13 @@ class HomeFragment : Fragment() {
 //        }
 
         // Test
-        storeFakeDataToDatabase()
+        //storeFakeDataToDatabase()
 
         return inflater.inflate(R.layout.fragment_home, container, false)
 
     }
 
+    /*
     private fun storeFakeDataToDatabase() {
         mDatabase.child("chats").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
             .child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
@@ -141,4 +142,6 @@ class HomeFragment : Fragment() {
                 }
             }
     }
+
+     */
 }

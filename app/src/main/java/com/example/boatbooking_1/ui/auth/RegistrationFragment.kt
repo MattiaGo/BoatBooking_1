@@ -31,7 +31,6 @@ class RegistrationFragment : Fragment() {
     private lateinit var password: EditText
     private lateinit var confirmPassword: EditText
 
-    private lateinit var cnfPassword: EditText
     private lateinit var signUpErrorMessage: TextView
 
     private lateinit var mFirebaseAuth: FirebaseAuth
@@ -58,7 +57,6 @@ class RegistrationFragment : Fragment() {
         password = binding.textPassword
         confirmPassword = binding.textPasswordConfirm
 
-        cnfPassword = binding.textPasswordConfirm
         signUpErrorMessage = binding.signUpErrorMessage
         mFirebaseAuth = Firebase.auth
 
@@ -80,7 +78,7 @@ class RegistrationFragment : Fragment() {
                     val et4 = confirmPassword.toString().trim()
 
                     binding.registrationBtn.isEnabled =
-                        et1.isNotEmpty() && et2.isNotEmpty() && et3.isNotEmpty() && et4.isNotEmpty()
+                        (et1.isNotEmpty() && et2.isNotEmpty() && et3.isNotEmpty() && et4.isNotEmpty())
                     if (binding.registrationBtn.isEnabled) binding.registrationBtn.alpha = 1.0f
                 }
 
@@ -110,7 +108,7 @@ class RegistrationFragment : Fragment() {
         binding.registrationBtn.isEnabled = false
         binding.registrationBtn.alpha = 0.5f
 
-        if (email.text.isEmpty() or password.text.isEmpty() or cnfPassword.text.isEmpty()) {
+        if (email.text.isEmpty() or password.text.isEmpty() or confirmPassword.text.isEmpty()) {
             signUpErrorMessage.text = "Attenzione compilare tutti i campi"
             signUpErrorMessage.isVisible = true
         } else {
@@ -186,27 +184,4 @@ class RegistrationFragment : Fragment() {
                 )
             )
     }*/
-
-
-//    private fun firebaseSignUp() {
-//        mFirebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    val profileUpdates = UserProfileChangeRequest.Builder()
-//                        .setDisplayName(name.text.toString())
-//                        .build()
-//
-//                    mFirebaseAuth.currentUser!!.updateProfile(profileUpdates)
-//                        .addOnCompleteListener { task ->
-//                            if (task.isSuccessful) {
-//                                Log.d("NAME_UPDATED", "User profile updated.")
-//                            }
-//                        }
-//                    val action = RegistrationFragmentDirections.actionRegistrationToUserProfile(email.text.toString(), name.text.toString())
-//                    findNavController().navigate(action)
-//                } else {
-//                    Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//    }
 }
