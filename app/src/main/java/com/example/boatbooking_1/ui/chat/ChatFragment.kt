@@ -31,13 +31,13 @@ class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
     private lateinit var chatRecyclerView: RecyclerView
     private lateinit var messageArrayList: ArrayList<MyMessage>
+    private lateinit var myMessageAdapter: MyMessageAdapter
     private lateinit var sendButton: ImageView
     private lateinit var messageBox: TextView
     private lateinit var chatTitle: TextView
     private lateinit var mDatabase: DatabaseReference
     private lateinit var senderRoom: String
     private lateinit var receiverRoom: String
-    private lateinit var myMessageAdapter: MyMessageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
