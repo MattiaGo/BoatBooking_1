@@ -19,10 +19,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
 import com.example.boatbooking_1.model.User
-import com.example.boatbooking_1.utils.Util
-import com.example.boatbooking_1.viewmodel.UserProfileVM
-import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.Tasks.await
+
+import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -39,9 +37,8 @@ class UserProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentUserProfileBinding
 
-    private lateinit var profileViewModel: UserProfileVM
+    private lateinit var userProfileViewModel: UserProfileViewModel
     private lateinit var imageUri: Uri
-    private lateinit var util: Util
 
     //private lateinit var permissions: Permissions
     private lateinit var alertDialog: AlertDialog
@@ -86,18 +83,16 @@ class UserProfileFragment : Fragment() {
         etEmail = binding.etEmail
         etName = binding.etName
 
-        util = Util()
-
         sharedPreferences =
             context!!.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
         sharedPreferencesEdit = sharedPreferences.edit()
 
-        profileViewModel =
+        userProfileViewModel =
             ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application).create(
-                UserProfileVM::class.java
+                UserProfileViewModel::class.java
             )
 
-        val model: UserProfileVM by activityViewModels()
+        val model: UserProfileViewModel by activityViewModels()
         /*model.getUser()?.observe(viewLifecycleOwner,Observer<User?>{ user ->
             etName.setText(user.name)
         })
@@ -116,8 +111,7 @@ class UserProfileFragment : Fragment() {
                 binding.etEmail.setText(email)
             }
 
-        profileViewModel.getUser()!!.observe(viewLifecycleOwner, observer)
-
+        userProfileViewModel.getUser().observe(viewLifecycleOwner, observer)
         btnAddBoat = binding.myBoatBtn
 
         if (stato == "false") {
@@ -182,7 +176,7 @@ class UserProfileFragment : Fragment() {
 
 
     private fun activateOwnerModality(){
-        profileViewModel.editStatus(true)
+        userProfileViewModel.editStatus(true)
     }
 
 

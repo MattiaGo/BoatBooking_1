@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.ChatPreview
 import com.example.boatbooking_1.model.User
+import com.example.boatbooking_1.utils.Util
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -28,8 +29,6 @@ private const val ARG_PARAM2 = "param2"
  */
 class HomeFragment : Fragment() {
 
-    private lateinit var mDatabase: DatabaseReference
-
 //    private lateinit var binding: FragmentHomeBinding
 
     // TODO: Rename and change types of parameters
@@ -43,7 +42,6 @@ class HomeFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        mDatabase = FirebaseDatabase.getInstance().reference
     }
 
     override fun onCreateView(
@@ -53,11 +51,11 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_home, container, false)
 
-//        if (Firebase.auth.currentUser != null) {
-        Toast.makeText(context, Firebase.auth.currentUser?.uid, Toast.LENGTH_SHORT).show()
-//        } else {
-//            Toast.makeText(context, Firebase.auth.currentUser.toString(), Toast.LENGTH_SHORT).show()
-//        }
+        if (Firebase.auth.currentUser != null) {
+        Toast.makeText(context, Firebase.auth.currentUser!!.uid, Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, Firebase.auth.currentUser.toString(), Toast.LENGTH_SHORT).show()
+        }
 
         // Test
         //storeFakeDataToDatabase()
@@ -68,7 +66,7 @@ class HomeFragment : Fragment() {
 
     /*
     private fun storeFakeDataToDatabase() {
-        mDatabase.child("chats").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
+        Util.mDatabase.child("chats").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
             .child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
             .setValue(
                 ChatPreview(
@@ -83,7 +81,7 @@ class HomeFragment : Fragment() {
                 )
             )
 
-        mDatabase.child("chats").child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
+        Util.mDatabase.child("chats").child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
             .child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
             .setValue(
                 ChatPreview(
@@ -98,7 +96,7 @@ class HomeFragment : Fragment() {
                 )
             )
 
-        mDatabase.child("users").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
+        Util.mDatabase.child("users").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
             .setValue(
                 User(
                     "Admin",
@@ -110,7 +108,7 @@ class HomeFragment : Fragment() {
                 )
             )
 
-        mDatabase.child("users").child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
+        Util.mDatabase.child("users").child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
             .setValue(
                 User(
                     "Matteo",

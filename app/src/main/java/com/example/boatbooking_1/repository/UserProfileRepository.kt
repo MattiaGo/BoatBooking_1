@@ -20,10 +20,9 @@ import com.google.firebase.database.ktx.database
 import kotlinx.coroutines.awaitAll
 import java.util.HashMap
 
-class ProfileRepository {
-    private lateinit var databaseReference: DatabaseReference
 
-    private val util = Util()
+class UserProfileRepository {
+    private var databaseReference: DatabaseReference? = null
     private var liveData: MutableLiveData<User?>? = null
 
     val user: LiveData<User?>
@@ -31,7 +30,7 @@ class ProfileRepository {
             if (liveData == null) {
                 liveData = MutableLiveData()
                 databaseReference = FirebaseDatabase.getInstance().getReference("users")
-                databaseReference!!.child(util.getUID()!!)
+                databaseReference!!.child(Util.getUID()!!)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             if (dataSnapshot.exists()) {
@@ -41,16 +40,18 @@ class ProfileRepository {
                                 liveData!!.value = userModel
                             }
                         }
+
                         override fun onCancelled(databaseError: DatabaseError) {}
                     })
             }
+
             return liveData!!
         }
 
     fun editImage(uri: String) {
         val userModel = liveData!!.value
         databaseReference =
-            FirebaseDatabase.getInstance().getReference("Users").child(util.getUID()!!)
+            FirebaseDatabase.getInstance().getReference("Users").child(Util.getUID()!!)
         val map: MutableMap<String, Any> = HashMap()
         map["image"] = uri
         databaseReference!!.updateChildren(map).addOnCompleteListener { task ->
@@ -82,7 +83,7 @@ class ProfileRepository {
         val mDatabase = FirebaseDatabase.getInstance().reference
         var status: Boolean = false
         mDatabase.child("users")
-            .child( util.getUID()!!)
+            .child( Util.getUID()!!)
             .child("shipOwner")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -100,7 +101,7 @@ class ProfileRepository {
     fun editStatus(status: Boolean) {
         val userModel = liveData!!.value
         databaseReference =
-            FirebaseDatabase.getInstance().getReference("users").child(util.getUID()!!)
+            FirebaseDatabase.getInstance().getReference("Users").child(Util.getUID()!!)
         val map: MutableMap<String, Any> = HashMap()
         map["shipOwner"] = status
         databaseReference!!.updateChildren(map).addOnCompleteListener { task ->
@@ -115,7 +116,7 @@ class ProfileRepository {
     fun editUsername(name: String) {
         val userModel = liveData!!.value
         databaseReference =
-            FirebaseDatabase.getInstance().getReference("users").child(util.getUID()!!)
+            FirebaseDatabase.getInstance().getReference("users").child(Util.getUID()!!)
         val map: MutableMap<String, Any> = HashMap()
         map["name"] = name
         databaseReference!!.updateChildren(map).addOnCompleteListener { task ->
@@ -128,8 +129,8 @@ class ProfileRepository {
     }
 
     companion object {
-        private var profileRepository: ProfileRepository? = null
-        val instance: ProfileRepository
-            get() = ProfileRepository().also { profileRepository = it }
+        private var userProfileRepository: UserProfileRepository? = null
+        val instance: UserProfileRepository
+            get() = UserProfileRepository().also { userProfileRepository = it }
     }
 }

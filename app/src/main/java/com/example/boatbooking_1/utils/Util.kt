@@ -4,11 +4,16 @@ import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Util {
+// Singleton
+object Util {
+
+    val mDatabase = FirebaseDatabase.getInstance().reference
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
     private val SECOND_MILLIS = 1000
     private val MINUTE_MILLIS = 60 * SECOND_MILLIS
@@ -17,7 +22,6 @@ class Util {
 
 
     fun getUID(): String? {
-        val firebaseAuth = FirebaseAuth.getInstance()
         return firebaseAuth.uid
     }
 

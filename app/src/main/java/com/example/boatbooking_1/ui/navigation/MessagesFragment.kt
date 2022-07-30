@@ -110,9 +110,8 @@ class MessagesFragment : Fragment() {
 
                 })
 
-        } else {
-            binding.msgLogin.isVisible = true
         }
+
         return binding.root
     }
 }

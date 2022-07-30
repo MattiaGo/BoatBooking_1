@@ -65,5 +65,20 @@
         <action
             android:id="@+id/action_addBoatFragment_to_userProfile"
             app:destination="@id/userProfile" />
+        <action
+            android:id="@+id/action_addBoatFragment_to_addAnnouncementFragment"
+            app:destination="@id/addAnnouncementFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAnnouncementFragment"
+        android:name="com.example.boatbooking_1.AddAnnouncementFragment"
+        android:label="fragment_add_announcement"
+        tools:layout="@layout/fragment_add_announcement" >
+        <action
+            android:id="@+id/action_addAnnouncementFragment_to_addBoatFragment"
+            app:destination="@id/addBoatFragment" />
+        <action
+            android:id="@+id/action_addAnnouncementFragment_to_userProfile"
+            app:destination="@id/userProfile" />
     </fragment>
 </navigation>
