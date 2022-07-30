@@ -25,4 +25,9 @@ class UserProfileViewModel : ViewModel() {
     fun edtUsername(name: String) {
         userProfileRepository.editUsername(name)
     }
+
+    fun  getStatus(): Boolean {
+        return userProfileRepository.getStatus()
+    }
+
 }
