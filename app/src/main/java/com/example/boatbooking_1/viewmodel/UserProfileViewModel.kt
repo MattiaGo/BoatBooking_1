@@ -23,12 +23,11 @@ class UserProfileViewModel : ViewModel() {
         userProfileRepository.editStatus(status)
     }
 
-    fun edtUsername(name: String) {
-        userProfileRepository.editUsername(name)
+    fun editName(name: String) {
+        userProfileRepository.editName(name)
     }
 
-    fun  getStatus(firebaseCallBack: FirebaseCallBackInterface) {
-        return userProfileRepository.getStatus(firebaseCallBack)
+    fun isOwnerShip() : Boolean {
+       return userProfileRepository.isShipOwner()
     }
-
 }

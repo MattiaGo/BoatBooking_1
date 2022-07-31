@@ -13,7 +13,9 @@ import java.util.*
 object Util {
 
     val mDatabase = FirebaseDatabase.getInstance().reference
-    private val firebaseAuth = FirebaseAuth.getInstance()
+    private val _firebaseAuth = FirebaseAuth.getInstance()
+    val firebaseAuth: FirebaseAuth
+        get() = _firebaseAuth
 
     private val SECOND_MILLIS = 1000
     private val MINUTE_MILLIS = 60 * SECOND_MILLIS

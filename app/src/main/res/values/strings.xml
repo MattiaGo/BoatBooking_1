@@ -37,7 +37,7 @@
     <string name="profilo">Profilo</string>
     <string name="profile_image">profile_image</string>
     <string name="my_reservation">Le mie prenotazioni</string>
-    <string name="my_boats">Attiva la modalità proprietario</string>
+    <string name="activate_owner_mode">Attiva la modalità proprietario</string>
     <string name="language">Lingua</string>
     <string name="currency">Valuta</string>
     <string name="reminders">Notifiche</string>
@@ -113,8 +113,10 @@
         <item>19</item>
         <item>20</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="required_field">Campo obbligatorio!</string>
+    <string name="location">Posizione</string>
+    <string name="my_boats">Le mie barche</string>
 
 </resources>

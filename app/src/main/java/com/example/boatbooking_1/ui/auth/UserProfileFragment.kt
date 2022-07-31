@@ -5,27 +5,27 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
-import com.example.boatbooking_1.interfaces.FirebaseCallBackInterface
 import com.example.boatbooking_1.model.User
+import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_EMAIL = "email"
 private const val ARG_NAME = "name"
 
@@ -33,7 +33,7 @@ class UserProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentUserProfileBinding
 
-    private lateinit var userProfileViewModel: UserProfileViewModel
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
     private lateinit var imageUri: Uri
 
     //private lateinit var permissions: Permissions
@@ -46,19 +46,13 @@ class UserProfileFragment : Fragment() {
     private lateinit var btnAddBoat: Button
     private lateinit var etEmail: TextInputEditText
     private lateinit var etName: TextInputEditText
-    private lateinit var mDatabase: DatabaseReference
     private var isOwner: Boolean = false
-    private var stato: Boolean = false
+    private var state: Boolean = false
 
-    lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var observer: Observer<User?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        firebaseAuth = FirebaseAuth.getInstance()
-        mDatabase = FirebaseDatabase.getInstance().reference
-
-
 
         disableOnBackClick()
 
@@ -70,6 +64,15 @@ class UserProfileFragment : Fragment() {
         }*/
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        sharedPreferences =
+            context.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
+        sharedPreferencesEdit = sharedPreferences.edit()
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,81 +81,49 @@ class UserProfileFragment : Fragment() {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         etEmail = binding.etEmail
         etName = binding.etName
+        binding.myBoatBtn.isVisible = false
 
-        sharedPreferences =
-            context!!.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
-        sharedPreferencesEdit = sharedPreferences.edit()
+//        ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application).create(
+//            UserProfileViewModel::class.java
+//        )
 
-        userProfileViewModel =
-            ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application).create(
-                UserProfileViewModel::class.java
-            )
-
-        val model: UserProfileViewModel by activityViewModels()
-        /*model.getUser()?.observe(viewLifecycleOwner,Observer<User?>{ user ->
-            etName.setText(user.name)
-        })
-
-         */
-
-        val observer: Observer<User?> =
+        observer =
             Observer<User?> { userModel ->
                 binding.user = userModel
                 user = userModel
                 val name: String? = userModel.name
                 val email: String? = userModel.email
+
                 binding.etName.setText(name)
                 binding.etEmail.setText(email)
+
+                Log.d("userViewModel", user.toString())
+
+                if (user.shipOwner) {
+                    binding.profileImage.setImageResource(R.drawable.ic_shipowner)
+                    binding.myBoatBtn.text = getString(R.string.my_boats)
+                    binding.myBoatBtn.isVisible = true
+//                    sharedPreferencesEdit.putBoolean("owner", true).apply() // Useless
+                } else {
+                    binding.myBoatBtn.text = getString(R.string.activate_owner_mode)
+                    binding.myBoatBtn.isVisible = true
+//                    sharedPreferencesEdit.putBoolean("owner", false).apply() // Useless
+                }
             }
 
         userProfileViewModel.getUser().observe(viewLifecycleOwner, observer)
 
-        userProfileViewModel.getStatus(object: FirebaseCallBackInterface {
-            override fun onCallbackForStatus(value: Boolean) {
-                stato = value
-                if (value) {
-                    binding.myBoatBtn.setText("Le mie barche")
-                    sharedPreferencesEdit.putBoolean("owner", true).apply()
-                } else{
-                    sharedPreferencesEdit.putBoolean("owner", false).apply()
-                }
-            }
-        })
-
-
-//        if (firebaseAuth.currentUser != null) {
-//            etEmail.setText(firebaseAuth.currentUser?.email)
-//            etName.setText(firebaseAuth.currentUser?.displayName)
-//        } else {
-//            etEmail.setText(arguments?.getString(ARG_EMAIL))
-//            etName.setText(arguments?.getString(ARG_NAME))
-//        }
-
-        /*mDatabase.child("users").child(firebaseAuth.currentUser!!.uid)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val user = snapshot.getValue(User::class.java)
-
-                    etName.setText(user?.name.toString())
-                    etEmail.setText(user?.email.toString())
-                    tvLocation.text = user?.location.toString()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(context, "$error", Toast.LENGTH_SHORT).show()
-                }
-
-            })
-
-         */
-
-        /*binding.button2.setOnClickListener {
-            //val name = binding.etName.text.toString()
-            //profileViewModel.edtUsername(name)
-            etName.setText(sharedPreferences.getString("name",null))
-
-
-        }*/
+//        userProfileViewModel.getStatus(object : FirebaseCallBackInterface {
+//            override fun onCallbackForStatus(value: Boolean) {
+//                state = value
+//                if (value) {
+//                    binding.myBoatBtn.text = "Le mie barche"
+//                    sharedPreferencesEdit.putBoolean("owner", true).apply()
+//                } else {
+//                    sharedPreferencesEdit.putBoolean("owner", false).apply()
+//                }
+//            }
+//        })
 
         return binding.root
     }
@@ -170,19 +141,24 @@ class UserProfileFragment : Fragment() {
     }
 */
 
-
-
-
-
-
-
-
-
-    private fun activateOwnerModality(){
-        userProfileViewModel.editStatus(true)
-        binding.myBoatBtn.setText("Le mie barche")
+    private fun showConfirmDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Sei sicuro di attivare la modalità PROPRIETARIO?")
+            .setMessage("ATTENZIONE! QUESTA OPERAZIONE È IRREVERSIBILE")
+            .setCancelable(false)
+            .setNegativeButton("Annulla") { _, _ ->
+            }
+            .setPositiveButton("Conferma") { _, _ ->
+                activateOwnerMode()
+                Toast.makeText(context, "Modalità Proprietario attivata con successo!", Toast.LENGTH_SHORT).show()
+            }
+            .show()
     }
 
+    private fun activateOwnerMode() {
+        userProfileViewModel.editStatus(true)
+//        binding.myBoatBtn.setText("Le mie barche")
+    }
 
 
     private fun disableOnBackClick() {
@@ -195,43 +171,43 @@ class UserProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //firebaseAuth.addAuthStateListener(mAuthListener)
 
-            binding.logoutBtn.setOnClickListener {
-                signOut()
-            }
-
-            binding.myBoatBtn.setOnClickListener {
-                //val name = binding.etName.text.toString()
-                //profileViewModel.edtUsername(name)
-                if(sharedPreferences.getBoolean("owner",false)){
-                    val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
-                    findNavController().navigate(action)
-                } else{
-                    activateOwnerModality()
-                }
-
-            }
-            /*binding.myBoatBtn.setOnClickListener {
-            val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
-            findNavController().navigate(R.id.account)
-            findNavController().navigate(action)
+        binding.logoutBtn.setOnClickListener {
+            signOut()
         }
 
-         */
+        binding.myBoatBtn.setOnClickListener {
+            //val name = binding.etName.text.toString()
+            //profileViewModel.edtUsername(name)
+            if (user.shipOwner) {
+                val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+                findNavController().navigate(action)
+            } else {
+                showConfirmDialog()
+            }
+
         }
+        /*binding.myBoatBtn.setOnClickListener {
+        val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+        findNavController().navigate(R.id.account)
+        findNavController().navigate(action)
+    }
+
+     */
+    }
 
     private fun signOut() {
-        val user = FirebaseAuth.getInstance().currentUser
+        val user = Util.firebaseAuth.currentUser
 
         if (user != null) {
-            firebaseAuth.signOut()
+            Util.firebaseAuth.signOut()
             val action = UserProfileFragmentDirections.actionUserProfileToMainAccount()
             findNavController().navigate(action)
         }
 
-        btnAddBoat.setOnClickListener {
-            val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
-            findNavController().navigate(action)
-        }
+//        btnAddBoat.setOnClickListener {
+//            val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+//            findNavController().navigate(action)
+//        }
 
     }
 

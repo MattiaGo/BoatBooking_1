@@ -14,6 +14,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentAccountBinding
+import com.example.boatbooking_1.repository.UserProfileRepository
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -129,8 +130,6 @@ class AccountFragment : Fragment() {
                     if (task.isSuccessful) {
                             val action = AccountFragmentDirections.actionMainAccountToUserProfile()
                             findNavController().navigate(action)
-
-
                     } else {
                         loginMessageError.text = task.exception?.message
                         loginMessageError.isVisible = true
