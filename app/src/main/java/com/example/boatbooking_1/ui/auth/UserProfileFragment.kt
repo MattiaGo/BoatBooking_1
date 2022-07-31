@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,17 +15,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
+import com.example.boatbooking_1.interfaces.FirebaseCallBackInterface
 import com.example.boatbooking_1.model.User
-
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
-import kotlin.math.sign
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,7 +48,7 @@ class UserProfileFragment : Fragment() {
     private lateinit var etName: TextInputEditText
     private lateinit var mDatabase: DatabaseReference
     private var isOwner: Boolean = false
-    private var stato: String = "false"
+    private var stato: Boolean = false
 
     lateinit var firebaseAuth: FirebaseAuth
 
@@ -99,8 +95,6 @@ class UserProfileFragment : Fragment() {
 
          */
 
-        sharedPreferencesEdit.putString("name", "paperino").apply()
-
         val observer: Observer<User?> =
             Observer<User?> { userModel ->
                 binding.user = userModel
@@ -112,11 +106,20 @@ class UserProfileFragment : Fragment() {
             }
 
         userProfileViewModel.getUser().observe(viewLifecycleOwner, observer)
-        btnAddBoat = binding.myBoatBtn
 
-        if (stato == "false") {
-            binding.myBoatBtn.setText("Attiva la modalità proprietario")
-        }
+        userProfileViewModel.getStatus(object: FirebaseCallBackInterface {
+            override fun onCallbackForStatus(value: Boolean) {
+                stato = value
+                if (value) {
+                    binding.myBoatBtn.setText("Le mie barche")
+                    sharedPreferencesEdit.putBoolean("owner", true).apply()
+                } else{
+                    sharedPreferencesEdit.putBoolean("owner", false).apply()
+                }
+            }
+        })
+
+
 //        if (firebaseAuth.currentUser != null) {
 //            etEmail.setText(firebaseAuth.currentUser?.email)
 //            etName.setText(firebaseAuth.currentUser?.displayName)
@@ -177,6 +180,7 @@ class UserProfileFragment : Fragment() {
 
     private fun activateOwnerModality(){
         userProfileViewModel.editStatus(true)
+        binding.myBoatBtn.setText("Le mie barche")
     }
 
 
@@ -198,7 +202,13 @@ class UserProfileFragment : Fragment() {
             binding.myBoatBtn.setOnClickListener {
                 //val name = binding.etName.text.toString()
                 //profileViewModel.edtUsername(name)
-                activateOwnerModality()
+                if(sharedPreferences.getBoolean("owner",false)){
+                    val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+                    findNavController().navigate(action)
+                } else{
+                    activateOwnerModality()
+                }
+
             }
             /*binding.myBoatBtn.setOnClickListener {
             val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()

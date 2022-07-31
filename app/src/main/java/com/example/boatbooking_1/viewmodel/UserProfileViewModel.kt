@@ -2,6 +2,7 @@ package com.example.boatbooking_1.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.boatbooking_1.interfaces.FirebaseCallBackInterface
 import com.example.boatbooking_1.repository.UserProfileRepository
 import com.example.boatbooking_1.model.User
 
@@ -26,8 +27,8 @@ class UserProfileViewModel : ViewModel() {
         userProfileRepository.editUsername(name)
     }
 
-    fun  getStatus(): Boolean {
-        return userProfileRepository.getStatus()
+    fun  getStatus(firebaseCallBack: FirebaseCallBackInterface) {
+        return userProfileRepository.getStatus(firebaseCallBack)
     }
 
 }

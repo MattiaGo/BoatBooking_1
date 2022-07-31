@@ -1,29 +1,24 @@
 package com.example.boatbooking_1.repository
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.ui.res.booleanResource
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.model.User
 import com.google.firebase.database.DatabaseReference
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
-import com.example.boatbooking_1.model.ChatPreview
-import com.example.boatbooking_1.model.MyMessage
-import com.google.firebase.FirebaseError
-import com.google.firebase.ktx.Firebase
+import com.example.boatbooking_1.interfaces.FirebaseCallBackInterface
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ktx.database
-import kotlinx.coroutines.awaitAll
 import java.util.HashMap
 
 
 class UserProfileRepository {
     private var databaseReference: DatabaseReference? = null
     private var liveData: MutableLiveData<User?>? = null
+    private lateinit var  myCallBack: FirebaseCallBackInterface
+
 
     val user: LiveData<User?>
         get() {
@@ -63,45 +58,21 @@ class UserProfileRepository {
         }
     }
 
-/*
-    fun getStatus(): Boolean {
-        var status: Boolean = false
+    fun getStatus(firebaseCallBack: FirebaseCallBackInterface) {
         val mDatabase = FirebaseDatabase.getInstance().getReference("users")
-        mDatabase.child(util.getUID()!!)
+        mDatabase.child(Util.getUID()!!)
             .child("shipOwner").get().addOnSuccessListener { result ->
-                status = result.value.toString().toBoolean()
-
+                firebaseCallBack.onCallbackForStatus(result.value.toString().toBoolean())
             }
             .addOnFailureListener { exception ->
                 Log.d("error", "Error getting documents: ", exception)
             }
-        return status
-    }
-
- */
-    fun getStatus(): Boolean{
-        val mDatabase = FirebaseDatabase.getInstance().reference
-        var status: Boolean = false
-        mDatabase.child("users")
-            .child( Util.getUID()!!)
-            .child("shipOwner")
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    status = snapshot.value.toString().toBoolean()
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d("status", "onComplete: " + error)
-                }
-
-            })
-        return status
     }
 
     fun editStatus(status: Boolean) {
         val userModel = liveData!!.value
         databaseReference =
-            FirebaseDatabase.getInstance().getReference("Users").child(Util.getUID()!!)
+            FirebaseDatabase.getInstance().getReference("users").child(Util.getUID()!!)
         val map: MutableMap<String, Any> = HashMap()
         map["shipOwner"] = status
         databaseReference!!.updateChildren(map).addOnCompleteListener { task ->

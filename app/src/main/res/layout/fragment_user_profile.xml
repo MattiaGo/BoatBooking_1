@@ -196,7 +196,7 @@
                         android:background="@color/grey" />
 
                     <Button
-                        android:id="@+id/btn_my_reservation"
+                        android:id="@+id/myReservationBtn"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
