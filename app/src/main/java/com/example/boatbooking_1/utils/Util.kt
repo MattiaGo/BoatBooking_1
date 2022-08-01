@@ -3,23 +3,27 @@ package com.example.boatbooking_1.utils
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Environment
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.*
 
 // Singleton
 object Util {
 
+    val path: String = Environment.getExternalStorageDirectory().path
+    
+    val fStorage = FirebaseStorage.getInstance().reference
     val mDatabase = FirebaseDatabase.getInstance().reference
     private val _firebaseAuth = FirebaseAuth.getInstance()
     val firebaseAuth: FirebaseAuth
         get() = _firebaseAuth
-
     private val _fDatabase = FirebaseFirestore.getInstance()
     val fDatabase: FirebaseFirestore
         get() = _fDatabase

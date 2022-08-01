@@ -26,4 +26,8 @@ class AnnouncementViewModel : ViewModel() {
     fun setAnnouncement(id: String?) {
         repository.setAnnouncementLiveData(id)
     }
+
+    fun refreshAnnouncement(announcement: Announcement) {
+        repository.refreshAnnouncement(announcement)
+    }
 }

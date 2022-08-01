@@ -93,7 +93,7 @@ class MyAnnouncementsFragment : Fragment() {
                 for (document in documentSnapshot) {
                     val announcement = document.toObject(Announcement::class.java)
                     myAnnouncementList.add(announcement)
-                    Log.d("Firestore", announcement.toString())
+//                    Log.d("Firestore", announcement.toString())
                 }
                 myAnnouncementAdapter.notifyDataSetChanged()
         }

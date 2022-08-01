@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentEditAnnouncementBinding
 import com.example.boatbooking_1.model.Announcement
+import com.example.boatbooking_1.model.Boat
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -91,7 +92,29 @@ class EditAnnouncementFragment : Fragment() {
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
 
         binding.btnEdit.setOnClickListener {
+            val boat = Boat(
+                binding.etBuilder.text.toString(),
+                binding.etModel.text.toString(),
+                binding.spinnerYear.selectedItem.toString().toInt(),
+                binding.spinnerLength.selectedItem.toString().toInt(),
+                binding.sliderMaxPassengers.value.toInt(),
+                binding.checkBoxLicense.isChecked
+            )
+
+            val announcement = Announcement(
+                boat,
+                binding.etName.text.toString(),
+                announcementViewModel.getAnnouncement().value!!.id,
+                binding.etPort.text.toString(),
+                binding.etDescription.text.toString(),
+                arrayListOf(),
+                arrayListOf(),
+                true
+            )
+
+            announcementViewModel.refreshAnnouncement(announcement)
             announcementViewModel.updateAnnouncement()
+
             Toast.makeText(context, "Annuncio aggiornato correttamente!", Toast.LENGTH_SHORT).show()
 
             val action = EditAnnouncementFragmentDirections.actionEditAnnouncementFragmentToMyAnnouncementsFragment()

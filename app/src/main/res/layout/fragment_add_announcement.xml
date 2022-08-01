@@ -48,14 +48,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/form_background"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbarStyle="outsideOverlay"
-                >
+                android:scrollbarStyle="outsideOverlay">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -96,35 +94,64 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_marginTop="20dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="Immagini"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Immagini"
+                            android:textColor="@color/navy_blue"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btn_add_image"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@color/white"
+                            android:src="@drawable/ic_add_circle" />
+                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_images"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="5dp"
-                        android:text="Servizi"
-                        android:textColor="@color/navy_blue"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Servizi"
+                            android:textColor="@color/navy_blue"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btn_add_service"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginStart="5dp"
+                            android:background="@color/white"
+                            android:src="@drawable/ic_add_circle" />
+
+                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_services"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent" />
 
                     <TextView
                         android:layout_width="wrap_content"

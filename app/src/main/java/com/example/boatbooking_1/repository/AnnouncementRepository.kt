@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.MyMessage
 import com.example.boatbooking_1.utils.Util
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
 import com.google.protobuf.Value
 
@@ -16,7 +17,7 @@ class AnnouncementRepository {
         get() = _announcementLiveData
 
     init {
-        _announcementLiveData = MutableLiveData()
+        resetLiveData()
     }
 
     fun setAnnouncementLiveData(id: String?) {
@@ -29,7 +30,9 @@ class AnnouncementRepository {
                 }
             }
 
-    //            Util.mDatabase.child("announcements")
+        Log.d("LiveData", _announcementLiveData.value.toString())
+
+        //            Util.mDatabase.child("announcements")
 //                .child(Util.getUID().toString())
 //                .child(id!!)
 //                .addListenerForSingleValueEvent(object: ValueEventListener {
@@ -44,8 +47,6 @@ class AnnouncementRepository {
 //                    }
 //
 //                })
-
-        Log.d("LiveData", _announcementLiveData.value.toString())
     }
 
     fun addAnnouncementToDatabase(new: Announcement) {
@@ -60,9 +61,32 @@ class AnnouncementRepository {
 //    }
 
     fun updateAnnouncementOnDatabase() {
-        val announcementUpdated = _announcementLiveData.value
+        val announcement = _announcementLiveData.value
 
+        Log.d("Firestore", "Pre-updated: ${announcement.toString()}")
         // TODO: Firestore actions to update announcement data
+
+        Util.fDatabase.collection(Util.getUID()!!)
+            .document(announcement!!.id!!)
+            .update(
+                "name", announcement.name,
+                "id", announcement.id,
+                "location", announcement.location,
+                "description", announcement.description,
+                "imageList", announcement.imageList,
+                "services", announcement.services,
+                "available", announcement.available,
+                "boat", announcement.boat
+            )
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d("Firestore", "Updated")
+                } else {
+                    Log.d("Firestore", "Error")
+                }
+
+                resetLiveData()
+            }
 
 //        Util.mDatabase.child("announcements").child(Util.getUID().toString())
 //            .child(announcementUpdated!!.id.toString())
@@ -70,6 +94,14 @@ class AnnouncementRepository {
 //            .addOnSuccessListener {
 //                Log.d("Firebase", "onSuccess: Announcement updated!")
 //            }
+    }
+
+    private fun resetLiveData() {
+        _announcementLiveData = MutableLiveData()
+    }
+
+    fun refreshAnnouncement(announcement: Announcement) {
+        _announcementLiveData.value = announcement
     }
 
     companion object {

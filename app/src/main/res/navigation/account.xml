@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_addAnnouncementFragment_to_userProfile"
             app:destination="@id/userProfile" />
+        <action
+            android:id="@+id/action_addAnnouncementFragment_to_myAnnouncementsFragment"
+            app:destination="@id/myAnnouncementsFragment" />
     </fragment>
     <fragment
         android:id="@+id/myAnnouncementsFragment"
