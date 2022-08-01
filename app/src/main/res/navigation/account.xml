@@ -44,9 +44,11 @@
             android:id="@+id/action_userProfile_to_main_account"
             app:destination="@id/main_account" />
         <action
-            android:id="@+id/action_userProfile_to_addBoatFragment"
-            app:destination="@id/addBoatFragment"
-            />
+            android:id="@+id/action_userProfile_to_myAnnouncementsFragment"
+            app:destination="@id/myAnnouncementsFragment"
+            app:popUpTo="@+id/account"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="true" />
     </fragment>
     <fragment
         android:id="@+id/passwordResetFragment"
@@ -59,26 +61,52 @@
     </fragment>
     <fragment
         android:id="@+id/addBoatFragment"
-        android:name="com.example.boatbooking_1.AddBoatFragment"
+        android:name="com.example.boatbooking_1.ui.AddBoatFragment"
         android:label="fragment_add_boat"
-        tools:layout="@layout/fragment_add_boat" >
-        <action
-            android:id="@+id/action_addBoatFragment_to_userProfile"
-            app:destination="@id/userProfile" />
+        tools:layout="@layout/fragment_add_boat">
         <action
             android:id="@+id/action_addBoatFragment_to_addAnnouncementFragment"
             app:destination="@id/addAnnouncementFragment" />
+        <action
+            android:id="@+id/action_addBoatFragment_to_myAnnouncementsFragment"
+            app:destination="@id/myAnnouncementsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAnnouncementFragment"
-        android:name="com.example.boatbooking_1.AddAnnouncementFragment"
+        android:name="com.example.boatbooking_1.ui.AddAnnouncementFragment"
         android:label="fragment_add_announcement"
-        tools:layout="@layout/fragment_add_announcement" >
+        tools:layout="@layout/fragment_add_announcement">
         <action
             android:id="@+id/action_addAnnouncementFragment_to_addBoatFragment"
             app:destination="@id/addBoatFragment" />
         <action
             android:id="@+id/action_addAnnouncementFragment_to_userProfile"
             app:destination="@id/userProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/myAnnouncementsFragment"
+        android:name="com.example.boatbooking_1.ui.MyAnnouncementsFragment"
+        android:label="fragment_my_announcements"
+        tools:layout="@layout/fragment_my_announcements">
+        <action
+            android:id="@+id/action_myAnnouncementsFragment_to_addBoatFragment"
+            app:destination="@id/addBoatFragment" />
+        <action
+            android:id="@+id/action_myAnnouncementsFragment_to_userProfile"
+            app:destination="@id/userProfile"
+
+            />
+        <action
+            android:id="@+id/action_myAnnouncementsFragment_to_editAnnouncementFragment"
+            app:destination="@id/editAnnouncementFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editAnnouncementFragment"
+        android:name="com.example.boatbooking_1.ui.EditAnnouncementFragment"
+        android:label="fragment_edit_announcement"
+        tools:layout="@layout/fragment_edit_announcement" >
+        <action
+            android:id="@+id/action_editAnnouncementFragment_to_myAnnouncementsFragment"
+            app:destination="@id/myAnnouncementsFragment" />
     </fragment>
 </navigation>

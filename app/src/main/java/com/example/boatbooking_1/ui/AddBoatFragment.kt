@@ -1,4 +1,4 @@
-package com.example.boatbooking_1
+package com.example.boatbooking_1.ui
 
 import android.os.Bundle
 import android.text.Editable
@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentAddBoatBinding
 import com.example.boatbooking_1.model.Boat
 import com.example.boatbooking_1.viewmodel.BoatViewModel
@@ -63,14 +64,14 @@ class AddBoatFragment : Fragment() {
             etModel.setText(boatViewModel.boat!!.model)
             spinnerYear.setSelection(boatViewModel.yearPosition)
             spinnerLength.setSelection(boatViewModel.lengthPosition)
-            sliderPassengers.value = boatViewModel.boat!!.passengers.toFloat()
-            checkBoxLicense.isChecked = boatViewModel.boat!!.license
+            sliderPassengers.value = boatViewModel.boat!!.passengers!!.toFloat()
+            checkBoxLicense.isChecked = boatViewModel.boat!!.license!!
         }
 
         binding.btnBack.setOnClickListener {
             boatViewModel.setBoat(null, 0, 0)
             val action =
-                AddBoatFragmentDirections.actionAddBoatFragmentToUserProfile()
+                AddBoatFragmentDirections.actionAddBoatFragmentToMyAnnouncementsFragment()
             findNavController().navigate(action)
         }
 
@@ -96,8 +97,6 @@ class AddBoatFragment : Fragment() {
     private fun setupForm() {
 //        btnAdd.isEnabled = false
 //        btnAdd.alpha = 0.8f
-
-        var valid = false
 
         val editText = arrayOf(etModel, etBuilder)
         for (et in editText) {

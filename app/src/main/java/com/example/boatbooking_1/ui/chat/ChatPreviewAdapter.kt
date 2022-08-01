@@ -16,7 +16,7 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_preview_message, parent, false)
+            .inflate(R.layout.layout_chat_preview, parent, false)
 
         return MyViewHolder(itemView)
     }
@@ -40,8 +40,8 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvName: TextView = itemView.findViewById(R.id.tv_name)
-        val tvLastMessage: TextView = itemView.findViewById(R.id.tv_last_message)
+        val tvName: TextView = itemView.findViewById(R.id.tv_location)
+        val tvLastMessage: TextView = itemView.findViewById(R.id.tv_name)
     }
 
 }

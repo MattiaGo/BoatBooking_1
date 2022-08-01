@@ -15,7 +15,15 @@ class AnnouncementViewModel : ViewModel() {
         repository.addAnnouncementToDatabase(new)
     }
 
-    fun updateAnnouncement(edit: Announcement) {
-        repository.updateAnnouncementOnDatabase(edit)
+    fun getAnnouncement() : LiveData<Announcement> {
+        return repository.announcementLiveData
+    }
+
+    fun updateAnnouncement() {
+        repository.updateAnnouncementOnDatabase()
+    }
+
+    fun setAnnouncement(id: String?) {
+        repository.setAnnouncementLiveData(id)
     }
 }

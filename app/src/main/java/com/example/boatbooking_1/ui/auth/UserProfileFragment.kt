@@ -1,14 +1,18 @@
 package com.example.boatbooking_1.ui.auth
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -16,15 +20,16 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
 import com.example.boatbooking_1.model.User
 import com.example.boatbooking_1.utils.Util
+import com.example.boatbooking_1.utils.Util.hideKeyboard
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+
 
 private const val ARG_EMAIL = "email"
 private const val ARG_NAME = "name"
@@ -46,8 +51,7 @@ class UserProfileFragment : Fragment() {
     private lateinit var btnAddBoat: Button
     private lateinit var etEmail: TextInputEditText
     private lateinit var etName: TextInputEditText
-    private var isOwner: Boolean = false
-    private var state: Boolean = false
+//    private var isOwner: Boolean = false
 
     private lateinit var observer: Observer<User?>
 
@@ -82,6 +86,7 @@ class UserProfileFragment : Fragment() {
         etEmail = binding.etEmail
         etName = binding.etName
         binding.myBoatBtn.isVisible = false
+        binding.btnSave.visibility = View.INVISIBLE
 
 //        ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application).create(
 //            UserProfileViewModel::class.java
@@ -97,7 +102,7 @@ class UserProfileFragment : Fragment() {
                 binding.etName.setText(name)
                 binding.etEmail.setText(email)
 
-                Log.d("userViewModel", user.toString())
+//                Log.d("userViewModel", user.toString())
 
                 if (user.shipOwner) {
                     binding.profileImage.setImageResource(R.drawable.ic_shipowner)
@@ -110,6 +115,51 @@ class UserProfileFragment : Fragment() {
 //                    sharedPreferencesEdit.putBoolean("owner", false).apply() // Useless
                 }
             }
+
+//        etName.setOnFocusChangeListener { _, hasFocus ->
+//            if (!hasFocus) validateName()
+//        }
+//
+//        etEmail.setOnFocusChangeListener { _, hasFocus ->
+//            if (!hasFocus) validateEmail()
+//        }
+
+        val editText = arrayOf(etName, etEmail)
+        for (et in editText) {
+
+//            val et1 = etName.text.toString().trim()
+//            val et2 = etEmail.text.toString().trim()
+
+            et.addTextChangedListener(object : TextWatcher {
+                override fun onTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                    if (validateName().and(validateEmail()))
+                        binding.btnSave.visibility = View.VISIBLE
+                    else binding.btnSave.visibility = View.INVISIBLE
+
+//                    if (et1.isNotEmpty()) {
+//                        binding.textInputLayoutName.isErrorEnabled = false
+//                    }
+//                    if (et2.isNotEmpty()) {
+//                        binding.textInputLayoutEmail.isErrorEnabled = false
+//                    }
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence, start: Int, count: Int, after: Int
+                ) {
+                }
+
+                override fun afterTextChanged(
+                    s: Editable
+                ) {
+                }
+            })
+        }
 
         userProfileViewModel.getUser().observe(viewLifecycleOwner, observer)
 
@@ -150,7 +200,11 @@ class UserProfileFragment : Fragment() {
             }
             .setPositiveButton("Conferma") { _, _ ->
                 activateOwnerMode()
-                Toast.makeText(context, "Modalità Proprietario attivata con successo!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Modalità Proprietario attivata con successo!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
             .show()
     }
@@ -179,20 +233,52 @@ class UserProfileFragment : Fragment() {
             //val name = binding.etName.text.toString()
             //profileViewModel.edtUsername(name)
             if (user.shipOwner) {
-                val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+                val action =
+                    UserProfileFragmentDirections.actionUserProfileToMyAnnouncementsFragment()
                 findNavController().navigate(action)
             } else {
                 showConfirmDialog()
             }
-
         }
-        /*binding.myBoatBtn.setOnClickListener {
-        val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
-        findNavController().navigate(R.id.account)
-        findNavController().navigate(action)
+
+        binding.btnSave.setOnClickListener {
+            if (validateName().and(validateEmail())) {
+                userProfileViewModel.editName(etName.text.toString())
+                userProfileViewModel.editEmail(etEmail.text.toString(), requireContext())
+                etName.clearFocus()
+                etEmail.clearFocus()
+                hideKeyboard()
+            }
+        }
     }
 
-     */
+    /*binding.myBoatBtn.setOnClickListener {
+    val action = UserProfileFragmentDirections.actionUserProfileToAddBoatFragment()
+    findNavController().navigate(R.id.account)
+    findNavController().navigate(action)
+}
+ */
+
+    private fun validateName(): Boolean {
+        return if (etName.text.toString().trim().isEmpty()) {
+            binding.textInputLayoutName.isErrorEnabled = true
+            binding.textInputLayoutName.error = getString(R.string.required_field)
+            false
+        } else {
+            binding.textInputLayoutName.isErrorEnabled = false
+            true
+        }
+    }
+
+    private fun validateEmail(): Boolean {
+        return if (etEmail.text.toString().trim().isEmpty()) {
+            binding.textInputLayoutEmail.isErrorEnabled = true
+            binding.textInputLayoutEmail.error = getString(R.string.required_field)
+            false
+        } else {
+            binding.textInputLayoutEmail.isErrorEnabled = false
+            true
+        }
     }
 
     private fun signOut() {

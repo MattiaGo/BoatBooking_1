@@ -1,20 +1,23 @@
 package com.example.boatbooking_1.repository
 
+import android.content.Context
 import android.util.Log
-import com.example.boatbooking_1.utils.Util
-import com.example.boatbooking_1.model.User
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
-import com.example.boatbooking_1.interfaces.FirebaseCallBackInterface
-import com.google.firebase.database.ValueEventListener
+import androidx.lifecycle.MutableLiveData
+import com.example.boatbooking_1.model.User
+import com.example.boatbooking_1.ui.auth.LoginFragment.Companion.TAG
+import com.example.boatbooking_1.utils.Util
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import java.util.HashMap
+import com.google.firebase.database.ValueEventListener
 
 
 class UserProfileRepository {
     private var liveData: MutableLiveData<User?>? = null
-    private lateinit var myCallBack: FirebaseCallBackInterface
 
     val user: LiveData<User?>
         get() {
@@ -37,6 +40,79 @@ class UserProfileRepository {
 
             return liveData!!
         }
+
+    fun editEmail(email: String, context: Context) {
+        val user = liveData!!.value
+        val map: MutableMap<String, Any> = HashMap()
+        map["email"] = email
+        val fUser = Util.firebaseAuth.currentUser
+
+        if (email != fUser!!.email) {
+            Util.mDatabase.child("users").child(Util.getUID()!!).updateChildren(map)
+                .addOnSuccessListener {
+                    Log.d("editEmail", "onSuccess: Email updated")
+//                Util.firebaseAuth.currentUser!!.updateEmail(email)
+                    val credential = EmailAuthProvider.getCredential(
+                        fUser.email.toString(),
+                        Util.getStringSharePreferences(context, "password")
+                    )
+                    // Prompt the user to re-provide their sign-in credentials
+                    // Prompt the user to re-provide their sign-in credentials
+                    fUser.reauthenticate(credential)
+                        .addOnCompleteListener {
+                            Log.d("Firebase", "User re-authenticated.")
+                            //Now change your email address \\
+                            //----------------Code for Changing Email Address----------\\
+                            fUser.updateEmail(email)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        user!!.email = email
+                                        liveData!!.value = user
+                                        Log.d("Firebase", "User email address updated.")
+                                    }
+                                }
+                            //----------------------------------------------------------\\
+                        }
+                }
+                .addOnFailureListener {
+                    Log.d("editEmail", "onFailure: $it")
+
+                }
+        }
+    }
+
+    private fun updateChatPreview() {
+        val map: MutableMap<String, Any> = HashMap()
+        map["user"] = liveData!!.value!!
+        val uid = Util.firebaseAuth.currentUser!!.uid
+        val keyList = mutableListOf<String>()
+//        Log.d("key", Util.mDatabase.child("chats").child(Util.getUID()!!).key.toString())
+
+        val query = Util.mDatabase.child("chats").get()
+
+        query.addOnSuccessListener { dataSnapshot ->
+//            Log.d("keyList", dataSnapshot.hasChildren().toString())
+
+            for (snapshot in dataSnapshot.children) {
+//                Log.d("keyList", snapshot.key.toString())
+                keyList.add(snapshot.key.toString())
+            }
+
+            for (key in keyList) {
+                if (key != uid) {
+                    Util.mDatabase.child("chats/${key}/${uid}").updateChildren(map)
+                        .addOnSuccessListener {
+                            Log.d("updateChatPreview", "onSuccess: ChatPreview updated")
+                        }
+                }
+            }
+        }
+
+//        Util.mDatabase.child("chats").child(Util.getUID()!!).child()
+//            .addOnSuccessListener {
+//                Log.d("updateChatPreview", "onSuccess: ChatPreview updated")
+//            }
+    }
 
     fun editImage(uri: String) {
         val userModel = liveData!!.value
@@ -104,6 +180,7 @@ class UserProfileRepository {
                     userModel!!.name = name
                     liveData!!.value = userModel
                     Log.d("name", "onComplete: Name Updated")
+                    updateChatPreview()
                 } else Log.d("name", "onComplete:" + task.exception)
             }
     }

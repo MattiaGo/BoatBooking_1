@@ -1,54 +1,74 @@
 package com.example.boatbooking_1.repository
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.boatbooking_1.model.Announcement
+import com.example.boatbooking_1.model.MyMessage
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.database.*
+import com.google.protobuf.Value
 
 class AnnouncementRepository {
-    private val _announcementList = ArrayList<Announcement>()
-    private var _announcementLiveData = MutableLiveData<List<Announcement>>()
-    val announcementLiveData: LiveData<List<Announcement>>
+    private var _announcementLiveData = MutableLiveData<Announcement>()
+    val announcementLiveData: LiveData<Announcement>
         get() = _announcementLiveData
 
     init {
-        Util.mDatabase.child("announcements")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (snapshot in dataSnapshot.children) {
-                        val announcement = snapshot.getValue(
-                            Announcement::class.java
-                        )
-                        _announcementList.add(announcement!!)
-                    }
-                    _announcementLiveData.value = _announcementList
-                }
+        _announcementLiveData = MutableLiveData()
+    }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.d("Firebase", databaseError.toString())
+    fun setAnnouncementLiveData(id: String?) {
+        Util.fDatabase.collection(Util.getUID()!!).whereEqualTo("id", id).get()
+            .addOnSuccessListener { documentSnapshot ->
+                for (document in documentSnapshot) {
+                    val announcement = document.toObject(Announcement::class.java)
+                    _announcementLiveData.value = announcement
+//                    Log.d("Firestore", announcement.toString())
                 }
-            })
+            }
+
+    //            Util.mDatabase.child("announcements")
+//                .child(Util.getUID().toString())
+//                .child(id!!)
+//                .addListenerForSingleValueEvent(object: ValueEventListener {
+//                    override fun onDataChange(snapshot: DataSnapshot) {
+//                        val announcement = snapshot.getValue(Announcement::class.java)
+//                        _announcementLiveData.value = announcement
+//                        Log.d("Firebase", announcement.toString())
+//                    }
+//
+//                    override fun onCancelled(error: DatabaseError) {
+//                        TODO("Not yet implemented")
+//                    }
+//
+//                })
+
+        Log.d("LiveData", _announcementLiveData.value.toString())
     }
 
     fun addAnnouncementToDatabase(new: Announcement) {
-        Util.mDatabase.child("announcements").child(Util.getUID().toString()).push()
-            .setValue(new).addOnSuccessListener {
-                updateMutableLiveData(new)
-            }
-
-    }
-
-    private fun updateMutableLiveData(new: Announcement) {
-        _announcementList.add(new)
-        _announcementLiveData.value = _announcementList
-    }
-
-    fun updateAnnouncementOnDatabase(edit: Announcement) {
 //        Util.mDatabase.child("announcements").child(Util.getUID().toString())
-//            .setValue(edit).addOnSuccessListener {
-//                Log.i("Firebase", "Announcement updated!")
+//            .child(new.id.toString())
+//            .setValue(new).addOnSuccessListener {
+//                Log.d("Firebase", "onSuccess: Announcement added!")
+//            }
+    }
+
+//    private fun updateMutableLiveData(new: Announcement) {
+//    }
+
+    fun updateAnnouncementOnDatabase() {
+        val announcementUpdated = _announcementLiveData.value
+
+        // TODO: Firestore actions to update announcement data
+
+//        Util.mDatabase.child("announcements").child(Util.getUID().toString())
+//            .child(announcementUpdated!!.id.toString())
+//            .setValue(announcementUpdated)
+//            .addOnSuccessListener {
+//                Log.d("Firebase", "onSuccess: Announcement updated!")
 //            }
     }
 

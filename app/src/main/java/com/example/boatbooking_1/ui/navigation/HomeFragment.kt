@@ -58,13 +58,12 @@ class HomeFragment : Fragment() {
         }
 
         // Test
-        //storeFakeDataToDatabase()
+//        storeFakeDataToDatabase()
 
         return inflater.inflate(R.layout.fragment_home, container, false)
 
     }
 
-    /*
     private fun storeFakeDataToDatabase() {
         Util.mDatabase.child("chats").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
             .child("LD3qWBHBFmWVN87S1r9reBgGx6H3")
@@ -78,6 +77,21 @@ class HomeFragment : Fragment() {
                         "",
                         false
                     ), "Ciao!", timestamp = Timestamp.now().seconds
+                )
+            )
+
+        Util.mDatabase.child("chats").child("2PH1sbnjT4e1RkI0TYD6X1e1nD72")
+            .child("5bovw1afTudSfM1KPbUTANvbFxw2")
+            .setValue(
+                ChatPreview(
+                    user = User(
+                        "Test",
+                        "",
+                        "5bovw1afTudSfM1KPbUTANvbFxw2",
+                        "Brescia",
+                        "",
+                        false
+                    ), "Hola!", timestamp = Timestamp.now().seconds
                 )
             )
 
@@ -104,7 +118,7 @@ class HomeFragment : Fragment() {
                     "2PH1sbnjT4e1RkI0TYD6X1e1nD72",
                     "Brescia",
                     "",
-                    isShipOwner = true
+                    true
                 )
             )
 
@@ -140,6 +154,4 @@ class HomeFragment : Fragment() {
                 }
             }
     }
-
-     */
 }

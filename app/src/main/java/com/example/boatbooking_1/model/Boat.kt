@@ -4,28 +4,21 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Boat(
-    private var _builder: String? = null,
-    private var _model: String? = null,
-    private var _year: Int? = null,
-    private var _length: Int? = null,
-    private var _passengers: Int? = null,
-    private var _license: Boolean? = null,
+    var builder: String? = null,
+    var model: String? = null,
+    var year: Int? = null,
+    var length: Int? = null,
+    var passengers: Int? = null,
+    var license: Boolean? = null,
 ) : Parcelable {
 
-    val builder: String get() = _builder.toString()
-    val model: String get() = _model.toString()
-    val year: Int get() = _year.toString().toInt()
-    val length: Int get() = _length.toString().toInt()
-    val passengers: Int get() = _passengers.toString().toInt()
-    val license: Boolean get() = _license.toString().toBooleanStrictOrNull() == true
-
     constructor(parcel: Parcel) : this() {
-        _builder = parcel.readString()
-        _model = parcel.readString()
-        _year = parcel.readValue(Int::class.java.classLoader) as? Int
-        _length = parcel.readValue(Int::class.java.classLoader) as? Int
-        _passengers = parcel.readValue(Int::class.java.classLoader) as? Int
-        _license = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        builder = parcel.readString()
+        model = parcel.readString()
+        year = parcel.readValue(Int::class.java.classLoader) as? Int
+        length = parcel.readValue(Int::class.java.classLoader) as? Int
+        passengers = parcel.readValue(Int::class.java.classLoader) as? Int
+        license = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
     }
 
 
@@ -49,12 +42,12 @@ class Boat(
 //    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(_builder)
-        parcel.writeString(_model)
-        parcel.writeValue(_year)
-        parcel.writeValue(_length)
-        parcel.writeValue(_passengers)
-        parcel.writeValue(_license)
+        parcel.writeString(builder)
+        parcel.writeString(model)
+        parcel.writeValue(year)
+        parcel.writeValue(length)
+        parcel.writeValue(passengers)
+        parcel.writeValue(license)
     }
 
     override fun describeContents(): Int {
@@ -72,12 +65,12 @@ class Boat(
     }
 
     override fun toString(): String {
-        return "${_builder.toString()}\n" +
-                "${_model.toString()}\n" +
-                "${_year.toString()}\n" +
-                "${_length.toString()}\n" +
-                "${_passengers.toString()}\n" +
-                "${_license.toString()}"
+        return "${builder.toString()}\n" +
+                "${model.toString()}\n" +
+                "${year.toString()}\n" +
+                "${length.toString()}\n" +
+                "${passengers.toString()}\n" +
+                "${license.toString()}\n"
 
     }
 }
