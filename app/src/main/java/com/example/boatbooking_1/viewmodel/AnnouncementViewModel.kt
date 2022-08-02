@@ -30,4 +30,5 @@ class AnnouncementViewModel : ViewModel() {
     fun refreshAnnouncement(announcement: Announcement) {
         repository.refreshAnnouncement(announcement)
     }
+
 }

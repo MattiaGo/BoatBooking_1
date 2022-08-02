@@ -30,13 +30,21 @@ private const val ARG_PARAM2 = "param2"
  */
 class AddBoatFragment : Fragment() {
     private lateinit var binding: FragmentAddBoatBinding
-    private lateinit var etBuilder: TextInputEditText
+    private lateinit var etBoatName: TextInputEditText
     private lateinit var etModel: TextInputEditText
+    private lateinit var etBuilder: TextInputEditText
     private lateinit var spinnerYear: Spinner
     private lateinit var spinnerLength: Spinner
+    private lateinit var sliderYear: Slider
+    private lateinit var sliderLength: Slider
     private lateinit var sliderPassengers: Slider
+    private lateinit var sliderBeds: Slider
+    private lateinit var sliderCabins: Slider
+    private lateinit var sliderBathrooms: Slider
+
+
+
     private lateinit var checkBoxLicense: CheckBox
-    private lateinit var btnAdd: Button
 
     private val boatViewModel: BoatViewModel by activityViewModels()
 
@@ -51,28 +59,31 @@ class AddBoatFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = FragmentAddBoatBinding.inflate(inflater, container, false)
-        etBuilder = binding.etBuilder
+
+        etBoatName = binding.etBoatName
         etModel = binding.etModel
-        spinnerYear = binding.spinnerYear
-        spinnerLength = binding.spinnerLength
+        etBuilder = binding.etBuilder
+        sliderYear = binding.sliderYear//spinnerYear = binding.spinnerYear
+        sliderLength = binding.sliderLength//spinnerLength = binding.spinnerLength
         sliderPassengers = binding.sliderMaxPassengers
-        checkBoxLicense = binding.checkBoxLicense
-        btnAdd = binding.btnAdd
+        sliderBeds = binding.sliderBeds
+        sliderCabins = binding.sliderCabins
+        sliderBathrooms = binding.sliderBathroom
+        //checkBoxLicense = binding.checkBoxLicense
 
         if (boatViewModel.boat != null) {
-            etBuilder.setText(boatViewModel.boat!!.builder)
+            etBoatName.setText(boatViewModel.boat!!.name)
             etModel.setText(boatViewModel.boat!!.model)
-            spinnerYear.setSelection(boatViewModel.yearPosition)
-            spinnerLength.setSelection(boatViewModel.lengthPosition)
-            sliderPassengers.value = boatViewModel.boat!!.passengers!!.toFloat()
-            checkBoxLicense.isChecked = boatViewModel.boat!!.license!!
-        }
+            etBuilder.setText(boatViewModel.boat!!.builder)
+            sliderYear.value = boatViewModel.boat!!.year!!.toFloat()                //binding.spinnerYear.setSelection(boatViewModel.yearPosition)
+            sliderLength.value = boatViewModel.boat!!.length!!.toFloat()            //binding.spinnerLength.setSelection(boatViewModel.lengthPosition)
+            sliderPassengers.value = boatViewModel.boat!!.passengers!!.toFloat()    //binding.sliderMaxPassengers.value = boatViewModel.boat!!.passengers!!.toFloat()
+            sliderBeds.value = boatViewModel.boat!!.beds!!.toFloat()
+            sliderCabins.value = boatViewModel.boat!!.cabins!!.toFloat()
+            sliderBathrooms.value = boatViewModel.boat!!.bathrooms!!.toFloat()
 
-        binding.btnBack.setOnClickListener {
-            boatViewModel.setBoat(null, 0, 0)
-            val action =
-                AddBoatFragmentDirections.actionAddBoatFragmentToMyAnnouncementsFragment()
-            findNavController().navigate(action)
+            //binding.checkBoxLicense.isChecked = boatViewModel.boat!!.license!!
+
         }
 
 //        if (validateBuilder() && validateModel()) {
@@ -92,17 +103,24 @@ class AddBoatFragment : Fragment() {
 //            Toast.makeText(context, "CLICK!", Toast.LENGTH_SHORT).show()
 //            // TODO: Firestore Database actions
 //        }
+        binding.backBtn.setOnClickListener {
+            //boatViewModel.setBoat(null, 0, 0)
+            boatViewModel.setBoat(null)
+            val action = AddBoatFragmentDirections.actionAddBoatFragmentToMyAnnouncementsFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun setupForm() {
 //        btnAdd.isEnabled = false
 //        btnAdd.alpha = 0.8f
 
-        val editText = arrayOf(etModel, etBuilder)
+        val editText = arrayOf(etModel, etBoatName,etBuilder)
         for (et in editText) {
 
-            val et1 = etBuilder.text.toString().trim()
+            val et1 = etBoatName.text.toString().trim()
             val et2 = etModel.text.toString().trim()
+            val et3 = etBuilder.text.toString().trim()
 
             et.addTextChangedListener(object : TextWatcher {
                 override fun onTextChanged(
@@ -111,8 +129,9 @@ class AddBoatFragment : Fragment() {
                     before: Int,
                     count: Int
                 ) {
-                    if (et1.isNotEmpty()) binding.textInputLayoutBuilder.isErrorEnabled = false
+                    if (et1.isNotEmpty()) binding.textInputLayoutBoatName.isErrorEnabled = false
                     if (et2.isNotEmpty()) binding.textInputLayoutModel.isErrorEnabled = false
+                    if (et3.isNotEmpty()) binding.textInputLayoutBuilder.isErrorEnabled = false
                 }
 
                 override fun beforeTextChanged(
@@ -127,21 +146,32 @@ class AddBoatFragment : Fragment() {
             })
         }
 
-        btnAdd.setOnClickListener {
-            if (validateModel().and(validateBuilder())) {
+        binding.goOnBtn.setOnClickListener {
+            if (validateModel().and(validateBoatName()).and(validateBuilder())) {
                 val boat = Boat(
-                    etBuilder.text.toString(),
-                    etModel.text.toString(),
-                    spinnerYear.selectedItem.toString().toInt(),
-                    spinnerLength.selectedItem.toString().toInt(),
-                    sliderPassengers.value.toInt(),
-                    checkBoxLicense.isChecked
+                    name = etBoatName.text.toString(),
+                    model = etModel.text.toString(),
+                    builder = etBuilder.text.toString(),
+                    year = sliderYear.value.toInt(),
+                    length = sliderLength.value.toInt(),
+                    passengers = sliderPassengers.value.toInt(),
+                    beds = sliderBeds.value.toInt(),
+                    cabins = sliderCabins.value.toInt(),
+                    bathrooms = sliderBathrooms.value.toInt()
+
+
+
+                    //spinnerYear.selectedItem.toString().toInt(),
+                    //spinnerLength.selectedItem.toString().toInt(),
+                    //checkBoxLicense.isChecked
                 )
 
-                val yearPosition = spinnerYear.selectedItemPosition
-                val lengthPosition = spinnerLength.selectedItemPosition
+                //val yearPosition = spinnerYear.selectedItemPosition
+                //val lengthPosition = spinnerLength.selectedItemPosition
 
-                boatViewModel.setBoat(boat, yearPosition, lengthPosition)
+                //boatViewModel.setBoat(boat, yearPosition, lengthPosition)
+
+                boatViewModel.setBoat(boat)
 
                 // Not necessary
 //                val bundle = Bundle()
@@ -167,14 +197,14 @@ class AddBoatFragment : Fragment() {
 //        }
 //    }
 
-    private fun validateBuilder(): Boolean {
-        return if (etBuilder.text.toString().trim().isEmpty()) {
-            binding.textInputLayoutBuilder.isErrorEnabled = true
-            binding.textInputLayoutBuilder.error = getString(R.string.required_field)
-            etBuilder.requestFocus()
+    private fun validateBoatName(): Boolean {
+        return if (etBoatName.text.toString().trim().isEmpty()) {
+            binding.textInputLayoutBoatName.isErrorEnabled = true
+            binding.textInputLayoutBoatName.error = getString(R.string.required_field)
+            etBoatName.requestFocus()
             false
         } else {
-            binding.textInputLayoutBuilder.isErrorEnabled = false
+            binding.textInputLayoutBoatName.isErrorEnabled = false
             true
         }
     }
@@ -187,6 +217,18 @@ class AddBoatFragment : Fragment() {
             false
         } else {
             binding.textInputLayoutModel.isErrorEnabled = false
+            true
+        }
+    }
+
+    private fun validateBuilder(): Boolean {
+        return if (etBuilder.text.toString().trim().isEmpty()) {
+            binding.textInputLayoutBuilder.isErrorEnabled = true
+            binding.textInputLayoutBuilder.error = getString(R.string.required_field)
+            etBuilder.requestFocus()
+            false
+        } else {
+            binding.textInputLayoutBuilder.isErrorEnabled = false
             true
         }
     }

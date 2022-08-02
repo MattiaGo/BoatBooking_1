@@ -118,5 +118,44 @@
     <string name="required_field">Campo obbligatorio!</string>
     <string name="location">Posizione</string>
     <string name="my_boats">Le mie barche</string>
+    <string name="e_mail">E-mail</string>
+    <string name="salva_modifiche">Salva modifiche</string>
+    <string name="add_boat">Aggiungi una barca</string>
+    <string name="main_boat_info">Informazioni principali</string>
+    <string name="builder">Costruttore</string>
+    <string name="boatName">Nome della barca</string>
+    <string name="lenght">Lunghezza (m)</string>
+    <string name="other_info_boat">Ulteriori informazioni</string>
 
+
+    <string-array name="cabins_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="bathroom_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>Italiano</item>
+        <item>English</item>
+    </string-array>
 </resources>

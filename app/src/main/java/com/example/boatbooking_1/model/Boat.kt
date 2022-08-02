@@ -4,21 +4,29 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Boat(
-    var builder: String? = null,
+    var name: String? = null,
     var model: String? = null,
+    var builder: String? = null,
     var year: Int? = null,
     var length: Int? = null,
     var passengers: Int? = null,
-    var license: Boolean? = null,
+    var beds: Int? = null,
+    var cabins: Int? = null,
+    var bathrooms: Int? = null,
+    //var license: Boolean? = null,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this() {
-        builder = parcel.readString()
+        name = parcel.readString()
         model = parcel.readString()
+        builder = parcel.readString()
         year = parcel.readValue(Int::class.java.classLoader) as? Int
         length = parcel.readValue(Int::class.java.classLoader) as? Int
         passengers = parcel.readValue(Int::class.java.classLoader) as? Int
-        license = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        beds = parcel.readValue(Int::class.java.classLoader) as? Int
+        cabins = parcel.readValue(Int::class.java.classLoader) as? Int
+        bathrooms = parcel.readValue(Int::class.java.classLoader) as? Int
+        //license = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
     }
 
 
@@ -42,12 +50,16 @@ class Boat(
 //    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(builder)
+        parcel.writeString(name)
         parcel.writeString(model)
+        parcel.writeString(builder)
         parcel.writeValue(year)
         parcel.writeValue(length)
         parcel.writeValue(passengers)
-        parcel.writeValue(license)
+        parcel.writeValue(beds)
+        parcel.writeValue(cabins)
+        parcel.writeValue(bathrooms)
+        //parcel.writeValue(license)
     }
 
     override fun describeContents(): Int {
@@ -65,12 +77,14 @@ class Boat(
     }
 
     override fun toString(): String {
-        return "${builder.toString()}\n" +
+        return "${name.toString()}\n"
                 "${model.toString()}\n" +
+                "${builder.toString()}\n" +
                 "${year.toString()}\n" +
                 "${length.toString()}\n" +
-                "${passengers.toString()}\n" +
-                "${license.toString()}\n"
-
+                        "${beds.toString()}\n" +
+                        "${cabins.toString()}\n" +
+                        "${bathrooms.toString()}\n"
+                        //"${license.toString()}\n"
     }
 }

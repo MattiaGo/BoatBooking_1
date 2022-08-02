@@ -15,10 +15,10 @@ class BoatViewModel() : ViewModel() {
     val lengthPosition: Int
         get() = _lengthPosition
 
-    fun setBoat(boat: Boat?, yearPos: Int, lengthPos: Int) {
+    fun setBoat(boat: Boat?){ //, yearPos: Int, lengthPos: Int) {
         _boat = boat
-        saveYearSpinnerPosition(yearPos)
-        saveLengthSpinnerPosition(lengthPos)
+        //saveYearSpinnerPosition(yearPos)
+        //saveLengthSpinnerPosition(lengthPos)
     }
 
     private fun saveYearSpinnerPosition(pos: Int) {

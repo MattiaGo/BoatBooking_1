@@ -1,15 +1,14 @@
 package com.example.boatbooking_1.ui
 
 import android.app.Activity
-import android.app.Service
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -46,8 +45,9 @@ class AddAnnouncementFragment : Fragment() {
 
     private lateinit var binding: FragmentAddAnnouncementBinding
     private lateinit var btnSave: Button
-    private lateinit var etName: TextInputEditText
     private lateinit var etPort: TextInputEditText
+    private lateinit var checkBoxLicense: CheckBox
+    private lateinit var checkBoxCaptain: CheckBox
     private lateinit var etDescription: TextInputEditText
     private lateinit var rvImages: RecyclerView
     private lateinit var rvServices: RecyclerView
@@ -120,8 +120,9 @@ class AddAnnouncementFragment : Fragment() {
     ): View? {
         binding = FragmentAddAnnouncementBinding.inflate(inflater, container, false)
         btnSave = binding.btnSave
-        etName = binding.etName
         etPort = binding.etPort
+        checkBoxLicense = binding.checkBoxLicense
+        checkBoxCaptain = binding.checkBoxCaptainNeeded
         rvImages = binding.rvImages
         rvServices = binding.rvServices
         etDescription = binding.etDescription
@@ -147,27 +148,29 @@ class AddAnnouncementFragment : Fragment() {
             serviceAdapter.notifyDataSetChanged()
         }
 
-        binding.btnBack.setOnClickListener {
+        binding.backBtn.setOnClickListener {
             val action =
                 AddAnnouncementFragmentDirections.actionAddAnnouncementFragmentToAddBoatFragment()
             findNavController().navigate(action)
         }
 
         btnSave.setOnClickListener {
-            if (validatePort().and(validateName())) {
+            if (validatePort()) {
                 // Announcement ID
                 val id = Util.getUID().plus("@${Timestamp.now().seconds}")
 //                val id = Util.getUID()
 
                 val announcement = Announcement(
-                    boatViewModel.boat!!,
-                    etName.text.toString(),
-                    id,
-                    etPort.text.toString(),
-                    "Description",
-                    arrayListOf(),
-                    arrayListOf(),
-                    true
+                    id = id,
+                    announce_name = boatViewModel.boat!!.name.toString(),
+                    boat = boatViewModel.boat!!,
+                    capt_needed = checkBoxCaptain.isChecked,
+                    licence_needed = checkBoxLicense.isChecked,
+                    location = etPort.text.toString(),
+                    description = "Description",
+                    services = arrayListOf(),
+                    imageList =arrayListOf(),
+                    available = true
                 )
 
 //                val boatDocument = hashMapOf(
@@ -242,18 +245,6 @@ class AddAnnouncementFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun validateName(): Boolean {
-        return if (etName.text.toString().trim().isEmpty()) {
-            binding.textInputLayoutName.isErrorEnabled = true
-            binding.textInputLayoutName.error = getString(R.string.required_field)
-            etName.requestFocus()
-            false
-        } else {
-            binding.textInputLayoutName.isErrorEnabled = false
-            true
-        }
     }
 
     private fun validatePort(): Boolean {

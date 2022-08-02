@@ -69,14 +69,16 @@ class AnnouncementRepository {
         Util.fDatabase.collection(Util.getUID()!!)
             .document(announcement!!.id!!)
             .update(
-                "name", announcement.name,
                 "id", announcement.id,
+                "announce_name", announcement.announce_name,
+                "boat", announcement.boat,
+                "capt_needed", announcement.capt_needed,
+                "licence_needed", announcement.licence_needed,
                 "location", announcement.location,
                 "description", announcement.description,
                 "imageList", announcement.imageList,
                 "services", announcement.services,
                 "available", announcement.available,
-                "boat", announcement.boat
             )
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -102,6 +104,22 @@ class AnnouncementRepository {
 
     fun refreshAnnouncement(announcement: Announcement) {
         _announcementLiveData.value = announcement
+    }
+
+    fun changeAvailability(available: Boolean,id: String){
+        Util.fDatabase.collection(Util.getUID()!!)
+            .document(id!!)
+            .update(
+                "available", available,
+            )
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Log.d("Firestore", "Updated")
+                } else {
+                    Log.d("Firestore", "Error")
+                }
+                resetLiveData()
+            }
     }
 
     companion object {

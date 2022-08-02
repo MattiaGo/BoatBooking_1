@@ -52,7 +52,7 @@ class EditAnnouncementFragment : Fragment() {
         binding = FragmentEditAnnouncementBinding.inflate(inflater, container, false)
 //        return inflater.inflate(R.layout.fragment_edit_announcement, container, false)
 
-        binding.btnBack.setOnClickListener {
+        binding.backBtn.setOnClickListener {
             val action = EditAnnouncementFragmentDirections.actionEditAnnouncementFragmentToMyAnnouncementsFragment()
             findNavController().navigate(action)
         }
@@ -64,16 +64,30 @@ class EditAnnouncementFragment : Fragment() {
 //        Log.d("announcementViewModel", announcementViewModel.announcement().toString())
 
         observer = Observer<Announcement> { announcement ->
-            binding.etName.setText(announcement.name.toString())
-            binding.etBuilder.setText(announcement.boat?.builder.toString())
+            binding.titleBoat.setText(announcement.boat?.name.toString())
+            binding.etBoatName.setText(announcement.boat?.name.toString())
             binding.etModel.setText(announcement.boat?.model.toString())
-            binding.etPort.setText(announcement.location.toString())
-            binding.checkBoxLicense.isChecked = announcement.boat?.license!!
+            binding.etBuilder.setText(announcement.boat?.builder.toString())
+            binding.sliderYear.value = announcement.boat?.year!!.toFloat()
+            binding.sliderLength.value = announcement.boat?.length!!.toFloat()
             binding.sliderMaxPassengers.value = announcement.boat?.passengers!!.toFloat()
+            binding.sliderBeds.value = announcement.boat?.beds!!.toFloat()
+            binding.sliderCabins.value = announcement.boat?.cabins!!.toFloat()
+            binding.sliderBathroom.value = announcement.boat?.bathrooms!!.toFloat()
+
+            binding.etPort.setText(announcement.location.toString())
+            binding.checkBoxLicense.isChecked = announcement.licence_needed!!
+            binding.checkBoxCaptainNeeded.isChecked = announcement.capt_needed!!
+
+            //TODO: immagini e servizi
+
+
+
             binding.etDescription.setText(announcement.description.toString())
 
-            val yearSpinner = binding.spinnerYear
-            val lengthSpinner = binding.spinnerLength
+
+            /*val yearSpinner = binding.sliderYear
+            val lengthSpinner = binding.sliderLength
 
             val yearsArray = resources.getStringArray(R.array.years_array)
             val lengthsArray = resources.getStringArray(R.array.lengths_array)
@@ -86,30 +100,35 @@ class EditAnnouncementFragment : Fragment() {
             lengthsArray.forEachIndexed { index, s ->
                 if (s.equals(announcement.boat?.length.toString()))
                     lengthSpinner.setSelection(index)
-            }
+            }*/
         }
 
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
 
-        binding.btnEdit.setOnClickListener {
+        binding.editBtn.setOnClickListener {
             val boat = Boat(
-                binding.etBuilder.text.toString(),
-                binding.etModel.text.toString(),
-                binding.spinnerYear.selectedItem.toString().toInt(),
-                binding.spinnerLength.selectedItem.toString().toInt(),
-                binding.sliderMaxPassengers.value.toInt(),
-                binding.checkBoxLicense.isChecked
+                name= binding.etBoatName.text.toString(),
+                model = binding.etModel.text.toString(),
+                builder = binding.etBuilder.text.toString(),
+                year = binding.sliderYear.value.toInt(),
+                length = binding.sliderLength.value.toInt(),
+                passengers = binding.sliderMaxPassengers.value.toInt(),
+                beds = binding.sliderBeds.value.toInt(),
+                cabins =  binding.sliderCabins.value.toInt(),
+                bathrooms =  binding.sliderBathroom.value.toInt()
             )
 
             val announcement = Announcement(
-                boat,
-                binding.etName.text.toString(),
-                announcementViewModel.getAnnouncement().value!!.id,
-                binding.etPort.text.toString(),
-                binding.etDescription.text.toString(),
-                arrayListOf(),
-                arrayListOf(),
-                true
+                id= announcementViewModel.getAnnouncement().value!!.id,
+                announce_name = binding.etBoatName.text.toString(),
+                boat = boat,
+                capt_needed = binding.checkBoxCaptainNeeded.isChecked,
+                licence_needed = binding.checkBoxLicense.isChecked,
+                location = binding.etPort.text.toString(),
+                description = binding.etDescription.text.toString(),
+                services = arrayListOf(),
+                imageList = arrayListOf(),
+                available = true
             )
 
             announcementViewModel.refreshAnnouncement(announcement)

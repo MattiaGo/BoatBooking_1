@@ -80,9 +80,6 @@
             android:id="@+id/action_addAnnouncementFragment_to_addBoatFragment"
             app:destination="@id/addBoatFragment" />
         <action
-            android:id="@+id/action_addAnnouncementFragment_to_userProfile"
-            app:destination="@id/userProfile" />
-        <action
             android:id="@+id/action_addAnnouncementFragment_to_myAnnouncementsFragment"
             app:destination="@id/myAnnouncementsFragment" />
     </fragment>
@@ -96,12 +93,14 @@
             app:destination="@id/addBoatFragment" />
         <action
             android:id="@+id/action_myAnnouncementsFragment_to_userProfile"
-            app:destination="@id/userProfile"
-
-            />
+            app:destination="@id/userProfile" />
         <action
             android:id="@+id/action_myAnnouncementsFragment_to_editAnnouncementFragment"
             app:destination="@id/editAnnouncementFragment" />
+        <argument
+            android:name="isShipOwner"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/editAnnouncementFragment"

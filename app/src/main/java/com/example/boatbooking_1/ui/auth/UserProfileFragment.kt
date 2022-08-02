@@ -51,6 +51,7 @@ class UserProfileFragment : Fragment() {
     private lateinit var btnAddBoat: Button
     private lateinit var etEmail: TextInputEditText
     private lateinit var etName: TextInputEditText
+
 //    private var isOwner: Boolean = false
 
     private lateinit var observer: Observer<User?>
@@ -86,7 +87,7 @@ class UserProfileFragment : Fragment() {
         etEmail = binding.etEmail
         etName = binding.etName
         binding.myBoatBtn.isVisible = false
-        binding.btnSave.visibility = View.INVISIBLE
+        binding.btnSave.visibility = View.GONE
 
 //        ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application).create(
 //            UserProfileViewModel::class.java
@@ -104,6 +105,7 @@ class UserProfileFragment : Fragment() {
 
 //                Log.d("userViewModel", user.toString())
 
+
                 if (user.shipOwner) {
                     binding.profileImage.setImageResource(R.drawable.ic_shipowner)
                     binding.myBoatBtn.text = getString(R.string.my_boats)
@@ -114,6 +116,8 @@ class UserProfileFragment : Fragment() {
                     binding.myBoatBtn.isVisible = true
 //                    sharedPreferencesEdit.putBoolean("owner", false).apply() // Useless
                 }
+
+
             }
 
 //        etName.setOnFocusChangeListener { _, hasFocus ->
@@ -137,9 +141,9 @@ class UserProfileFragment : Fragment() {
                     before: Int,
                     count: Int
                 ) {
-                    if (validateName().and(validateEmail()))
+                    if (validateName() && validateEmail()) //&& (etName.text.toString() != user.name.toString() || etEmail.text.toString() != user.email.toString()))
                         binding.btnSave.visibility = View.VISIBLE
-                    else binding.btnSave.visibility = View.INVISIBLE
+                    //else binding.btnSave.visibility = View.INVISIBLE
 
 //                    if (et1.isNotEmpty()) {
 //                        binding.textInputLayoutName.isErrorEnabled = false

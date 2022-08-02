@@ -4,43 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.AddBoatFragment">
+    android:background="@color/light_grey"
+    tools:context="ui.AddBoatFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/title_bar_background"
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/btn_back"
+                android:id="@+id/backBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:background="@drawable/back_btn"
                 android:contentDescription="@string/backBtn"
-                android:minWidth="52dp"
-                android:minHeight="52dp"
-                android:padding="0dp"
-                android:src="@drawable/ic_arrow_back" />
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:src="@drawable/ic_back" />
 
             <TextView
-                android:layout_width="303dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:text="Aggiungi barca"
-                android:textAllCaps="true"
+                android:layout_marginStart="25dp"
+                android:text="@string/main_boat_info"
                 android:textColor="@color/navy_blue"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <ScrollView
@@ -48,48 +46,64 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/form_background"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:paddingTop="10dp">
+
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_input_layout_builder"
+                    android:id="@+id/text_input_layout_boatName"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:autofillHints=""
-                    android:hint="Costruttore"
+                    android:hint="@string/boatName"
                     android:textColorHint="@color/colorHint"
-                    app:errorEnabled="true"
-                    >
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_builder"
+                        android:id="@+id/et_boatName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:background="@drawable/input_shape" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_input_layout_model"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_height="70dp"
                     android:autofillHints=""
                     android:hint="Modello"
                     android:inputType="text"
                     android:textColorHint="@color/colorHint"
-                    app:errorEnabled="true"
-                    >
+                    app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_model"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/input_shape" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_input_layout_builder"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:autofillHints=""
+                    android:hint="Costruttore"
+                    android:textColorHint="@color/colorHint"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_builder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/input_shape" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,51 +111,109 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:gravity="center_horizontal"
                         android:text="Anno"
-                        android:textSize="15sp" />
+                        android:textSize="16sp" />
 
-                    <Spinner
-                        android:id="@+id/spinner_year"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_year"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:dropDownWidth="100dp"
-                        android:entries="@array/years_array"
-                        android:gravity="center"
-                        android:minHeight="40dp" />
+                        android:contentDescription="Anno"
+                        android:stepSize="1"
+                        android:valueFrom="1970"
+                        android:value="1970"
+                        android:valueTo="2023"
+                        app:labelBehavior="floating"
+                        app:labelStyle="@style/SliderTooltip" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_marginStart="10dp"
-                        android:gravity="center_horizontal"
                         android:text="Lunghezza (m)"
-                        android:textSize="15sp" />
+                        android:textSize="16sp" />
 
-                    <Spinner
-                        android:id="@+id/spinner_length"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_length"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:dropDownWidth="100dp"
-                        android:entries="@array/lengths_array"
-                        android:gravity="center"
-                        android:minHeight="40dp" />
-
+                        android:contentDescription="Lunghezza"
+                        android:stepSize="0.5"
+                        android:valueFrom="2"
+                        android:value="2"
+                        android:valueTo="40"
+                        app:labelBehavior="floating"
+                        app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:text="Passeggeri"
+                        android:textSize="16sp" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_max_passengers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="passeggeri"
+                        android:stepSize="1"
+                        android:valueFrom="1"
+                        android:valueTo="20"
+                        android:value="1"
+                        app:labelBehavior="floating"
+                        app:labelStyle="@style/SliderTooltip" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:text="Posti Letto"
+                        android:textSize="16sp" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_beds"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Posti Letto"
+                        android:stepSize="1"
+                        android:valueFrom="1"
+                        android:valueTo="20"
+                        android:value="1"
+                        app:labelBehavior="floating"
+                        app:labelStyle="@style/SliderTooltip" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:orientation="horizontal">
 
@@ -150,62 +222,68 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:gravity="center_horizontal"
-                        android:text="Passeggeri"
-                        android:textSize="15sp"
-                        android:layout_marginTop="15dp"/>
+                        android:text="Cabine"
+                        android:textSize="16sp" />
 
                     <com.google.android.material.slider.Slider
-                        android:id="@+id/slider_max_passengers"
-                        android:layout_width="250dp"
+                        android:id="@+id/slider_cabins"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:minHeight="50dp"
-                        android:stepSize="1"
-                        android:value="5"
+                        android:contentDescription="Cabine"
+                        android:stepSize="0.5"
                         android:valueFrom="1"
-                        android:valueTo="20"
-                        app:labelBehavior="visible"
+                        android:valueTo="40"
+                        android:value="1"
+                        app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
-                        android:text="Patente richiesta"
-                        android:textSize="15sp"
-                        android:textAllCaps="true"
-                        android:textStyle="bold"
-                        />
+                        android:gravity="center_horizontal"
+                        android:text="Bagni"
+                        android:textSize="16sp" />
 
-                    <CheckBox
-                        android:id="@+id/check_box_license"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider_bathroom"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal" />
+                        android:contentDescription="Bagni"
+                        android:stepSize="0.5"
+                        android:valueFrom="1"
+                        android:valueTo="40"
+                        android:value="1"
+                        app:labelBehavior="floating"
+                        app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/btn_add"
-                    android:layout_width="match_parent"
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/goOnBtn"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="50dp"
-                    android:padding="10dp"
-                    android:text="Aggiungi"
-                    android:textColor="@color/white" />
-
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/btn_shape_green"
+                    android:text="Continua"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
             </LinearLayout>
 
 
         </ScrollView>
-
     </LinearLayout>
 
 </FrameLayout>

@@ -4,18 +4,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.navigation.HomeFragment"
-    android:id="@+id/main_home_fragment"
-    >
+    android:id="@+id/main_home_fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_rudder"
+        android:layout_gravity="center_horizontal"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Home"
+        android:text="SailBookingApp"
         android:textStyle="bold"
-        android:textSize="50sp"
-        android:textAllCaps="true"
+        android:textSize="18sp"
         android:gravity="center_horizontal"
         android:textColor="@color/navy_blue"/>
-    
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Vicino a te"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:gravity="left"
+            android:textColor="@color/navy_blue"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_my_announcements2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"/>
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Migliori Charter"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:gravity="left"
+                android:textColor="@color/navy_blue"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_my_announcements3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Viste di recente"
+                android:textStyle="bold"
+                android:textSize="30dp"
+                android:gravity="left"
+                android:textColor="@color/navy_blue"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_my_announcements4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"/>
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Destinazioni più richieste"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:gravity="left"
+                    android:textColor="@color/navy_blue"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_my_announcements"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal"/>
+            </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
+    </LinearLayout>
 </FrameLayout>

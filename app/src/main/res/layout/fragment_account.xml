@@ -7,22 +7,23 @@
     android:background="@color/light_grey"
     tools:context=".ui.navigation.AccountFragment">
 
-    <TextView
-        android:id="@+id/txt_SignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/accedi"
-        android:textColor="@color/navy_blue"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:text="@string/accedi"
+            android:textColor="@color/navy_blue"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="50dp"/>
 
         <EditText
             android:id="@+id/textEmailAddress"
@@ -39,7 +40,7 @@
             android:textColorHint="@color/colorHint" />
 
         <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textPassword"
+            android:id="@+id/textPassword"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
