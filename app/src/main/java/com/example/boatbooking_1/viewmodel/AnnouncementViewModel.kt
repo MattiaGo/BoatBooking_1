@@ -7,20 +7,26 @@ import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Boat
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.repository.AnnouncementRepository
+import com.example.boatbooking_1.ui.MyAnnouncementAdapter
+import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 
 class AnnouncementViewModel : ViewModel() {
     private val repository: AnnouncementRepository = AnnouncementRepository.instance
 
-    fun addAnnouncementToDatabase(new: Announcement) {
-        repository.addAnnouncementToDatabase(new)
+    fun addAnnouncementToDatabase(announcement: Announcement, announcementID: String) {
+        repository.addAnnouncementToDatabase(announcement,announcementID)
     }
 
     fun getAnnouncement() : LiveData<Announcement> {
         return repository.announcementLiveData
     }
 
-    fun updateAnnouncement() {
-        repository.updateAnnouncementOnDatabase()
+    fun getOwnerAnnouncement(myAnnouncementList: ArrayList<Announcement>, myAnnouncementAdapter: MyAnnouncementAdapter){
+        repository.getOwnerAnnouncement(myAnnouncementList, myAnnouncementAdapter)
+    }
+
+    fun updateAnnouncement(announcementID: String) {
+        repository.updateAnnouncementOnDatabase(announcementID)
     }
 
     fun setAnnouncement(id: String?) {
@@ -31,4 +37,7 @@ class AnnouncementViewModel : ViewModel() {
         repository.refreshAnnouncement(announcement)
     }
 
+    fun getBestHomeAnnouncements(myAnnouncementList: ArrayList<Announcement>, myAnnouncementAdapter: PublicAnnouncementAdapter){
+        repository.getBestHomeAnnouncements(myAnnouncementList,myAnnouncementAdapter)
+    }
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.databinding.FragmentMyAnnouncementsBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.ui.auth.PasswordResetFragmentDirections
 import com.example.boatbooking_1.utils.Util
+import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -26,6 +28,8 @@ import com.google.firebase.firestore.ktx.toObjects
 class MyAnnouncementsFragment : Fragment() {
 
     private lateinit var binding: FragmentMyAnnouncementsBinding
+
+    private val announcementViewModel: AnnouncementViewModel by activityViewModels()
 
     private lateinit var myAnnouncementAdapter: MyAnnouncementAdapter
     private lateinit var myAnnouncementList: ArrayList<Announcement>
@@ -51,7 +55,8 @@ class MyAnnouncementsFragment : Fragment() {
         rvMyAnnouncements.adapter = myAnnouncementAdapter
 
 //        getMyAnnouncements() // Realtime Database
-        getMyAnnouncementsFirestore()
+        announcementViewModel.getOwnerAnnouncement(myAnnouncementList,myAnnouncementAdapter)
+        //getMyAnnouncementsFirestore()
 
         Log.d("myAnnouncements", myAnnouncementList.toString())
 
@@ -77,6 +82,9 @@ class MyAnnouncementsFragment : Fragment() {
         }
     }
 
+    //Util.fDatabase.collection("BoatAnnouncement").document(Util.getUID()!!).get()
+
+/*
     private fun getMyAnnouncementsFirestore() {
         Util.fDatabase.collection(Util.getUID()!!).get()
             .addOnSuccessListener { documentSnapshot ->
@@ -88,7 +96,21 @@ class MyAnnouncementsFragment : Fragment() {
                 myAnnouncementAdapter.notifyDataSetChanged()
         }
 
+
+
+        Util.fDatabase.collection("BoatAnnouncement").document(Util.getUID()!!).collection("Announcement").get()
+            .addOnSuccessListener { documentSnapshot ->
+                for (document in documentSnapshot) {
+                    val announcement = document.toObject(Announcement::class.java)
+                    myAnnouncementList.add(announcement)
+//                    Log.d("Firestore", announcement.toString())
+                }
+                myAnnouncementAdapter.notifyDataSetChanged()
+            }
+
     }
+
+
 
     private fun getMyAnnouncements() {
         Util.mDatabase.child("announcements").child(Util.getUID()!!)
@@ -112,4 +134,6 @@ class MyAnnouncementsFragment : Fragment() {
                 }
             })
     }
+
+ */
 }

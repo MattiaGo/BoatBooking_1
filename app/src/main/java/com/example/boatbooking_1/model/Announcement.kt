@@ -2,6 +2,7 @@ package com.example.boatbooking_1.model
 
 data class Announcement(
     var id: String? = null,
+    var id_owner: String? = null,
     var announce_name: String? = null,
     var boat: Boat? = null,
     var capt_needed: Boolean? = true,

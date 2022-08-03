@@ -119,7 +119,8 @@ class EditAnnouncementFragment : Fragment() {
             )
 
             val announcement = Announcement(
-                id= announcementViewModel.getAnnouncement().value!!.id,
+                id = announcementViewModel.getAnnouncement().value!!.id,
+                id_owner = announcementViewModel.getAnnouncement().value!!.id_owner,
                 announce_name = binding.etBoatName.text.toString(),
                 boat = boat,
                 capt_needed = binding.checkBoxCaptainNeeded.isChecked,
@@ -132,7 +133,7 @@ class EditAnnouncementFragment : Fragment() {
             )
 
             announcementViewModel.refreshAnnouncement(announcement)
-            announcementViewModel.updateAnnouncement()
+            announcementViewModel.updateAnnouncement(announcement.id!!)
 
             Toast.makeText(context, "Annuncio aggiornato correttamente!", Toast.LENGTH_SHORT).show()
 

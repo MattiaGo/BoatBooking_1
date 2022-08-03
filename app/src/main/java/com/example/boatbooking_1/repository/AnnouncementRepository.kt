@@ -1,15 +1,16 @@
 package com.example.boatbooking_1.repository
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.model.MyMessage
+import com.example.boatbooking_1.ui.MyAnnouncementAdapter
+import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
-import com.google.protobuf.Value
+import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
+
 
 class AnnouncementRepository {
     private var _announcementLiveData = MutableLiveData<Announcement>()
@@ -21,7 +22,12 @@ class AnnouncementRepository {
     }
 
     fun setAnnouncementLiveData(id: String?) {
-        Util.fDatabase.collection(Util.getUID()!!).whereEqualTo("id", id).get()
+        Util.fDatabase.collection("BoatAnnouncement")
+            .document(Util.getUID()!!)
+            .collection("Announcement")
+            .whereEqualTo("id", id)
+            .get()
+        //Util.fDatabase.collection(Util.getUID()!!).whereEqualTo("id", id).get()
             .addOnSuccessListener { documentSnapshot ->
                 for (document in documentSnapshot) {
                     val announcement = document.toObject(Announcement::class.java)
@@ -49,36 +55,51 @@ class AnnouncementRepository {
 //                })
     }
 
-    fun addAnnouncementToDatabase(new: Announcement) {
-//        Util.mDatabase.child("announcements").child(Util.getUID().toString())
-//            .child(new.id.toString())
-//            .setValue(new).addOnSuccessListener {
-//                Log.d("Firebase", "onSuccess: Announcement added!")
-//            }
+    fun getOwnerAnnouncement(myAnnouncementList: ArrayList<Announcement>,myAnnouncementAdapter: MyAnnouncementAdapter){
+        Util.fDatabase.collection("BoatAnnouncement")
+            .document(Util.getUID()!!)
+            .collection("Announcement")
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                for (document in documentSnapshot) {
+                    val announcement = document.toObject(Announcement::class.java)
+                    myAnnouncementList.add(announcement)
+//                    Log.d("Firestore", announcement.toString())
+                }
+                myAnnouncementAdapter.notifyDataSetChanged()
+            }
     }
 
-//    private fun updateMutableLiveData(new: Announcement) {
-//    }
+    fun addAnnouncementToDatabase(announcement: Announcement , announcementID: String){
+        Util.fDatabase.collection("BoatAnnouncement")
+            .document(Util.getUID()!!)
+            .collection("Announcement")
+            .document(announcementID)
+            .set(announcement)
+    }
 
-    fun updateAnnouncementOnDatabase() {
+    fun updateAnnouncementOnDatabase(announcementID: String) {
         val announcement = _announcementLiveData.value
 
         Log.d("Firestore", "Pre-updated: ${announcement.toString()}")
         // TODO: Firestore actions to update announcement data
 
-        Util.fDatabase.collection(Util.getUID()!!)
-            .document(announcement!!.id!!)
+        Util.fDatabase.collection("BoatAnnouncement")
+            .document(Util.getUID()!!)
+            .collection("Announcement")
+            .document(announcementID)
             .update(
-                "id", announcement.id,
-                "announce_name", announcement.announce_name,
-                "boat", announcement.boat,
-                "capt_needed", announcement.capt_needed,
-                "licence_needed", announcement.licence_needed,
-                "location", announcement.location,
-                "description", announcement.description,
-                "imageList", announcement.imageList,
-                "services", announcement.services,
-                "available", announcement.available,
+                "id", announcement?.id,
+                "id_owner", announcement?.id_owner,
+                "announce_name", announcement?.announce_name,
+                "boat", announcement?.boat,
+                "capt_needed", announcement?.capt_needed,
+                "licence_needed", announcement?.licence_needed,
+                "location", announcement?.location,
+                "description", announcement?.description,
+                "imageList", announcement?.imageList,
+                "services", announcement?.services,
+                "available", announcement?.available,
             )
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -121,6 +142,29 @@ class AnnouncementRepository {
                 resetLiveData()
             }
     }
+
+
+    fun getBestHomeAnnouncements(arrayList: ArrayList<Announcement>, myAnnouncementAdapter: PublicAnnouncementAdapter) {
+        Util.fDatabase.collectionGroup("Announcement")
+            .whereGreaterThanOrEqualTo("average_vote", 4.5)
+            .get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
+               val announcement = document.toObject(Announcement::class.java)
+                arrayList.add(announcement)
+            }
+            myAnnouncementAdapter.notifyDataSetChanged()
+        }
+
+
+    }
+    /*.collection("Announcement")
+    .whereGreaterThanOrEqualTo("average_vote", 4.5)
+    .get()
+    .addOnSuccessListener {
+    }
+
+     */
 
     companion object {
         private var announcementRepository: AnnouncementRepository? = null

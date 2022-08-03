@@ -19,7 +19,9 @@ import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentAddAnnouncementBinding
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
+import com.example.boatbooking_1.repository.AnnouncementRepository
 import com.example.boatbooking_1.utils.Util
+import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.BoatViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Timestamp
@@ -63,7 +65,7 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var fDatabase: FirebaseFirestore
 
     private val boatViewModel: BoatViewModel by activityViewModels()
-
+    private val announceViewModel: AnnouncementViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,11 +159,12 @@ class AddAnnouncementFragment : Fragment() {
         btnSave.setOnClickListener {
             if (validatePort()) {
                 // Announcement ID
-                val id = Util.getUID().plus("@${Timestamp.now().seconds}")
-//                val id = Util.getUID()
+                val AID = Util.getUID().plus("@${Timestamp.now().seconds}")
+                val UID = Util.getUID()
 
                 val announcement = Announcement(
-                    id = id,
+                    id = AID,
+                    id_owner = UID,
                     announce_name = boatViewModel.boat!!.name.toString(),
                     boat = boatViewModel.boat!!,
                     capt_needed = checkBoxCaptain.isChecked,
@@ -195,9 +198,19 @@ class AddAnnouncementFragment : Fragment() {
 //                announcementDocument["boat"] = boatDocument
 
                 // Store on Firestore
-                fDatabase.collection(Util.getUID()!!)
+                /* fDatabase.collection(Util.getUID()!!)
                     .document(id)
                     .set(announcement)
+
+                 */
+
+                announceViewModel.addAnnouncementToDatabase(announcement,AID)
+
+                /*fDatabase.collection("BoatAnnouncement")
+                    .document(aID)
+                    .set(announcement)
+
+                 */
 
 //                fDatabase.collection(Util.getUID()!!)
 //                    .document(id)
