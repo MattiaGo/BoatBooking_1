@@ -64,10 +64,6 @@ class MyAnnouncementAdapter(
                         downloadUri = it.result
                         Log.d("Adapter", "$downloadUri")
 
-                        if (progressDialog.isShowing) {
-                            progressDialog.dismiss()
-                        }
-
                         Glide.with(context)
                             .load(downloadUri.toString())
                             .into(holder.ivBoat)
@@ -112,12 +108,6 @@ class MyAnnouncementAdapter(
                 holder.tvAvailable.setTextColor(R.color.error)
             }
         }
-    }
-
-    private fun getRemoteImages(image: String): String {
-        var downloadUri: Uri? = null
-
-        return ""
     }
 
     private fun changeAvailability(available: Boolean, id: String) {

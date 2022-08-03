@@ -83,24 +83,6 @@ class AnnouncementRepository {
 //
 //                })
 
-    fun getOwnerAnnouncement(
-        myAnnouncementList: ArrayList<Announcement>,
-        myAnnouncementAdapter: MyAnnouncementAdapter
-    ) {
-        Util.fDatabase.collection("BoatAnnouncement")
-            .document(Util.getUID()!!)
-            .collection("Announcement")
-            .get()
-            .addOnSuccessListener { documentSnapshot ->
-                for (document in documentSnapshot) {
-                    val announcement = document.toObject(Announcement::class.java)
-                    myAnnouncementList.add(announcement)
-//                    Log.d("Firestore", announcement.toString())
-                }
-                myAnnouncementAdapter.notifyDataSetChanged()
-            }
-    }
-
     fun addAnnouncementToDatabase(
         announcement: Announcement,
         announcementID: String,
@@ -237,23 +219,6 @@ class AnnouncementRepository {
                 }
 
                 resetLiveData()
-            }
-    }
-
-
-    fun getBestHomeAnnouncements(
-        arrayList: ArrayList<Announcement>,
-        myAnnouncementAdapter: PublicAnnouncementAdapter
-    ) {
-        Util.fDatabase.collectionGroup("Announcement")
-            .whereGreaterThanOrEqualTo("average_vote", 4.5)
-            .get()
-            .addOnSuccessListener { documents ->
-                documents.forEach { document ->
-                    val announcement = document.toObject(Announcement::class.java)
-                    arrayList.add(announcement)
-                }
-                myAnnouncementAdapter.notifyDataSetChanged()
             }
     }
 

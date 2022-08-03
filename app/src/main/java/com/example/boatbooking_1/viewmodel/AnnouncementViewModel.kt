@@ -11,6 +11,7 @@ import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.repository.AnnouncementRepository
 import com.example.boatbooking_1.ui.MyAnnouncementAdapter
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
+import com.example.boatbooking_1.utils.Util
 
 class AnnouncementViewModel : ViewModel() {
     private val repository: AnnouncementRepository = AnnouncementRepository.instance
@@ -27,7 +28,18 @@ class AnnouncementViewModel : ViewModel() {
         myAnnouncementList: ArrayList<Announcement>,
         myAnnouncementAdapter: MyAnnouncementAdapter
     ) {
-        repository.getOwnerAnnouncement(myAnnouncementList, myAnnouncementAdapter)
+        Util.fDatabase.collection("BoatAnnouncement")
+            .document(Util.getUID()!!)
+            .collection("Announcement")
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                for (document in documentSnapshot) {
+                    val announcement = document.toObject(Announcement::class.java)
+                    myAnnouncementList.add(announcement)
+//                    Log.d("Firestore", announcement.toString())
+                }
+                myAnnouncementAdapter.notifyDataSetChanged()
+            }
     }
 
     fun updateAnnouncement(announcementID: String) {
@@ -41,13 +53,6 @@ class AnnouncementViewModel : ViewModel() {
 
     fun refreshAnnouncement(announcement: Announcement) {
         repository.refreshAnnouncement(announcement)
-    }
-
-    fun getBestHomeAnnouncements(
-        myAnnouncementList: ArrayList<Announcement>,
-        myAnnouncementAdapter: PublicAnnouncementAdapter
-    ) {
-        repository.getBestHomeAnnouncements(myAnnouncementList, myAnnouncementAdapter)
     }
 
     fun uploadImages() {

@@ -55,7 +55,7 @@ class MyAnnouncementsFragment : Fragment() {
         rvMyAnnouncements.adapter = myAnnouncementAdapter
 
 //        getMyAnnouncements() // Realtime Database
-        announcementViewModel.getOwnerAnnouncement(myAnnouncementList,myAnnouncementAdapter)
+        announcementViewModel.getOwnerAnnouncement(myAnnouncementList ,myAnnouncementAdapter)
         //getMyAnnouncementsFirestore()
 
         Log.d("myAnnouncements", myAnnouncementList.toString())

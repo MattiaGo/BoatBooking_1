@@ -15,9 +15,10 @@ import com.example.boatbooking_1.databinding.FragmentHomeBinding
 import com.example.boatbooking_1.databinding.FragmentMyAnnouncementsBinding
 import com.example.boatbooking_1.model.Announcement
 import com.bumptech.glide.Glide
+import com.example.boatbooking_1.ui.MyAnnouncementAdapter
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
-import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
+import com.example.boatbooking_1.viewmodel.HomeAnnouncementViewModel
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -40,7 +41,7 @@ class HomeFragment : Fragment() {
     private lateinit var rvRecentSeen: RecyclerView
     private lateinit var rvMostReqLocation: RecyclerView
 
-    private val announcementViewModel: AnnouncementViewModel by activityViewModels()
+    private val homeAnnouncementViewModel: HomeAnnouncementViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,21 +66,30 @@ class HomeFragment : Fragment() {
 
         //BEST CHARTER
         rvBestCharters = binding.rvBestCharters
-        rvBestCharters.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        rvBestCharters.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         rvBestCharters.adapter = bestAnnouncementAdapter
 
         //LAST SEEN
         rvRecentSeen = binding.rvRecentSeen
-        rvRecentSeen.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        rvRecentSeen.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         rvRecentSeen.adapter = bestAnnouncementAdapter
 
         //MOST REQ LOCATION
         rvMostReqLocation = binding.rvMostReqLocation
-        rvMostReqLocation.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        rvMostReqLocation.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         rvMostReqLocation.adapter = bestAnnouncementAdapter
 
 //        getMyAnnouncements() // Realtime Database
-        announcementViewModel.getBestHomeAnnouncements(bestAnnouncementList,bestAnnouncementAdapter)
+//        homeAnnouncementViewModel.getBestHomeAnnouncements(bestAnnouncementList, bestAnnouncementAdapter)
+        homeAnnouncementViewModel.getPositionAnnouncement(
+            mostRequestedLocationList,
+            MyAnnouncementAdapter(arrayListOf(), requireContext())
+        )
+
+//        Log.d("Firestore", mostRequestedLocationList.toString())
 
         //getBestHomeAnnouncements(bestAnnouncementList)
         binding = FragmentHomeBinding.inflate(inflater, container, false)

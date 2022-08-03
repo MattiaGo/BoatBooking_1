@@ -1,5 +1,9 @@
 package com.example.boatbooking_1.model
 
+import androidx.compose.ui.text.toUpperCase
+import java.util.*
+import kotlin.collections.ArrayList
+
 data class Announcement(
     var id: String? = null,
     var id_owner: String? = null,
@@ -14,6 +18,10 @@ data class Announcement(
     var available: Boolean = false
 ) {
     override fun toString(): String {
-        return "\nBOAT:\n${boat}ANNOUNCEMENT:\n$announce_name\n$location\n"
+        return "\nBOAT:\n${boat}ANNOUNCEMENT:\n$announce_name" +
+                "\n${
+                    location.toString()
+                        .uppercase(Locale.getDefault())
+                }\n"
     }
 }

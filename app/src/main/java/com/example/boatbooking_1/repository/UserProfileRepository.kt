@@ -183,6 +183,15 @@ class UserProfileRepository {
                     Log.d("status", "onComplete: Status Updated")
                 } else Log.d("status", "onComplete: " + task.exception)
             }
+
+        // Fix virtual document on Firestore
+        Util.fDatabase.collection("BoatAnnouncement")
+            .document(Util.getUID()!!)
+            .set(
+                hashMapOf(
+                    "id" to Util.getUID()
+                )
+            )
     }
 
     fun editName(name: String) {
