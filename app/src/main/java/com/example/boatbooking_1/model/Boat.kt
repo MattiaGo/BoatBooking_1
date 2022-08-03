@@ -30,7 +30,6 @@ class Boat(
     }
 
 
-
 //    constructor() {}
 
 //    constructor(
@@ -77,14 +76,14 @@ class Boat(
     }
 
     override fun toString(): String {
-        return "${name.toString()}\n"
+        return "${name.toString()}\n" +
                 "${model.toString()}\n" +
                 "${builder.toString()}\n" +
                 "${year.toString()}\n" +
                 "${length.toString()}\n" +
-                        "${beds.toString()}\n" +
-                        "${cabins.toString()}\n" +
-                        "${bathrooms.toString()}\n"
-                        //"${license.toString()}\n"
+                "${beds.toString()}\n" +
+                "${cabins.toString()}\n" +
+                "${bathrooms.toString()}\n"
+        //"${license.toString()}\n"
     }
 }

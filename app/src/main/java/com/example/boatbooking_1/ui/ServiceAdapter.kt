@@ -39,12 +39,12 @@ class ServiceAdapter(private val serviceList: ArrayList<BoatService>) :
 
         holder.etService.addTextChangedListener {
             serviceList[position].name = holder.etService.text.toString()
-//            Log.d("ServiceAdapter", serviceList[position].name.toString())
+            Log.d("ServiceAdapter", serviceList[position].name.toString())
         }
 
         holder.etPrice.addTextChangedListener {
-            serviceList[position].price = holder.etService.text.toString().toInt()
-//            Log.d("ServiceAdapter", serviceList[position].price.toString())
+            serviceList[position].price = holder.etPrice.text.toString()
+            Log.d("ServiceAdapter", serviceList[position].price.toString())
         }
 
     }

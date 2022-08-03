@@ -143,12 +143,12 @@
 
                         <Spinner
                             android:id="@+id/spinner_language"
-                            android:layout_width="150dp"
+                            android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_centerInParent="true"
-                            android:text="@string/language"
                             android:entries="@array/languages"
+                            android:text="@string/language"
                             android:textAlignment="viewStart"
                             android:textColor="#616161" />
 
@@ -208,14 +208,14 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/et_alarms"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="@string/reminders"
-                        android:textAlignment="viewStart"
-                        android:textColor="#616161" />
+                        <TextView
+                            android:id="@+id/et_alarms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="@string/reminders"
+                            android:textAlignment="viewStart"
+                            android:textColor="#616161" />
                     </RelativeLayout>
 
                     <View

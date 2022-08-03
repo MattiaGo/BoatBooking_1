@@ -16,5 +16,4 @@ data class Announcement(
     override fun toString(): String {
         return "\nBOAT:\n${boat}ANNOUNCEMENT:\n$announce_name\n$location\n"
     }
-
 }

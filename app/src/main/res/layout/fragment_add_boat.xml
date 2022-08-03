@@ -10,10 +10,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp">
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,8 +57,7 @@
                     android:id="@+id/text_input_layout_boatName"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:autofillHints=""
+                    android:layout_height="wrap_content"
                     android:hint="@string/boatName"
                     android:textColorHint="@color/colorHint"
                     app:errorEnabled="true">
@@ -74,7 +73,7 @@
                     android:id="@+id/text_input_layout_model"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:hint="Modello"
                     android:inputType="text"
@@ -93,7 +92,7 @@
                     android:id="@+id/text_input_layout_builder"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:hint="Costruttore"
                     android:textColorHint="@color/colorHint"
@@ -104,7 +103,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/input_shape" />
-
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -126,8 +124,8 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="Anno"
                         android:stepSize="1"
-                        android:valueFrom="1970"
                         android:value="1970"
+                        android:valueFrom="1970"
                         android:valueTo="2023"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
@@ -152,8 +150,8 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="Lunghezza"
                         android:stepSize="0.5"
-                        android:valueFrom="2"
                         android:value="2"
+                        android:valueFrom="2"
                         android:valueTo="40"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
@@ -178,9 +176,9 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="passeggeri"
                         android:stepSize="1"
+                        android:value="1"
                         android:valueFrom="1"
                         android:valueTo="20"
-                        android:value="1"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>
@@ -204,9 +202,9 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="Posti Letto"
                         android:stepSize="1"
+                        android:value="1"
                         android:valueFrom="1"
                         android:valueTo="20"
-                        android:value="1"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>
@@ -231,9 +229,9 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="Cabine"
                         android:stepSize="0.5"
+                        android:value="1"
                         android:valueFrom="1"
                         android:valueTo="40"
-                        android:value="1"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>
@@ -259,9 +257,9 @@
                         android:layout_height="wrap_content"
                         android:contentDescription="Bagni"
                         android:stepSize="0.5"
+                        android:value="1"
                         android:valueFrom="1"
                         android:valueTo="40"
-                        android:value="1"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>

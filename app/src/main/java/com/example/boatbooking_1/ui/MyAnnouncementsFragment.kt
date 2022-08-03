@@ -40,7 +40,7 @@ class MyAnnouncementsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         myAnnouncementList = ArrayList()
-        myAnnouncementAdapter = MyAnnouncementAdapter(myAnnouncementList)
+        myAnnouncementAdapter = MyAnnouncementAdapter(myAnnouncementList, requireContext())
     }
 
     override fun onCreateView(
@@ -81,59 +81,4 @@ class MyAnnouncementsFragment : Fragment() {
                 findNavController().navigate(action)
         }
     }
-
-    //Util.fDatabase.collection("BoatAnnouncement").document(Util.getUID()!!).get()
-
-/*
-    private fun getMyAnnouncementsFirestore() {
-        Util.fDatabase.collection(Util.getUID()!!).get()
-            .addOnSuccessListener { documentSnapshot ->
-                for (document in documentSnapshot) {
-                    val announcement = document.toObject(Announcement::class.java)
-                    myAnnouncementList.add(announcement)
-//                    Log.d("Firestore", announcement.toString())
-                }
-                myAnnouncementAdapter.notifyDataSetChanged()
-        }
-
-
-
-        Util.fDatabase.collection("BoatAnnouncement").document(Util.getUID()!!).collection("Announcement").get()
-            .addOnSuccessListener { documentSnapshot ->
-                for (document in documentSnapshot) {
-                    val announcement = document.toObject(Announcement::class.java)
-                    myAnnouncementList.add(announcement)
-//                    Log.d("Firestore", announcement.toString())
-                }
-                myAnnouncementAdapter.notifyDataSetChanged()
-            }
-
-    }
-
-
-
-    private fun getMyAnnouncements() {
-        Util.mDatabase.child("announcements").child(Util.getUID()!!)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    myAnnouncementList.clear()
-
-                    for (snapshot in dataSnapshot.children) {
-                        val announcement = snapshot.getValue(
-                            Announcement::class.java
-                        )
-                        myAnnouncementList.add(announcement!!)
-                    }
-
-//                    Log.d("announcementList", myAnnouncementList.toString())
-                    myAnnouncementAdapter.notifyDataSetChanged()
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.d("Firebase", databaseError.toString())
-                }
-            })
-    }
-
- */
 }

@@ -105,7 +105,6 @@ class UserProfileFragment : Fragment() {
 
 //                Log.d("userViewModel", user.toString())
 
-
                 if (user.shipOwner) {
                     binding.profileImage.setImageResource(R.drawable.ic_shipowner)
                     binding.myBoatBtn.text = getString(R.string.my_boats)
@@ -116,8 +115,6 @@ class UserProfileFragment : Fragment() {
                     binding.myBoatBtn.isVisible = true
 //                    sharedPreferencesEdit.putBoolean("owner", false).apply() // Useless
                 }
-
-
             }
 
 //        etName.setOnFocusChangeListener { _, hasFocus ->
@@ -166,18 +163,6 @@ class UserProfileFragment : Fragment() {
         }
 
         userProfileViewModel.getUser().observe(viewLifecycleOwner, observer)
-
-//        userProfileViewModel.getStatus(object : FirebaseCallBackInterface {
-//            override fun onCallbackForStatus(value: Boolean) {
-//                state = value
-//                if (value) {
-//                    binding.myBoatBtn.text = "Le mie barche"
-//                    sharedPreferencesEdit.putBoolean("owner", true).apply()
-//                } else {
-//                    sharedPreferencesEdit.putBoolean("owner", false).apply()
-//                }
-//            }
-//        })
 
         return binding.root
     }

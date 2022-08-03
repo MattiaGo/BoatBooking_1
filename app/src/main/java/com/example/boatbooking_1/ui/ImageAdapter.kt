@@ -1,24 +1,28 @@
 package com.example.boatbooking_1.ui
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.BitmapFactory
+import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.boatbooking_1.R
-import com.firebase.ui.auth.AuthUI.getApplicationContext
-import java.io.File
+import com.example.boatbooking_1.utils.Util
 
 
-class ImageAdapter(private val imageList: ArrayList<String>) :
+class ImageAdapter(
+    private val context: Context,
+    private val imageList: ArrayList<String>,
+    val newImageList: ArrayList<String>,
+    val remoteImageList: ArrayList<String>
+) :
     RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
+
+    var remoteImageToRemove: ArrayList<String> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -30,7 +34,15 @@ class ImageAdapter(private val imageList: ArrayList<String>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = imageList[position]
 
-        holder.imageView.setImageURI(Uri.parse(currentItem))
+        if (currentItem.startsWith("https")) {
+            Log.d("Adapter", "Edit > $currentItem")
+            Glide.with(context)
+                .load(currentItem)
+                .into(holder.imageView)
+        } else {
+            Log.d("Adapter", "New > $currentItem")
+            holder.imageView.setImageURI(Uri.parse(currentItem))
+        }
 
         holder.btnRemove.setOnClickListener {
             removeItem(position)
@@ -38,7 +50,19 @@ class ImageAdapter(private val imageList: ArrayList<String>) :
     }
 
     private fun removeItem(position: Int) {
+        if (position < remoteImageList.size)
+        {
+            remoteImageToRemove.add(remoteImageList[position])
+            remoteImageList.removeAt(position)
+        }
+
+        newImageList.remove(imageList[position])
         imageList.removeAt(position)
+
+        Log.d("Adapter", "remoteImageList: $remoteImageList")
+        Log.d("Adapter", "newImageList: $newImageList")
+        Log.d("Adapter", "imageList: $imageList")
+
         notifyDataSetChanged()
     }
 

@@ -2,6 +2,7 @@ package com.example.boatbooking_1.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -23,14 +25,13 @@ import com.example.boatbooking_1.repository.AnnouncementRepository
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.BoatViewModel
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.AuthUI.getApplicationContext
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -38,9 +39,6 @@ private const val ARG_PARAM1 = "param1"
  * create an instance of this fragment.
  */
 class AddAnnouncementFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-
     /* TODO: Using the activityViewModels() Kotlin property delegate from the fragment-ktx artifact
         to retrieve the ViewModel in the activity scope
      */
@@ -62,57 +60,16 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var imageList: ArrayList<String>
     private lateinit var serviceList: ArrayList<BoatService>
 
-    private lateinit var fDatabase: FirebaseFirestore
-
     private val boatViewModel: BoatViewModel by activityViewModels()
     private val announceViewModel: AnnouncementViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-        }
-
-        fDatabase = FirebaseFirestore.getInstance()
         imageList = ArrayList()
         serviceList = ArrayList()
 
-        imageAdapter = ImageAdapter(imageList)
+        imageAdapter = ImageAdapter(requireContext(), imageList, arrayListOf(), arrayListOf())
         serviceAdapter = ServiceAdapter(serviceList)
-
-//        imageList.add(0, "")
-
-//        imageList.add(Util.path + "/DCIM/boat-test.jpeg")
-
-//        val ref = Util.fStorage.child("images/boat-test.jpeg")
-//        ref.downloadUrl.addOnSuccessListener {
-//            val downUri: Uri = it
-//            val imageUrl = downUri.toString()
-//            imageList.add(imageUrl)
-//            Toast.makeText(context, imageUrl, Toast.LENGTH_SHORT).show()
-//            Log.d("Storage", imageUrl)
-//        }.addOnFailureListener {
-//            Log.d("Storage", "Error: $it")
-//        }
-//        ref.downloadUrl.addOnCompleteListener {
-//            OnCompleteListener {
-//                if (it.isSuccessful) {
-//                    val downUri: Uri = it.result
-//                    val imageUrl = downUri.toString()
-//                    imageList.add(imageUrl)
-//                    Toast.makeText(context, imageUrl, Toast.LENGTH_SHORT).show()
-//                    Log.d("Storage", imageUrl)
-//                } else {
-//                    Log.d("Storage", "Error")
-//                }
-//            }
-//        }
-
-        Log.d("Storage", imageList.toString())
-
-//        val boat = arguments?.getParcelable<Boat>("boat")
-//        Log.d("BOAT", boat.toString())
-//        Log.d("BOAT_VIEW_MODEL", boatViewModel.boat.toString())
 
     }
 
@@ -146,7 +103,7 @@ class AddAnnouncementFragment : Fragment() {
         }
 
         binding.btnAddService.setOnClickListener {
-            serviceList.add(BoatService("Nuovo servizio", 0))
+            serviceList.add(BoatService("Nuovo servizio", "0"))
             serviceAdapter.notifyDataSetChanged()
         }
 
@@ -156,11 +113,14 @@ class AddAnnouncementFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+//        Log.d("Context", childFragmentManager.toString())
+
         btnSave.setOnClickListener {
             if (validatePort()) {
                 // Announcement ID
                 val AID = Util.getUID().plus("@${Timestamp.now().seconds}")
                 val UID = Util.getUID()
+                val id = Util.getUID().plus("@${Timestamp.now().seconds}")
 
                 val announcement = Announcement(
                     id = AID,
@@ -170,78 +130,16 @@ class AddAnnouncementFragment : Fragment() {
                     capt_needed = checkBoxCaptain.isChecked,
                     licence_needed = checkBoxLicense.isChecked,
                     location = etPort.text.toString(),
-                    description = "Description",
-                    services = arrayListOf(),
-                    imageList =arrayListOf(),
+                    description = etDescription.text.toString(),
+                    services = serviceList,
+                    imageList = imageList,
                     available = true
                 )
 
-//                val boatDocument = hashMapOf(
-//                    "builder" to announcement.boat!!.builder,
-//                    "model" to announcement.boat!!.model,
-//                    "year" to announcement.boat!!.year,
-//                    "length" to announcement.boat!!.length,
-//                    "passengers" to announcement.boat!!.passengers,
-//                    "license" to announcement.boat!!.license
-//                )
-//
-//                val announcementDocument = hashMapOf(
-//                    "name" to announcement.name,
-//                    "id" to id,
-//                    "location" to announcement.location,
-//                    "description" to announcement.description,
-//                    "imageList" to announcement.imageList,
-//                    "services" to announcement.services,
-//                    "available" to announcement.available
-//                )
+                announceViewModel.addAnnouncementToDatabase(announcement, AID, requireContext())
 
-//                announcementDocument["boat"] = boatDocument
-
-                // Store on Firestore
-                /* fDatabase.collection(Util.getUID()!!)
-                    .document(id)
-                    .set(announcement)
-
-                 */
-
-                announceViewModel.addAnnouncementToDatabase(announcement,AID)
-
-                /*fDatabase.collection("BoatAnnouncement")
-                    .document(aID)
-                    .set(announcement)
-
-                 */
-
-//                fDatabase.collection(Util.getUID()!!)
-//                    .document(id)
-//                    .set(announcementDocument)
-//                    .addOnSuccessListener { Log.d("Firestore", "AnnouncementDocument added!") }
-//                    .addOnFailureListener { e -> Log.d("Firestore", "Error: $e") }
-
-//                Log.d("boat", "ANNOUNCEMENT: $announcement")
-//                Log.d("boat", "BOAT (ViewModel): \n ${boatViewModel.boat.toString()}")
-//                boatViewModel.setBoat(boat, yearPosition, lengthPosition)
-
-//                Util.mDatabase.child("boats").child(Util.getUID().toString()).child(id)
-//                    .setValue(boatViewModel.boat!!).addOnSuccessListener {
-//                        Toast.makeText(
-//                            context,
-//                            "Barca aggiunta correttamente!",
-//                            Toast.LENGTH_SHORT
-//                        )
-//                    }
-
-                // Save the announcement on Realtime Database (Firebase)
-//                Util.mDatabase.child("announcements").child(Util.getUID().toString()).child(id)
-//                    .setValue(announcement).addOnSuccessListener {
-//                        Toast.makeText(
-//                            context,
-//                            "Annuncio aggiunto correttamente!",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//
-//                        // Reset BoatViewModel
-//                        boatViewModel.setBoat(null, 0, 0)
+                // Reset BoatViewModel
+                boatViewModel.setBoat(null)
 
                 val action =
                     AddAnnouncementFragmentDirections.actionAddAnnouncementFragmentToMyAnnouncementsFragment()
@@ -251,14 +149,25 @@ class AddAnnouncementFragment : Fragment() {
 //                val bundle = Bundle()
 //                bundle.putParcelable("boat", boat)
 //                findNavController().navigate(R.id.addAnnouncementFragment, bundle)
-//                Toast.makeText(context, "Aggiungi", Toast.LENGTH_SHORT).show()
-
             }
 
         }
 
         return binding.root
     }
+
+
+//    private fun validateName(): Boolean {
+//        return if (etName.text.toString().trim().isEmpty()) {
+//            binding.textInputLayoutName.isErrorEnabled = true
+//            binding.textInputLayoutName.error = getString(R.string.required_field)
+//            etName.requestFocus()
+//            false
+//        } else {
+//            binding.textInputLayoutName.isErrorEnabled = false
+//            true
+//        }
+//    }
 
     private fun validatePort(): Boolean {
         return if (etPort.text.toString().trim().isEmpty()) {
@@ -275,7 +184,7 @@ class AddAnnouncementFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 0) {
-            val uri = data?.data
+            val uri = data?.data!!
             imageList.add(uri.toString())
             imageAdapter.notifyDataSetChanged()
         }

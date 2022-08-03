@@ -19,7 +19,7 @@ object Util {
 
     val path: String = Environment.getExternalStorageDirectory().path
     
-    val fStorage = FirebaseStorage.getInstance().reference
+    val fStorage = FirebaseStorage.getInstance()
     val mDatabase = FirebaseDatabase.getInstance().reference
     private val _firebaseAuth = FirebaseAuth.getInstance()
     val firebaseAuth: FirebaseAuth
@@ -62,7 +62,7 @@ object Util {
     }
 
     fun sdf(): SimpleDateFormat {
-        return SimpleDateFormat("yyyy-MM-dd hh-mm-ss a", Locale.US)
+        return SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.ITALY)
     }
 
     fun Fragment.hideKeyboard() {

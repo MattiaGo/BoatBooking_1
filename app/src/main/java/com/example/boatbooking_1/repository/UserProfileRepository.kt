@@ -1,5 +1,6 @@
 package com.example.boatbooking_1.repository
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -48,6 +49,11 @@ class UserProfileRepository {
         val fUser = Util.firebaseAuth.currentUser
 
         if (email != fUser!!.email) {
+            val progressDialog = ProgressDialog(context)
+            progressDialog.setMessage("Aggiornamento informazioni...")
+            progressDialog.setCancelable(false)
+            progressDialog.show()
+
             Util.mDatabase.child("users").child(Util.getUID()!!).updateChildren(map)
                 .addOnSuccessListener {
                     Log.d("editEmail", "onSuccess: Email updated")
@@ -69,6 +75,14 @@ class UserProfileRepository {
                                         user!!.email = email
                                         liveData!!.value = user
                                         Log.d("Firebase", "User email address updated.")
+                                        if (progressDialog.isShowing) {
+                                            progressDialog.dismiss()
+                                        }
+                                    }
+                                }
+                                .addOnFailureListener {
+                                    if (progressDialog.isShowing) {
+                                        progressDialog.dismiss()
                                     }
                                 }
                             //----------------------------------------------------------\\
@@ -76,7 +90,9 @@ class UserProfileRepository {
                 }
                 .addOnFailureListener {
                     Log.d("editEmail", "onFailure: $it")
-
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
                 }
         }
     }

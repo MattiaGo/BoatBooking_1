@@ -32,7 +32,7 @@ class AnnouncementDetailsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentAnnouncementDetailsBinding.inflate(inflater, container, false)
 
-        announcementViewModel.setAnnouncement(arguments!!.getString("id"))
+        announcementViewModel.setAnnouncement(arguments!!.getString("id"), requireContext())
 
 //        Log.d("announcementViewModel", announcementViewModel.announcement().toString())
 

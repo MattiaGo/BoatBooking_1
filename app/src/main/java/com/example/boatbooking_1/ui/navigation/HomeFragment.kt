@@ -14,9 +14,7 @@ import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentHomeBinding
 import com.example.boatbooking_1.databinding.FragmentMyAnnouncementsBinding
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.model.ChatPreview
-import com.example.boatbooking_1.model.User
-import com.example.boatbooking_1.ui.MyAnnouncementAdapter
+import com.bumptech.glide.Glide
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
@@ -37,7 +35,6 @@ class HomeFragment : Fragment() {
     private lateinit var bestAnnouncementList: ArrayList<Announcement>
     private lateinit var lastSeenAnnouncementList: ArrayList<Announcement>
     private lateinit var mostRequestedLocationList: ArrayList<Announcement>
-
 
     private lateinit var rvBestCharters: RecyclerView
     private lateinit var rvRecentSeen: RecyclerView
@@ -85,6 +82,16 @@ class HomeFragment : Fragment() {
         announcementViewModel.getBestHomeAnnouncements(bestAnnouncementList,bestAnnouncementAdapter)
 
         //getBestHomeAnnouncements(bestAnnouncementList)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+
+//        Glide.with(context!!)
+//            .load("https://firebasestorage.googleapis.com/v0/b/boatbooking-9150d.appspot.com/o/images%2F2022-08-02%2014-00-28_0?alt=media&token=72b9610d-f29b-410f-8779-17ed29407336")
+//            .into(binding.iv_home)
+
+        // Test
+//        storeFakeDataToDatabase()
+
 
         Log.d("myBestAnnouncements", bestAnnouncementList.toString())
 
