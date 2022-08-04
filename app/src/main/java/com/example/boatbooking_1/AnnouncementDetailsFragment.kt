@@ -1,6 +1,7 @@
 package com.example.boatbooking_1
 
 import android.app.Service
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -19,10 +20,7 @@ import com.example.boatbooking_1.databinding.FragmentMyAnnouncementsBinding
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Boat
 import com.example.boatbooking_1.model.BoatService
-import com.example.boatbooking_1.ui.MyAnnouncementsFragmentDirections
-import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicServiceAdapter
-import com.example.boatbooking_1.ui.ServiceAdapter
+import com.example.boatbooking_1.ui.*
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 
@@ -33,16 +31,28 @@ class AnnouncementDetailsFragment : Fragment() {
     private lateinit var observer: Observer<Announcement>
 
     private lateinit var servicesAdapter: PublicServiceAdapter
-
     private lateinit var serviceList: ArrayList<BoatService>
-
     private lateinit var rvService: RecyclerView
+
+    private lateinit var imageAdapter: ImageAdapter
+    private lateinit var imageList: ArrayList<String>
+    private lateinit var rvImages: RecyclerView
+    private lateinit var newImageList: ArrayList<String>
+
+
+    private var remoteImageURIList: ArrayList<String> = ArrayList()
+    private var remoteImageList: ArrayList<String> = ArrayList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         serviceList = ArrayList()
         servicesAdapter = PublicServiceAdapter(serviceList)
+
+        imageList = remoteImageURIList
+        newImageList = ArrayList()
+        imageAdapter = ImageAdapter(requireContext(), imageList, newImageList, remoteImageList)
     }
 
     override fun onCreateView(
@@ -87,6 +97,10 @@ class AnnouncementDetailsFragment : Fragment() {
                 LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
             rvService.adapter = servicesAdapter
 
+            rvImages = binding.rvImages
+            rvImages.layoutManager =
+                LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+            rvImages.adapter = imageAdapter
 
             binding.tvDescription.setText(announcement.description.toString())
 

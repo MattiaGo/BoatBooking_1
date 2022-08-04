@@ -106,7 +106,7 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_foto"
+                    android:id="@+id/rv_images"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginBottom="15dp"
