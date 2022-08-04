@@ -1,17 +1,29 @@
 package com.example.boatbooking_1
 
+import android.app.Service
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.databinding.FragmentAnnouncementDetailsBinding
 import com.example.boatbooking_1.databinding.FragmentMyAnnouncementsBinding
 import com.example.boatbooking_1.model.Announcement
+import com.example.boatbooking_1.model.Boat
+import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.ui.MyAnnouncementsFragmentDirections
+import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
+import com.example.boatbooking_1.ui.PublicServiceAdapter
+import com.example.boatbooking_1.ui.ServiceAdapter
+import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 
 class AnnouncementDetailsFragment : Fragment() {
@@ -20,15 +32,26 @@ class AnnouncementDetailsFragment : Fragment() {
     private val announcementViewModel: AnnouncementViewModel by activityViewModels()
     private lateinit var observer: Observer<Announcement>
 
+    private lateinit var servicesAdapter: PublicServiceAdapter
+
+    private lateinit var serviceList: ArrayList<BoatService>
+
+    private lateinit var rvService: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        serviceList = ArrayList()
+        servicesAdapter = PublicServiceAdapter(serviceList)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        serviceList.clear()
+
         // Inflate the layout for this fragment
         binding = FragmentAnnouncementDetailsBinding.inflate(inflater, container, false)
 
@@ -37,26 +60,35 @@ class AnnouncementDetailsFragment : Fragment() {
 //        Log.d("announcementViewModel", announcementViewModel.announcement().toString())
 
         observer = Observer<Announcement> { announcement ->
-            binding.titleBoat.setText(announcement.boat?.name.toString())
-            binding.etBoatName.setText(announcement.boat?.name.toString())
-            binding.etModel.setText(announcement.boat?.model.toString())
-            binding.etBuilder.setText(announcement.boat?.builder.toString())
-            binding.sliderYear.value = announcement.boat?.year!!.toFloat()
-            binding.sliderLength.value = announcement.boat?.length!!.toFloat()
-            binding.sliderMaxPassengers.value = announcement.boat?.passengers!!.toFloat()
-            binding.sliderBeds.value = announcement.boat?.beds!!.toFloat()
-            binding.sliderCabins.value = announcement.boat?.cabins!!.toFloat()
-            binding.sliderBathroom.value = announcement.boat?.bathrooms!!.toFloat()
+            binding.boatName.setText(announcement.boat?.name.toString())
+            binding.tvModel.setText(announcement.boat?.model.toString())
+            binding.tvBuilder.setText(announcement.boat?.builder.toString())
+            binding.tvYear.setText(announcement.boat?.year!!.toString())
+            binding.tvLength.setText(announcement.boat?.length!!.toString())
+            binding.tvPassengers.setText(announcement.boat?.passengers!!.toString())
+            binding.tvBeds.setText(announcement.boat?.beds!!.toString())
+            binding.tvCabins.setText(announcement.boat?.cabins!!.toString())
+            binding.tvBathrooms.setText(announcement.boat?.bathrooms!!.toString())
 
-            binding.etPort.setText(announcement.location.toString())
-            binding.checkBoxLicense.isChecked = announcement.licence_needed!!
-            binding.checkBoxCaptainNeeded.isChecked = announcement.capt_needed!!
+            binding.tvLocation.setText(announcement.location.toString())
+
+            binding.layoutSkipper.visibility = 1
+            if(!announcement.licence_needed!!) {
+                binding.tvSkipperCond.setText("Non è richiesta la patente nautica")
+            }
+            if(announcement.capt_needed!!){
+                binding.layoutCaptain.isVisible = true
+            }
 
             //TODO: immagini e servizi
 
+            rvService = binding.rvServices
+            rvService.layoutManager =
+                LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            rvService.adapter = servicesAdapter
 
 
-            binding.etDescription.setText(announcement.description.toString())
+            binding.tvDescription.setText(announcement.description.toString())
 
 
             /*val yearSpinner = binding.sliderYear
@@ -78,6 +110,37 @@ class AnnouncementDetailsFragment : Fragment() {
 
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
 
+        Util.fDatabase.collection("BoatAnnouncement")
+            .document(Util.getUID()!!)
+            .collection("Announcement")
+            .document(arguments?.getString("id")!!)
+            .get()
+            .addOnSuccessListener {
+                val services = it.get("services")
+                Log.d("Firestore", it.toString())
+                val serviceListMap = services as ArrayList<HashMap<String, String>>
+
+//                Log.d("Firestore", serviceListString.toString())
+                when (services) {
+                    null -> {}
+                    else -> {
+                        for (service in serviceListMap) {
+                            val boatService = BoatService(
+                                service["name"]!!,
+                                service["price"]!!
+                            )
+
+                            serviceList.add(boatService)
+//                    Log.d("Firestore", service["name"]!!)
+//                    Log.d("Firestore", service["price"]!!)
+                        }
+                        servicesAdapter.notifyDataSetChanged()
+                    }
+
+                }
+
+            }
+
         return binding.root
     }
 
@@ -88,6 +151,10 @@ class AnnouncementDetailsFragment : Fragment() {
             val action =
                 AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToMainHome()
             findNavController().navigate(action)
+        }
+
+        binding.ivMainImg.setOnClickListener{
+            Toast.makeText(context, "Clicked Main IMG", Toast.LENGTH_SHORT).show()
         }
 
     }

@@ -8,77 +8,94 @@ import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.firestore.ktx.toObject
 
+const val limit_of_query: Long = 4
+
 class HomeAnnouncementViewModel : ViewModel() {
 
     fun getBestHomeAnnouncements(
         arrayList: java.util.ArrayList<Announcement>,
-        myAnnouncementAdapter: PublicAnnouncementAdapter
+        adapter: PublicAnnouncementAdapter
     ) {
-//        Util.fDatabase.collection("BoatAnnouncement")
-//            .collectionGroup("Announcement")
-//            .whereGreaterThanOrEqualTo("average_vote", 4.5)
-//            .get()
-//            .addOnSuccessListener { documents ->
-//                documents.forEach { document ->
-//                    val announcement = document.toObject(Announcement::class.java)
-//                    arrayList.add(announcement)
-//                }
-//                myAnnouncementAdapter.notifyDataSetChanged()
-//            }
+        Util.fDatabase.collectionGroup("Announcement")
+            .whereGreaterThan("average_vote",4)
+            .get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
+                    val announcement = document.toObject(Announcement::class.java)
+                    arrayList.add(announcement)
+                }
+                adapter.notifyDataSetChanged()
+            }
     }
 
-    fun getOwnerAnnouncement(
-        myAnnouncementList: ArrayList<Announcement>,
-        myAnnouncementAdapter: MyAnnouncementAdapter
+    fun getMostRequestedAnnouncement(
+        arrayList: java.util.ArrayList<Announcement>,
+        adapter: PublicAnnouncementAdapter
     ) {
-        Util.fDatabase.collection("BoatAnnouncement")
-            .document(Util.getUID()!!)
-            .collection("Announcement")
+        Util.fDatabase.collectionGroup("Announcement")
+            .whereGreaterThan("average_vote",4)
             .get()
-            .addOnSuccessListener { documentSnapshot ->
-                for (document in documentSnapshot) {
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
                     val announcement = document.toObject(Announcement::class.java)
-                    myAnnouncementList.add(announcement)
-//                    Log.d("Firestore", announcement.toString())
+                    arrayList.add(announcement)
                 }
-                myAnnouncementAdapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
+            }
+    }
+
+    fun getLastAddedAnnouncement(
+        arrayList: java.util.ArrayList<Announcement>,
+        adapter: PublicAnnouncementAdapter
+    ) {
+        Util.fDatabase.collectionGroup("Announcement")
+            .whereGreaterThan("average_vote",4)
+            .limit(limit_of_query)
+            .get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
+                    val announcement = document.toObject(Announcement::class.java)
+                    arrayList.add(announcement)
+                }
+                adapter.notifyDataSetChanged()
             }
     }
 
     fun getPositionAnnouncement(
-        myAnnouncementList: ArrayList<Announcement>,
-        myAnnouncementAdapter: MyAnnouncementAdapter
+        arrayList: ArrayList<Announcement>,
+        adapter: PublicAnnouncementAdapter
     ) {
-        Util.fDatabase.collection("BoatAnnouncement")
-            .get().addOnSuccessListener {
-                Log.d("Firestore", it.documents.toString())
 
+
+        Util.fDatabase.collectionGroup("Announcement")
+            .whereEqualTo("location","LIVORNO")
+            .get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
+                    val announcement = document.toObject(Announcement::class.java)
+                    arrayList.add(announcement)
+                }
+                adapter.notifyDataSetChanged()
+            }
+        }
+
+    /* Util.fDatabase.collection("BoatAnnouncement")
+            .get().addOnSuccessListener {
                 it.documents.forEach { snapshot ->
                    snapshot.reference.collection("Announcement")
-                       .whereEqualTo("location", "Iseo")
+                       .whereEqualTo("location", "GENOVA")
                        .get()
                        .addOnSuccessListener {
-                           Log.d("Firestore", it.toString())
                            it.forEach {
-                               Log.d("Firestore", it.toObject(Announcement::class.java).toString())
+                               val announcement = it.toObject(Announcement::class.java)
+                               Log.d("Firestore", announcement.toString())
+                               myAnnouncementList.add(announcement)
                            }
+                           adapter.notifyDataSetChanged()
                        }
+
                 }
             }
 
-            }
-
-//                it.result.forEach {
-//                    Log.d("Firestore", it.toString())
-//                    Util.fDatabase.collection("Announcement")
-//                        .get()
-//                        .addOnCompleteListener { task ->
-//                            task.result.documents.forEach {
-//                                Log.d("Firestore", it.toObject(Announcement::class.java).toString())
-//                                myAnnouncementList.add(
-//                                    it.toObject(Announcement::class.java)!!
-//                                )
-//                            }
-//                        }
-//                }
+         */
     }

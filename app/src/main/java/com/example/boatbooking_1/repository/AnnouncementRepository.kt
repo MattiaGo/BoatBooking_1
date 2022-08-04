@@ -187,7 +187,6 @@ class AnnouncementRepository {
                 } else {
                     Log.d("Firestore", "Error")
                 }
-
 //                    resetLiveData()
             }
 

@@ -2,16 +2,13 @@ package com.example.boatbooking_1.ui
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -21,16 +18,11 @@ import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentAddAnnouncementBinding
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
-import com.example.boatbooking_1.repository.AnnouncementRepository
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.BoatViewModel
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.AuthUI.getApplicationContext
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
-import java.util.*
 import kotlin.collections.ArrayList
 
 /**
@@ -120,7 +112,6 @@ class AddAnnouncementFragment : Fragment() {
                 // Announcement ID
                 val AID = Util.getUID().plus("@${Timestamp.now().seconds}")
                 val UID = Util.getUID()
-                val id = Util.getUID().plus("@${Timestamp.now().seconds}")
 
                 val announcement = Announcement(
                     id = AID,

@@ -15,7 +15,8 @@ data class Announcement(
     var description: String? = null,
     var services: ArrayList<BoatService>? = null,
     var imageList: ArrayList<String>? = null,
-    var available: Boolean = false
+    var available: Boolean = false,
+    var average_vote: Double = 0.00
 ) {
     override fun toString(): String {
         return "\nBOAT:\n${boat}ANNOUNCEMENT:\n$announce_name" +

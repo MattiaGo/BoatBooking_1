@@ -73,13 +73,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="left"
-                        android:text="Migliori Barche"
+                        android:text="Aggiunte di recente"
                         android:textColor="@color/navy_blue"
                         android:textSize="30dp"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_best_charters"
+                        android:id="@+id/rv_lastAdded"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -117,13 +117,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="left"
-                        android:text="Destinazioni più richieste"
+                        android:text="Barche piu richieste"
                         android:textColor="@color/navy_blue"
                         android:textSize="30dp"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_most_req_location"
+                        android:id="@+id/rv_most_requested"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal" />
