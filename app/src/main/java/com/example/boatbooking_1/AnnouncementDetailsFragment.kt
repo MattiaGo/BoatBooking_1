@@ -1,7 +1,9 @@
 package com.example.boatbooking_1
 
+import android.app.ProgressDialog
 import android.app.Service
 import android.media.Image
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -60,6 +62,10 @@ class AnnouncementDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        remoteImageList.clear()
+        imageList.clear()
+        newImageList.clear()
+
         serviceList.clear()
 
         // Inflate the layout for this fragment
@@ -89,6 +95,9 @@ class AnnouncementDetailsFragment : Fragment() {
             if(announcement.capt_needed!!){
                 binding.layoutCaptain.isVisible = true
             }
+            binding.tvDescription.setText(announcement.description.toString())
+
+
 
             //TODO: immagini e servizi
 
@@ -102,7 +111,7 @@ class AnnouncementDetailsFragment : Fragment() {
                 LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
             rvImages.adapter = imageAdapter
 
-            binding.tvDescription.setText(announcement.description.toString())
+            getRemoteImages(announcement.id!!)
 
 
             /*val yearSpinner = binding.sliderYear
@@ -170,6 +179,77 @@ class AnnouncementDetailsFragment : Fragment() {
         binding.ivMainImg.setOnClickListener{
             Toast.makeText(context, "Clicked Main IMG", Toast.LENGTH_SHORT).show()
         }
+    }
 
+    private fun getRemoteImages(announcement_id: String) {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.setMessage("Caricamento immagini...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        Util.fDatabase.collectionGroup("Announcement")
+            .whereEqualTo("id", announcement_id)
+            .get()
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
+                    val announcement = document.toObject(Announcement::class.java)
+                    val images = announcement.imageList
+
+                    Log.d("immagini", images.toString())
+                    val imageListMap = images as ArrayList<String>
+
+                    when (images) {
+                        null -> {}
+                        else -> {
+                            if (imageListMap.isEmpty()) {
+                                if (progressDialog.isShowing) {
+                                    progressDialog.dismiss()
+                                }
+                            }
+//                Log.d("Firestore", serviceListString.toString())
+                            for (image in imageListMap) {
+//                val localFile = File.createTempFile("temp-image$i", ".jpg")
+
+                                var downloadUri: Uri
+//                var remoteImages: ArrayList<String> = ArrayList()
+
+                                Util.fStorage.reference.child("/images/$image")
+                                    .downloadUrl
+                                    .addOnCompleteListener {
+                                        // Got the download URL
+                                        if (it.isSuccessful) {
+                                            downloadUri = it.result
+                                            Log.d("Adapter", "$downloadUri")
+//                                        val generatedFilePath = downloadUri.toString()
+                                            remoteImageURIList.add(downloadUri.toString())
+                                            remoteImageList.add(image) // Name of image on Storage
+                                            imageAdapter.notifyDataSetChanged()
+                                            Log.d("Adapter", "$remoteImageURIList")
+                                            /// The string (file link) that you need
+                                            if (progressDialog.isShowing) {
+                                                progressDialog.dismiss()
+                                            }
+                                        }
+
+                                        if (progressDialog.isShowing) {
+                                            progressDialog.dismiss()
+                                        }
+                                    }
+                                    .addOnFailureListener {
+                                        if (progressDialog.isShowing) {
+                                            progressDialog.dismiss()
+                                        }
+                                        Log.d("Adapter", "Error: $it")
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener {
+                if (progressDialog.isShowing) {
+                    progressDialog.dismiss()
+                }
+            }
     }
 }
