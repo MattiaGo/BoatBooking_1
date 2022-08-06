@@ -36,13 +36,14 @@ class HomeAnnouncementViewModel : ViewModel() {
         adapter: PublicAnnouncementAdapter
     ) {
         Util.fDatabase.collectionGroup("Announcement")
-            .whereGreaterThan("average_vote",4)
+            .whereLessThan("average_vote",4)
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEach { document ->
                     val announcement = document.toObject(Announcement::class.java)
                     arrayList.add(announcement)
                 }
+                Log.d("Firestore", "announcementList: $arrayList")
                 adapter.notifyDataSetChanged()
             }
     }

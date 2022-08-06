@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_announcementDetailsFragment_to_zoomImageFragment"
             app:destination="@id/zoomImageFragment" />
+        <action
+            android:id="@+id/action_announcementDetailsFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
     </fragment>
     <fragment
         android:id="@+id/zoomImageFragment"
@@ -37,5 +40,29 @@
         <action
             android:id="@+id/action_zoomImageFragment_to_announcementDetailsFragment"
             app:destination="@id/announcementDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="com.example.boatbooking_1.ui.BookingFragment"
+        android:label="fragment_booking"
+        tools:layout="@layout/fragment_booking" >
+        <action
+            android:id="@+id/action_bookingFragment_to_announcementDetailsFragment"
+            app:destination="@id/announcementDetailsFragment" />
+        <action
+            android:id="@+id/action_bookingFragment_to_bookingServicesFragment"
+            app:destination="@id/bookingServicesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingServicesFragment"
+        android:name="com.example.boatbooking_1.ui.BookingServicesFragment"
+        android:label="fragment_booking_services"
+        tools:layout="@layout/fragment_booking_services" >
+        <action
+            android:id="@+id/action_bookingServicesFragment_to_bookingFragment"
+            app:destination="@id/bookingFragment" />
+        <action
+            android:id="@+id/action_bookingServicesFragment_to_main_home"
+            app:destination="@id/main_home" />
     </fragment>
 </navigation>

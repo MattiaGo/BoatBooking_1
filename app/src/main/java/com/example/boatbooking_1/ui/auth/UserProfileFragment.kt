@@ -61,6 +61,14 @@ class UserProfileFragment : Fragment() {
 
         disableOnBackClick()
 
+        Util.fDatabase.collection("BoatBookings")
+            .document(Util.getUID()!!)
+            .set(
+                hashMapOf(
+                    "id" to Util.getUID()
+                )
+            )
+
         /*mAuthListener = AuthStateListener {
             val user = FirebaseAuth.getInstance().currentUser
             if (user != null) {
@@ -216,6 +224,11 @@ class UserProfileFragment : Fragment() {
 
         binding.logoutBtn.setOnClickListener {
             signOut()
+        }
+
+        binding.btnMyBookings.setOnClickListener {
+            val action = UserProfileFragmentDirections.actionUserProfileToMyBookingsFragment()
+            findNavController().navigate(action)
         }
 
         binding.myBoatBtn.setOnClickListener {

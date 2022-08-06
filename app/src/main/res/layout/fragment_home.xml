@@ -80,7 +80,7 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_lastAdded"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:scrollbars="horizontal" />
@@ -117,7 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="left"
-                        android:text="Barche piu richieste"
+                        android:text="Barche più richieste"
                         android:textColor="@color/navy_blue"
                         android:textSize="30dp"
                         android:textStyle="bold" />

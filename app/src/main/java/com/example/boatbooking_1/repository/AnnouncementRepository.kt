@@ -8,13 +8,8 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.ui.MyAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 
 import com.example.boatbooking_1.utils.Util
-import com.google.firebase.database.*
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.google.firebase.firestore.QuerySnapshot
 
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.*
@@ -25,7 +20,7 @@ class AnnouncementRepository {
         get() = _announcementLiveData
 
     init {
-        resetLiveData()
+//        resetLiveData()
     }
 
     fun resetLiveData() {
@@ -38,22 +33,20 @@ class AnnouncementRepository {
         progressDialog.setCancelable(false)
         progressDialog.show()
 
-        Util.fDatabase.collection("BoatAnnouncement")
-            .document(Util.getUID()!!)
-            .collection("Announcement")
-            .document(id!!)
+        Util.fDatabase.collectionGroup("Announcement")
+            .whereEqualTo("id", id!!)
+            .limit(1)
             .get()
-            //Util.fDatabase.collection(Util.getUID()!!).whereEqualTo("id", id).get()
-            .addOnSuccessListener { document ->
-                val announcement = document.toObject(Announcement::class.java)
-                Log.d("Firestore", "setAnnouncementLiveData()")
-                val fDatabase = FirebaseFirestore.getInstance()
+            .addOnSuccessListener {
+                val announcement = it.documents.first().toObject(Announcement::class.java)
+//                Log.d("Firestore", "setAnnouncementLiveData()")
+//                val fDatabase = FirebaseFirestore.getInstance()
 
                 _announcementLiveData.value = announcement
-                Log.d(
-                    "Firestore",
-                    "LiveData ${_announcementLiveData.value.toString()}"
-                )
+//                Log.d(
+//                    "Firestore",
+//                    "LiveData ${_announcementLiveData.value.toString()}"
+//                )
                 if (progressDialog.isShowing) {
                     progressDialog.dismiss()
                 }
@@ -142,12 +135,12 @@ class AnnouncementRepository {
 
         announcement?.imageList!!.forEachIndexed() { i, image ->
             if (image.startsWith("content://")) {
-                val reference = Util.fStorage.getReference("images/$fileName" + "_$i")
+                val storageReference = Util.fStorage.getReference("images/$fileName" + "_$i")
 
                 newImagesURI.add("${fileName}_$i")
                 Log.d("Storage", "$i | ${newImagesURI[i]}")
 
-                reference.putFile(Uri.parse(image))
+                storageReference.putFile(Uri.parse(image))
                     .addOnSuccessListener {
 //                    Log.d("Storage", "Image uploaded ${Uri.parse(image)}")
 //                    Log.d("Storage", announcement.imageList!![i])
@@ -169,17 +162,17 @@ class AnnouncementRepository {
             .collection("Announcement")
             .document(announcementID)
             .update(
-                "id", announcement?.id,
-                "id_owner", announcement?.id_owner,
-                "announce_name", announcement?.announce_name,
-                "boat", announcement?.boat,
-                "capt_needed", announcement?.capt_needed,
-                "licence_needed", announcement?.licence_needed,
-                "location", announcement?.location,
-                "description", announcement?.description,
-                "imageList", announcement?.imageList,
-                "services", announcement?.services,
-                "available", announcement?.available,
+                "id", announcement.id,
+                "id_owner", announcement.id_owner,
+                "announce_name", announcement.announce_name,
+                "boat", announcement.boat,
+                "capt_needed", announcement.capt_needed,
+                "licence_needed", announcement.licence_needed,
+                "location", announcement.location,
+                "description", announcement.description,
+                "imageList", announcement.imageList,
+                "services", announcement.services,
+                "available", announcement.available,
             )
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -187,15 +180,9 @@ class AnnouncementRepository {
                 } else {
                     Log.d("Firestore", "Error")
                 }
-//                    resetLiveData()
+                    resetLiveData()
             }
 
-//        Util.mDatabase.child("announcements").child(Util.getUID().toString())
-//            .child(announcementUpdated!!.id.toString())
-//            .setValue(announcementUpdated)
-//            .addOnSuccessListener {
-//                Log.d("Firebase", "onSuccess: Announcement updated!")
-//            }
     }
 
     fun refreshAnnouncement(announcement: Announcement) {

@@ -126,6 +126,8 @@
     <string name="boatName">Nome della barca</string>
     <string name="lenght">Lunghezza (m)</string>
     <string name="other_info_boat">Ulteriori informazioni</string>
+    <string name="my_bookings">Le mie prenotazioni</string>
+    <string name="shipowner">Shipowner</string>
 
 
     <string-array name="cabins_array">

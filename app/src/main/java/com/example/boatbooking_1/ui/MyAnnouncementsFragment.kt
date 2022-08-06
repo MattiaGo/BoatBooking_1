@@ -54,8 +54,7 @@ class MyAnnouncementsFragment : Fragment() {
         rvMyAnnouncements.layoutManager = LinearLayoutManager(this.context)
         rvMyAnnouncements.adapter = myAnnouncementAdapter
 
-//        getMyAnnouncements() // Realtime Database
-        announcementViewModel.getOwnerAnnouncement(myAnnouncementList ,myAnnouncementAdapter)
+        announcementViewModel.getOwnerAnnouncement(myAnnouncementList, myAnnouncementAdapter)
         //getMyAnnouncementsFirestore()
 
         Log.d("myAnnouncements", myAnnouncementList.toString())
@@ -67,18 +66,21 @@ class MyAnnouncementsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backBtn.setOnClickListener {
-            val action = MyAnnouncementsFragmentDirections.actionMyAnnouncementsFragmentToUserProfile()
+            val action =
+                MyAnnouncementsFragmentDirections.actionMyAnnouncementsFragmentToUserProfile()
             findNavController().navigate(action)
         }
 
         binding.fabAdd.setOnClickListener {
-            val action =  MyAnnouncementsFragmentDirections.actionMyAnnouncementsFragmentToAddBoatFragment()
+            val action =
+                MyAnnouncementsFragmentDirections.actionMyAnnouncementsFragmentToAddBoatFragment()
             findNavController().navigate(action)
         }
 
         binding.addBoatBtn.setOnClickListener {
-                val action = MyAnnouncementsFragmentDirections.actionMyAnnouncementsFragmentToAddBoatFragment()
-                findNavController().navigate(action)
+            val action =
+                MyAnnouncementsFragmentDirections.actionMyAnnouncementsFragmentToAddBoatFragment()
+            findNavController().navigate(action)
         }
     }
 }

@@ -24,6 +24,19 @@ class AnnouncementViewModel : ViewModel() {
         return repository.announcementLiveData
     }
 
+    fun updateAnnouncement(announcementID: String) {
+        repository.updateAnnouncementOnDatabase(announcementID)
+    }
+
+    fun setAnnouncement(id: String?, context: Context) {
+        Log.d("Firestore", "setAnnouncement() ViewModel")
+        repository.setAnnouncementLiveData(id, context)
+    }
+
+    fun refreshAnnouncement(announcement: Announcement) {
+        repository.refreshAnnouncement(announcement)
+    }
+
     fun getOwnerAnnouncement(
         myAnnouncementList: ArrayList<Announcement>,
         myAnnouncementAdapter: MyAnnouncementAdapter
@@ -40,23 +53,6 @@ class AnnouncementViewModel : ViewModel() {
                 }
                 myAnnouncementAdapter.notifyDataSetChanged()
             }
-    }
-
-    fun updateAnnouncement(announcementID: String) {
-        repository.updateAnnouncementOnDatabase(announcementID)
-    }
-
-    fun setAnnouncement(id: String?, context: Context) {
-        Log.d("Firestore", "setAnnouncement() ViewModel")
-        repository.setAnnouncementLiveData(id, context)
-    }
-
-    fun refreshAnnouncement(announcement: Announcement) {
-        repository.refreshAnnouncement(announcement)
-    }
-
-    fun uploadImages() {
-//        repository.uploadImages()
     }
 
     fun reset() {

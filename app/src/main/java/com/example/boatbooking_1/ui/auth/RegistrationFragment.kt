@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentRegistrationBinding
 import com.example.boatbooking_1.model.User
+import com.example.boatbooking_1.utils.Util
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -33,16 +34,9 @@ class RegistrationFragment : Fragment() {
 
     private lateinit var signUpErrorMessage: TextView
 
-    private lateinit var mFirebaseAuth: FirebaseAuth
-    private lateinit var mDatabase: DatabaseReference
-
-    //internal lateinit var viewModel: UserProfileVM
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mFirebaseAuth = Firebase.auth
-        mDatabase = FirebaseDatabase.getInstance().reference
     }
 
     override fun onCreateView(
@@ -58,7 +52,6 @@ class RegistrationFragment : Fragment() {
         confirmPassword = binding.textPasswordConfirm
 
         signUpErrorMessage = binding.signUpErrorMessage
-        mFirebaseAuth = Firebase.auth
 
         return binding.root
     }
@@ -112,7 +105,7 @@ class RegistrationFragment : Fragment() {
             signUpErrorMessage.text = "Attenzione compilare tutti i campi"
             signUpErrorMessage.isVisible = true
         } else {
-            mFirebaseAuth.createUserWithEmailAndPassword(
+            Util.firebaseAuth.createUserWithEmailAndPassword(
                 email.text.toString(),
                 password.text.toString()
             )
@@ -124,7 +117,7 @@ class RegistrationFragment : Fragment() {
                                 if (task.isSuccessful) {
                                     signUpErrorMessage.text =
                                         "Una mail di conferma è stata inviata all'indirizzo e-mail utilizzato durante la registrazione"
-                                    signUpErrorMessage.setTextColor(getResources().getColor(R.color.black))
+                                    signUpErrorMessage.setTextColor(resources.getColor(R.color.black))
                                     signUpErrorMessage.isVisible = true
 
                                     addUserToDatabase(
@@ -135,10 +128,9 @@ class RegistrationFragment : Fragment() {
                                 }
                                 binding.registrationBtn.isVisible = false
                             }
-                        if (user != null) {
-                            mFirebaseAuth = FirebaseAuth.getInstance()
-                            mFirebaseAuth.signOut()
-                        }
+
+                        Util.firebaseAuth.signOut()
+
                     } else {
                         signUpErrorMessage.text = task.exception?.message
                         signUpErrorMessage.isVisible = true
@@ -150,38 +142,15 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun addUserToDatabase(name: String, email: String, uid: String) {
-        mDatabase = FirebaseDatabase.getInstance().reference
-        mDatabase.child("users").child(uid).setValue(User(name, email))
+        Util.mDatabase.child("users").child(uid).setValue(User(name, email))
 
-        // Test
-        //storeFakeDataOnDatabase(uid)
+        Util.fDatabase.collection("BoatBookings")
+            .document(Util.getUID()!!)
+            .set(
+                hashMapOf(
+                    "id" to Util.getUID()
+                )
+            )
     }
 
-    /*
-    private fun storeFakeDataOnDatabase(uid: String) {
-        mDatabase.child("chats").child(uid).child("VED1f7yQbUc7YWrvKglJrNMfu8u1")
-            .setValue(
-                ChatPreview(
-                    User(
-                        "Test 1",
-                        "e-mail",
-                        "VED1f7yQbUc7YWrvKglJrNMfu8u1",
-                        "Brescia",
-                        false
-                    ), "Ciao!", Timestamp.now().seconds
-                )
-            )
-        mDatabase.child("chats").child(uid).child("kXcSNSsofwWCng7e0kGtKAJclRb2")
-            .setValue(
-                ChatPreview(
-                    User(
-                        "Test 2",
-                        "e-mail",
-                        "kXcSNSsofwWCng7e0kGtKAJclRb2",
-                        "Brescia",
-                        false
-                    ), "Hola...", Timestamp.now().seconds
-                )
-            )
-    }*/
 }

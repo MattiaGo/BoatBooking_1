@@ -126,7 +126,7 @@
                         android:stepSize="1"
                         android:value="1970"
                         android:valueFrom="1970"
-                        android:valueTo="2023"
+                        android:valueTo="2025"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>
@@ -203,7 +203,7 @@
                         android:contentDescription="Posti Letto"
                         android:stepSize="1"
                         android:value="1"
-                        android:valueFrom="1"
+                        android:valueFrom="0"
                         android:valueTo="20"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
@@ -228,10 +228,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:contentDescription="Cabine"
-                        android:stepSize="0.5"
+                        android:stepSize="1"
                         android:value="1"
-                        android:valueFrom="1"
-                        android:valueTo="40"
+                        android:valueFrom="0"
+                        android:valueTo="10"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>
@@ -256,10 +256,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:contentDescription="Bagni"
-                        android:stepSize="0.5"
+                        android:stepSize="1"
                         android:value="1"
-                        android:valueFrom="1"
-                        android:valueTo="40"
+                        android:valueFrom="0"
+                        android:valueTo="10"
                         app:labelBehavior="floating"
                         app:labelStyle="@style/SliderTooltip" />
                 </LinearLayout>

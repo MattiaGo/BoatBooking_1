@@ -65,6 +65,10 @@ object Util {
         return SimpleDateFormat("yyyy-MM-dd HH-mm-ss", Locale.ITALY)
     }
 
+    fun sdfBooking(): SimpleDateFormat {
+        return SimpleDateFormat("dd-MM-yyyy", Locale.ITALY)
+    }
+
     fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
     }

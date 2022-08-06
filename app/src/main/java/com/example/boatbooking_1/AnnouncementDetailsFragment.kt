@@ -42,10 +42,13 @@ class AnnouncementDetailsFragment : Fragment() {
     private lateinit var rvService: RecyclerView
 
     private lateinit var imageAdapter: PublicImageAdapter
-    private lateinit var remoteImageURIList: ArrayList<String>
     private lateinit var rvImages: RecyclerView
 
     private lateinit var imagesName: ArrayList<String>
+    private lateinit var newImageList: ArrayList<String>
+
+    private var remoteImageURIList: ArrayList<String> = ArrayList()
+    private var remoteImageList: ArrayList<String> = ArrayList()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +73,8 @@ class AnnouncementDetailsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentAnnouncementDetailsBinding.inflate(inflater, container, false)
 
-        announcementViewModel.setAnnouncement(arguments!!.getString("id"), requireContext())
+        if (announcementViewModel.getAnnouncement().value == null)
+            announcementViewModel.setAnnouncement(arguments!!.getString("id"), requireContext())
 
         rvService = binding.rvServices
         rvService.layoutManager =
@@ -82,26 +86,39 @@ class AnnouncementDetailsFragment : Fragment() {
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvImages.adapter = imageAdapter
 
-        observer = Observer<Announcement> { announcement ->
-            binding.boatName.setText(announcement.boat?.name.toString())
-            binding.tvModel.setText(announcement.boat?.model.toString())
-            binding.tvBuilder.setText(announcement.boat?.builder.toString())
-            binding.tvYear.setText(announcement.boat?.year!!.toString())
-            binding.tvLength.setText(announcement.boat?.length!!.toString())
-            binding.tvPassengers.setText(announcement.boat?.passengers!!.toString())
-            binding.tvBeds.setText(announcement.boat?.beds!!.toString())
-            binding.tvCabins.setText(announcement.boat?.cabins!!.toString())
-            binding.tvBathrooms.setText(announcement.boat?.bathrooms!!.toString())
+        // RecyclerView
+        rvService = binding.rvServices
+        rvService.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        rvService.adapter = servicesAdapter
 
-            binding.tvLocation.setText(announcement.location.toString())
+        // RecyclerView
+        rvImages = binding.rvImages
+        rvImages.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        rvImages.adapter = imageAdapter
+
+        observer = Observer<Announcement> { announcement ->
+            binding.boatName.text = announcement.boat?.name.toString()
+            binding.tvModel.text = announcement.boat?.model.toString()
+            binding.tvBuilder.text = announcement.boat?.builder.toString()
+            binding.tvYear.text = announcement.boat?.year!!.toString()
+            binding.tvLength.text = announcement.boat?.length!!.toString()
+            binding.tvPassengers.text = announcement.boat?.passengers!!.toString()
+            binding.tvBeds.text = announcement.boat?.beds!!.toString()
+            binding.tvCabins.text = announcement.boat?.cabins!!.toString()
+            binding.tvBathrooms.text = announcement.boat?.bathrooms!!.toString()
+            binding.tvLocation.text = announcement.location.toString()
+            binding.tvDescription.text = announcement.description.toString()
 
             binding.layoutSkipper.visibility = 1
-            if(!announcement.licence_needed!!) {
-                binding.tvSkipperCond.setText("Non è richiesta la patente nautica")
+            if (!announcement.licence_needed!!) {
+                binding.tvSkipperCond.text = "Non è richiesta la patente nautica"
             }
-            if(announcement.capt_needed!!){
+            if (announcement.capt_needed!!) {
                 binding.layoutCaptain.isVisible = true
             }
+
             binding.tvDescription.setText(announcement.description.toString())
 
             serviceList.clear()
@@ -115,17 +132,64 @@ class AnnouncementDetailsFragment : Fragment() {
 
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
 
-
-
         //getImageForAnnouncement(arguments!!.getString("id")!!, imageList, imageAdapter)
 
+            //TODO: Immagini
 
+//            serviceList = announcement.services!!
+//            servicesAdapter.notifyDataSetChanged()
+//            rvService.adapter = servicesAdapter
+//            Log.d("Booking", serviceList.toString())
+
+//            Log.d("Booking", serviceList.toString())
+
+//            Util.fDatabase.collection("BoatAnnouncement")
+//                .document(Util.getUID()!!)
+//                .collection("Announcement")
+////            .document(arguments?.getString("id")!!)
+//                .document(announcementViewModel.getAnnouncement().value!!.id!!)
+//                .get()
+//                .addOnSuccessListener {
+//                    val services = it.get("services")
+//                    Log.d("Firestore", it.toString())
+//                    val serviceListMap = services as ArrayList<HashMap<String, String>>
+//
+////                Log.d("Firestore", serviceListString.toString())
+//                    when (services) {
+//                        null -> {}
+//                        else -> {
+//                            for (service in serviceListMap) {
+//                                val boatService = BoatService(
+//                                    service["name"]!!,
+//                                    service["price"]!!
+//                                )
+//                                serviceList.add(boatService)
+////                    Log.d("Firestore", service["name"]!!)
+////                    Log.d("Firestore", service["price"]!!)
+//                            }
+//                            servicesAdapter.notifyDataSetChanged()
+//                        }
+//                    }
+//                }
+
+//            getRemoteImages(announcement.id!!)
+
+        announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
+
+        rvService.refreshDrawableState()
+        servicesAdapter.notifyDataSetChanged()
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.bookBtn.setOnClickListener {
+            val action =
+                AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToBookingFragment()
+            findNavController().navigate(action)
+        }
 
         binding.backBtn.setOnClickListener {
             val action =
@@ -134,13 +198,14 @@ class AnnouncementDetailsFragment : Fragment() {
         }
 
         /*binding.ivMainImg.setOnClickListener{
+        binding.ivMainImg.setOnClickListener {
             Toast.makeText(context, "Clicked Main IMG", Toast.LENGTH_SHORT).show()
         }
 
          */
     }
 
-    private fun getImageForAnnouncement(imagesName: ArrayList<String>, adapter: PublicImageAdapter,remoteImageURIList : ArrayList<String>,) {
+    private fun getImageForAnnouncement(imagesName: ArrayList<String>, adapter: PublicImageAdapter, remoteImageURIList : ArrayList<String>,) {
         val progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Caricamento immagini...")
         progressDialog.setCancelable(false)
