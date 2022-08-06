@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="Theme.BoatBooking_1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-         Primary brand color.
+        Primary brand color.
         <item name="colorPrimary">@color/navy_blue</item>
         <item name="colorPrimaryVariant">@color/navy_blue</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -14,6 +14,11 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="ThemeOverlay.BoatBooking_1.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
 
 </resources>

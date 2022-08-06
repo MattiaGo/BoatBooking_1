@@ -25,5 +25,17 @@
         <action
             android:id="@+id/action_announcementDetailsFragment_to_main_home"
             app:destination="@id/main_home" />
+        <action
+            android:id="@+id/action_announcementDetailsFragment_to_zoomImageFragment"
+            app:destination="@id/zoomImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/zoomImageFragment"
+        android:name="com.example.boatbooking_1.ZoomImageFragment"
+        android:label="fragment_zoom_image"
+        tools:layout="@layout/fragment_zoom_image" >
+        <action
+            android:id="@+id/action_zoomImageFragment_to_announcementDetailsFragment"
+            app:destination="@id/announcementDetailsFragment" />
     </fragment>
 </navigation>

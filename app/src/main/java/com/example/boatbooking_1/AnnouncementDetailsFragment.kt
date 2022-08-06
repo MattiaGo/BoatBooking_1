@@ -41,16 +41,11 @@ class AnnouncementDetailsFragment : Fragment() {
     private lateinit var serviceList: ArrayList<BoatService>
     private lateinit var rvService: RecyclerView
 
-    private lateinit var imageAdapter: ImageAdapter
-    private lateinit var imageList: ArrayList<String>
-    private lateinit var imagesName: ArrayList<String>
-
+    private lateinit var imageAdapter: PublicImageAdapter
+    private lateinit var remoteImageURIList: ArrayList<String>
     private lateinit var rvImages: RecyclerView
-    private lateinit var newImageList: ArrayList<String>
 
-
-    private var remoteImageURIList: ArrayList<String> = ArrayList()
-    private var remoteImageList: ArrayList<String> = ArrayList()
+    private lateinit var imagesName: ArrayList<String>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,11 +54,9 @@ class AnnouncementDetailsFragment : Fragment() {
         serviceList = ArrayList()
         servicesAdapter = PublicServiceAdapter(serviceList)
 
-        imageList = remoteImageURIList
-        newImageList = ArrayList()
+        remoteImageURIList = ArrayList()
         imagesName = ArrayList()
-
-        imageAdapter = ImageAdapter(requireContext(), imageList, newImageList, remoteImageList)
+        imageAdapter = PublicImageAdapter(this.context!!, remoteImageURIList)
     }
 
     override fun onCreateView(
@@ -71,9 +64,8 @@ class AnnouncementDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        remoteImageList.clear()
-        imageList.clear()
-        newImageList.clear()
+        remoteImageURIList.clear()
+        imagesName.clear()
 
         // Inflate the layout for this fragment
         binding = FragmentAnnouncementDetailsBinding.inflate(inflater, container, false)
@@ -117,11 +109,8 @@ class AnnouncementDetailsFragment : Fragment() {
             servicesAdapter.notifyDataSetChanged()
 
             imagesName.clear()
-            imagesName.addAll(announcement.imageList!!)
-            imageList.clear()
-            remoteImageList.clear()
             remoteImageURIList.clear()
-            getImageForAnnouncement(imagesName, imageList, imageAdapter,remoteImageList,remoteImageURIList)
+            getImageForAnnouncement(announcement.imageList!!, imageAdapter,remoteImageURIList)
         }
 
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
@@ -144,23 +133,23 @@ class AnnouncementDetailsFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.ivMainImg.setOnClickListener{
+        /*binding.ivMainImg.setOnClickListener{
             Toast.makeText(context, "Clicked Main IMG", Toast.LENGTH_SHORT).show()
         }
+
+         */
     }
 
-    private fun getImageForAnnouncement(imagesName: ArrayList<String>, list: ArrayList<String>, adapter: ImageAdapter,remoteImageList: ArrayList<String>, remoteImageURIList: ArrayList<String>,) {
+    private fun getImageForAnnouncement(imagesName: ArrayList<String>, adapter: PublicImageAdapter,remoteImageURIList : ArrayList<String>,) {
         val progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Caricamento immagini...")
         progressDialog.setCancelable(false)
         progressDialog.show()
         detailsAnnouncementViewModel.getImageForAnnouncement(
             imagesName,
-            list,
             adapter,
             progressDialog,
-            remoteImageURIList,
-            remoteImageList
+            remoteImageURIList
         )
     }
 }
