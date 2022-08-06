@@ -25,12 +25,17 @@ import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.ui.*
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
+import com.example.boatbooking_1.viewmodel.DetailsAnnouncementViewModel
 
 class AnnouncementDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentAnnouncementDetailsBinding
     private val announcementViewModel: AnnouncementViewModel by activityViewModels()
+    private val detailsAnnouncementViewModel: DetailsAnnouncementViewModel by activityViewModels()
+
     private lateinit var observer: Observer<Announcement>
+
+    private lateinit var AID: String
 
     private lateinit var servicesAdapter: PublicServiceAdapter
     private lateinit var serviceList: ArrayList<BoatService>
@@ -38,6 +43,8 @@ class AnnouncementDetailsFragment : Fragment() {
 
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var imageList: ArrayList<String>
+    private lateinit var imagesName: ArrayList<String>
+
     private lateinit var rvImages: RecyclerView
     private lateinit var newImageList: ArrayList<String>
 
@@ -54,6 +61,8 @@ class AnnouncementDetailsFragment : Fragment() {
 
         imageList = remoteImageURIList
         newImageList = ArrayList()
+        imagesName = ArrayList()
+
         imageAdapter = ImageAdapter(requireContext(), imageList, newImageList, remoteImageList)
     }
 
@@ -66,14 +75,20 @@ class AnnouncementDetailsFragment : Fragment() {
         imageList.clear()
         newImageList.clear()
 
-        serviceList.clear()
-
         // Inflate the layout for this fragment
         binding = FragmentAnnouncementDetailsBinding.inflate(inflater, container, false)
 
         announcementViewModel.setAnnouncement(arguments!!.getString("id"), requireContext())
 
-//        Log.d("announcementViewModel", announcementViewModel.announcement().toString())
+        rvService = binding.rvServices
+        rvService.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        rvService.adapter = servicesAdapter
+
+        rvImages = binding.rvImages
+        rvImages.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        rvImages.adapter = imageAdapter
 
         observer = Observer<Announcement> { announcement ->
             binding.boatName.setText(announcement.boat?.name.toString())
@@ -97,72 +112,25 @@ class AnnouncementDetailsFragment : Fragment() {
             }
             binding.tvDescription.setText(announcement.description.toString())
 
+            serviceList.clear()
+            serviceList.addAll(announcement.services!!)
+            servicesAdapter.notifyDataSetChanged()
 
-
-            //TODO: immagini e servizi
-
-            rvService = binding.rvServices
-            rvService.layoutManager =
-                LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-            rvService.adapter = servicesAdapter
-
-            rvImages = binding.rvImages
-            rvImages.layoutManager =
-                LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-            rvImages.adapter = imageAdapter
-
-            getRemoteImages(announcement.id!!)
-
-
-            /*val yearSpinner = binding.sliderYear
-            val lengthSpinner = binding.sliderLength
-
-            val yearsArray = resources.getStringArray(R.array.years_array)
-            val lengthsArray = resources.getStringArray(R.array.lengths_array)
-
-            yearsArray.forEachIndexed { index, s ->
-                if (s.equals(announcement.boat?.year.toString()))
-                    yearSpinner.setSelection(index)
-            }
-
-            lengthsArray.forEachIndexed { index, s ->
-                if (s.equals(announcement.boat?.length.toString()))
-                    lengthSpinner.setSelection(index)
-            }*/
+            imagesName.clear()
+            imagesName.addAll(announcement.imageList!!)
+            imageList.clear()
+            remoteImageList.clear()
+            remoteImageURIList.clear()
+            getImageForAnnouncement(imagesName, imageList, imageAdapter,remoteImageList,remoteImageURIList)
         }
 
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
 
-        Util.fDatabase.collection("BoatAnnouncement")
-            .document(Util.getUID()!!)
-            .collection("Announcement")
-            .document(arguments?.getString("id")!!)
-            .get()
-            .addOnSuccessListener {
-                val services = it.get("services")
-                Log.d("Firestore", it.toString())
-                val serviceListMap = services as ArrayList<HashMap<String, String>>
 
-//                Log.d("Firestore", serviceListString.toString())
-                when (services) {
-                    null -> {}
-                    else -> {
-                        for (service in serviceListMap) {
-                            val boatService = BoatService(
-                                service["name"]!!,
-                                service["price"]!!
-                            )
 
-                            serviceList.add(boatService)
-//                    Log.d("Firestore", service["name"]!!)
-//                    Log.d("Firestore", service["price"]!!)
-                        }
-                        servicesAdapter.notifyDataSetChanged()
-                    }
+        //getImageForAnnouncement(arguments!!.getString("id")!!, imageList, imageAdapter)
 
-                }
 
-            }
 
         return binding.root
     }
@@ -181,75 +149,18 @@ class AnnouncementDetailsFragment : Fragment() {
         }
     }
 
-    private fun getRemoteImages(announcement_id: String) {
+    private fun getImageForAnnouncement(imagesName: ArrayList<String>, list: ArrayList<String>, adapter: ImageAdapter,remoteImageList: ArrayList<String>, remoteImageURIList: ArrayList<String>,) {
         val progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Caricamento immagini...")
         progressDialog.setCancelable(false)
         progressDialog.show()
-
-        Util.fDatabase.collectionGroup("Announcement")
-            .whereEqualTo("id", announcement_id)
-            .get()
-            .addOnSuccessListener { documents ->
-                documents.forEach { document ->
-                    val announcement = document.toObject(Announcement::class.java)
-                    val images = announcement.imageList
-
-                    Log.d("immagini", images.toString())
-                    val imageListMap = images as ArrayList<String>
-
-                    when (images) {
-                        null -> {}
-                        else -> {
-                            if (imageListMap.isEmpty()) {
-                                if (progressDialog.isShowing) {
-                                    progressDialog.dismiss()
-                                }
-                            }
-//                Log.d("Firestore", serviceListString.toString())
-                            for (image in imageListMap) {
-//                val localFile = File.createTempFile("temp-image$i", ".jpg")
-
-                                var downloadUri: Uri
-//                var remoteImages: ArrayList<String> = ArrayList()
-
-                                Util.fStorage.reference.child("/images/$image")
-                                    .downloadUrl
-                                    .addOnCompleteListener {
-                                        // Got the download URL
-                                        if (it.isSuccessful) {
-                                            downloadUri = it.result
-                                            Log.d("Adapter", "$downloadUri")
-//                                        val generatedFilePath = downloadUri.toString()
-                                            remoteImageURIList.add(downloadUri.toString())
-                                            remoteImageList.add(image) // Name of image on Storage
-                                            imageAdapter.notifyDataSetChanged()
-                                            Log.d("Adapter", "$remoteImageURIList")
-                                            /// The string (file link) that you need
-                                            if (progressDialog.isShowing) {
-                                                progressDialog.dismiss()
-                                            }
-                                        }
-
-                                        if (progressDialog.isShowing) {
-                                            progressDialog.dismiss()
-                                        }
-                                    }
-                                    .addOnFailureListener {
-                                        if (progressDialog.isShowing) {
-                                            progressDialog.dismiss()
-                                        }
-                                        Log.d("Adapter", "Error: $it")
-                                    }
-                            }
-                        }
-                    }
-                }
-            }
-            .addOnFailureListener {
-                if (progressDialog.isShowing) {
-                    progressDialog.dismiss()
-                }
-            }
+        detailsAnnouncementViewModel.getImageForAnnouncement(
+            imagesName,
+            list,
+            adapter,
+            progressDialog,
+            remoteImageURIList,
+            remoteImageList
+        )
     }
 }
