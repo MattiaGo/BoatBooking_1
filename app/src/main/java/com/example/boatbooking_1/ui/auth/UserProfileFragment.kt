@@ -20,12 +20,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentUserProfileBinding
 import com.example.boatbooking_1.model.User
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.utils.Util.hideKeyboard
+import com.example.boatbooking_1.viewmodel.MyBookingViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -39,6 +41,8 @@ class UserProfileFragment : Fragment() {
     private lateinit var binding: FragmentUserProfileBinding
 
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
+    private val myBookingsViewModel: MyBookingViewModel by activityViewModels()
+
     private lateinit var imageUri: Uri
 
     //private lateinit var permissions: Permissions
@@ -123,6 +127,7 @@ class UserProfileFragment : Fragment() {
                     binding.myBoatBtn.isVisible = true
 //                    sharedPreferencesEdit.putBoolean("owner", false).apply() // Useless
                 }
+                Log.d("MyBookings", user.toString())
             }
 
 //        etName.setOnFocusChangeListener { _, hasFocus ->
@@ -227,7 +232,8 @@ class UserProfileFragment : Fragment() {
         }
 
         binding.btnMyBookings.setOnClickListener {
-            val action = UserProfileFragmentDirections.actionUserProfileToMyBookingsFragment()
+            val action =
+                UserProfileFragmentDirections.actionUserProfileToMyBookingsFragment()
             findNavController().navigate(action)
         }
 
@@ -287,6 +293,8 @@ class UserProfileFragment : Fragment() {
         val user = Util.firebaseAuth.currentUser
 
         if (user != null) {
+            myBookingsViewModel.refresh()
+
             Util.firebaseAuth.signOut()
             val action = UserProfileFragmentDirections.actionUserProfileToMainAccount()
             findNavController().navigate(action)

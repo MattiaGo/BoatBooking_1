@@ -22,23 +22,22 @@ class UserProfileRepository {
 
     val user: LiveData<User?>
         get() {
-//            if (liveData == null || liveData!!.value!!.uid != Util.getUID()) { // Change account
-            liveData = MutableLiveData()
-            Util.mDatabase.child("users").child(Util.getUID()!!)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            val userModel = dataSnapshot.getValue(
-                                User::class.java
-                            )
-                            liveData!!.value = userModel
+            if (liveData == null || liveData!!.value!!.uid != Util.getUID()) { // Change account
+                liveData = MutableLiveData()
+                Util.mDatabase.child("users").child(Util.getUID()!!)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                val userModel = dataSnapshot.getValue(
+                                    User::class.java
+                                )
+                                liveData!!.value = userModel
+                            }
                         }
-                    }
 
-                    override fun onCancelled(databaseError: DatabaseError) {}
-                })
-//            }
-
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
+            }
             return liveData!!
         }
 

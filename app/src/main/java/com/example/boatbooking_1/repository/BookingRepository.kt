@@ -1,7 +1,6 @@
 package com.example.boatbooking_1.repository
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.boatbooking_1.model.BoatService
@@ -19,12 +18,12 @@ class BookingRepository {
 
     init {
         resetLiveData()
-        val booking = Booking()
-        _bookingLiveData.value = booking
     }
 
     private fun resetLiveData() {
         _bookingLiveData = MutableLiveData()
+        val booking = Booking()
+        _bookingLiveData.value = booking
     }
 
     fun setBookingDate(start: Date, end: Date) {
@@ -45,6 +44,7 @@ class BookingRepository {
                     val booking = document.toObject(Booking::class.java)
                     myBookingList.add(booking)
                 }
+
                 myBookingAdapter.notifyDataSetChanged()
             }
     }
@@ -63,23 +63,25 @@ class BookingRepository {
     }
 
     fun addBookingOnDatabase() {
-        val uid = Util.getUID()!!
-        val BID = uid.plus("@${Timestamp.now().seconds}")
+        val idShipOwner = _bookingLiveData.value!!.announcement!!.id_owner
+        val BID = Util.getUID().plus("@${Timestamp.now().seconds}")
 
         val booking = _bookingLiveData.value
         booking!!.id = BID
-        booking.idOwner = uid
+        booking.idShipOwner = idShipOwner
 
         Util.fDatabase.collection("BoatBookings")
-            .document(uid)
+            .document(Util.getUID()!!)
             .collection("Booking")
             .document(BID)
             .set(booking)
             .addOnCompleteListener {
                 Log.d("Booking", "OnComplete: Booking added!")
+                resetLiveData()
             }
             .addOnFailureListener {
                 Log.d("Booking", "Error: $it")
+                resetLiveData()
             }
     }
 
