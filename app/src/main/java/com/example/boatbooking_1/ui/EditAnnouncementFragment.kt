@@ -110,6 +110,7 @@ class EditAnnouncementFragment : Fragment() {
             binding.checkBoxLicense.isChecked = announcement.licence_needed!!
             binding.checkBoxCaptainNeeded.isChecked = announcement.capt_needed!!
             binding.etDescription.setText(announcement.description.toString())
+            binding.etPrice.setText(announcement.price.toString())
 //            imageList = announcement.imageList!!
 //            Log.d("Adapter", imageList.toString())
 //            imageAdapter.notifyDataSetChanged()
@@ -234,6 +235,7 @@ class EditAnnouncementFragment : Fragment() {
                 description = binding.etDescription.text.toString(),
                 services = serviceList,
                 imageList = newImageList,
+                price = binding.etPrice.text.toString().toInt(),
                 available = announcementViewModel.getAnnouncement().value!!.available
             )
 

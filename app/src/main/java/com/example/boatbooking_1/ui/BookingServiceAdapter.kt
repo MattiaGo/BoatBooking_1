@@ -52,6 +52,7 @@ class BookingServiceAdapter(
 
         if (holder.checkBox.isChecked)
             Log.d("BookingService", "CheckBox [$position]: ${holder.checkBox.isChecked}")
+
     }
 
     override fun getItemCount(): Int {

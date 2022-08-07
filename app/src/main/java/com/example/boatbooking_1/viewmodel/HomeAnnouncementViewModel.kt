@@ -53,7 +53,6 @@ class HomeAnnouncementViewModel : ViewModel() {
         adapter: PublicAnnouncementAdapter
     ) {
         Util.fDatabase.collectionGroup("Announcement")
-            .whereGreaterThan("average_vote",4)
             .limit(limit_of_query)
             .get()
             .addOnSuccessListener { documents ->

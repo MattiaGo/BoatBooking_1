@@ -49,6 +49,22 @@ class BookingRepository {
             }
     }
 
+    fun setBasePrice(price: Int){
+        val bookingUpdated = _bookingLiveData.value
+
+        val startDate = bookingUpdated?.startDate
+        val endDate = bookingUpdated?.endDate
+
+        val diff: Long = endDate!!.getTime() - startDate!!.getTime()
+        val seconds = diff / 1000
+        val minutes = seconds / 60
+        val hours = minutes / 60
+        val days = (hours / 24 ).toInt() +1
+
+        bookingUpdated!!.total = (price * days)
+        _bookingLiveData.value = bookingUpdated
+    }
+
     fun updateBookingTotal(addPrice: Int) {
         val bookingUpdated = _bookingLiveData.value
         bookingUpdated!!.total += addPrice

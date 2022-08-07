@@ -5,10 +5,37 @@
     android:layout_height="match_parent"
     tools:context=".ui.navigation.FavoritesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Preferiti" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp">
+
+        <TextView
+            android:id="@+id/txt_SignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:text="Barche Preferite"
+            android:textColor="@color/navy_blue"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_favorites"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:scrollbars="vertical" />
+
+        </ScrollView>
+    </LinearLayout>
 
 </FrameLayout>

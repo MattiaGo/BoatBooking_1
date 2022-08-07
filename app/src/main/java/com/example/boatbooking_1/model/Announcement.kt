@@ -15,6 +15,7 @@ data class Announcement(
     var description: String? = null,
     var services: ArrayList<BoatService>? = null,
     var imageList: ArrayList<String>? = null,
+    var price: Int? = null,
     var available: Boolean = false,
     var average_vote: Double = 0.00
 ) {

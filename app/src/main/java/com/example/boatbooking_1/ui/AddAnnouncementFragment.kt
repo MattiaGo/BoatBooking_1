@@ -41,6 +41,7 @@ class AddAnnouncementFragment : Fragment() {
     private lateinit var checkBoxLicense: CheckBox
     private lateinit var checkBoxCaptain: CheckBox
     private lateinit var etDescription: TextInputEditText
+    private lateinit var etPrice: TextInputEditText
     private lateinit var rvImages: RecyclerView
     private lateinit var rvServices: RecyclerView
     private lateinit var btnAddImage: ImageButton
@@ -77,6 +78,7 @@ class AddAnnouncementFragment : Fragment() {
         rvImages = binding.rvImages
         rvServices = binding.rvServices
         etDescription = binding.etDescription
+        etPrice = binding.etPrice
 
         btnAddImage = binding.btnAddImage
         btnAddService = binding.btnAddService
@@ -108,7 +110,7 @@ class AddAnnouncementFragment : Fragment() {
 //        Log.d("Context", childFragmentManager.toString())
 
         btnSave.setOnClickListener {
-            if (validatePort()) {
+            if (validatePort() && validatePrice()) {
                 // Announcement ID
                 val AID = Util.getUID().plus("@${Timestamp.now().seconds}")
                 val UID = Util.getUID()
@@ -124,6 +126,7 @@ class AddAnnouncementFragment : Fragment() {
                     description = etDescription.text.toString(),
                     services = serviceList,
                     imageList = imageList,
+                    price = etPrice.text.toString().toInt(),
                     available = true
                 )
 
@@ -168,6 +171,18 @@ class AddAnnouncementFragment : Fragment() {
             false
         } else {
             binding.textInputLayoutPort.isErrorEnabled = false
+            true
+        }
+    }
+
+    private fun validatePrice(): Boolean {
+        return if (etPort.text.toString().trim().isEmpty()) {
+            binding.textInputLayoutPrice.isErrorEnabled = true
+            binding.textInputLayoutPrice.error = getString(R.string.required_field)
+            etPrice.requestFocus()
+            false
+        } else {
+            binding.textInputLayoutPrice.isErrorEnabled = false
             true
         }
     }

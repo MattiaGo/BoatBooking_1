@@ -3,13 +3,18 @@ package com.example.boatbooking_1
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.example.boatbooking_1.databinding.FragmentAnnouncementDetailsBinding
 import com.example.boatbooking_1.databinding.FragmentZoomImageBinding
 
 /**
@@ -41,37 +46,55 @@ class ZoomImageFragment : Fragment() {
         fullscreenContentControls?.visibility = View.VISIBLE
     }
     private var visible: Boolean = false
-    private val hideRunnable = Runnable { hide() }
+    //private val hideRunnable = Runnable { hide() }
 
     /**
      * Touch listener to use for in-layout UI controls to delay hiding the
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    private val delayHideTouchListener = View.OnTouchListener { _, _ ->
+    /*private val delayHideTouchListener = View.OnTouchListener { _, _ ->
         if (AUTO_HIDE) {
             delayedHide(AUTO_HIDE_DELAY_MILLIS)
         }
         false
     }
 
+     */
+
     private var dummyButton: Button? = null
     private var fullscreenContent: View? = null
     private var fullscreenContentControls: View? = null
 
-    private var _binding: FragmentZoomImageBinding? = null
+    private var imageList: ArrayList<String> = ArrayList()
+    private lateinit var announcement_id: String
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentZoomImageBinding
 
-    override fun onCreateView(
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            imageList = it.getStringArrayList("imageList") as ArrayList<String>
+            announcement_id = it.getString("id") as String
+
+        }
+    }
+
+
+
+        override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentZoomImageBinding.inflate(inflater, container, false)
+        Log.d("bundle", imageList.toString())
+
+
+            binding = FragmentZoomImageBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -81,16 +104,23 @@ class ZoomImageFragment : Fragment() {
 
         visible = true
 
-        dummyButton = binding.dummyButton
-        fullscreenContent = binding.fullscreenContent
-        fullscreenContentControls = binding.fullscreenContentControls
+        //dummyButton = binding.dummyButton
+        //fullscreenContent = binding.fullscreenContent
+        //fullscreenContentControls = binding.fullscreenContentControls
         // Set up the user interaction to manually show or hide the system UI.
         fullscreenContent?.setOnClickListener { toggle() }
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        dummyButton?.setOnTouchListener(delayHideTouchListener)
+        // while interacting with the UI.+
+        binding.backBtn.setOnClickListener{
+            val bundle = bundleOf("id" to announcement_id)
+            Navigation.findNavController(view).navigate(
+                R.id.action_zoomImageFragment_to_announcementDetailsFragment,
+                bundle
+            )
+        }
+        //dummyButton?.setOnTouchListener(delayHideTouchListener)
     }
 
     override fun onResume() {
@@ -100,7 +130,7 @@ class ZoomImageFragment : Fragment() {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100)
+       // delayedHide(100)
     }
 
     override fun onPause() {
@@ -154,11 +184,12 @@ class ZoomImageFragment : Fragment() {
     /**
      * Schedules a call to hide() in [delayMillis], canceling any
      * previously scheduled calls.
-     */
+
     private fun delayedHide(delayMillis: Int) {
         hideHandler.removeCallbacks(hideRunnable)
         hideHandler.postDelayed(hideRunnable, delayMillis.toLong())
     }
+     */
 
     companion object {
         /**
@@ -182,6 +213,5 @@ class ZoomImageFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     }
 }

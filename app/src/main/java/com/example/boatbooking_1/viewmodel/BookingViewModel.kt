@@ -27,6 +27,10 @@ class BookingViewModel : ViewModel() {
         repository.setBookingDate(start, end)
     }
 
+    fun setBasePrice(price: Int){
+        repository.setBasePrice(price)
+    }
+
     fun updateBookingTotal(addPrice: Int) {
         repository.updateBookingTotal(addPrice)
     }

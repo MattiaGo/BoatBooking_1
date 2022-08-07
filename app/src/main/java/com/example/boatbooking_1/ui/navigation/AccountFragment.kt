@@ -10,12 +10,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentAccountBinding
 import com.example.boatbooking_1.repository.UserProfileRepository
 import com.example.boatbooking_1.utils.Util
+import com.example.boatbooking_1.viewmodel.FavoritesBoatsViewModel
+import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -40,6 +43,8 @@ class AccountFragment : Fragment() {
     //for google log in
     private lateinit var mFirebaseAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
 
     companion object {
@@ -111,7 +116,8 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun updateUI(user: FirebaseUser?) {
+    private fun updateUI() {
+        userProfileViewModel.activateFavoritesIfNot()
         val action = AccountFragmentDirections.actionMainAccountToUserProfile()
         findNavController().navigate(action)
     }
@@ -129,8 +135,7 @@ class AccountFragment : Fragment() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Util.setStringSharePreferences(requireContext(), "password", password.text.toString())
-                        val action = AccountFragmentDirections.actionMainAccountToUserProfile()
-                        findNavController().navigate(action)
+                        updateUI()
                     } else {
                         loginMessageError.text = task.exception?.message
                         loginMessageError.isVisible = true
@@ -146,8 +151,7 @@ class AccountFragment : Fragment() {
         mFirebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = FirebaseAuth.getInstance().currentUser
-                    updateUI(user)
+                    updateUI()
                 } else {
                     binding.loginBtn.isEnabled = true
                     binding.loginBtn.alpha = 1.0f

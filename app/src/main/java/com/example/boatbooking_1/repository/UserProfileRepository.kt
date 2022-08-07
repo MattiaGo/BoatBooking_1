@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.User
 import com.example.boatbooking_1.ui.auth.LoginFragment.Companion.TAG
 import com.example.boatbooking_1.utils.Util
@@ -208,6 +209,18 @@ class UserProfileRepository {
                     updateChatPreview()
                 } else Log.d("name", "onComplete:" + task.exception)
             }
+    }
+
+    fun activateFavoritesIfNot(){
+        val uid = Util.getUID()!!
+
+        Util.fDatabase.collection("UsersFavorites")
+            .document(uid)
+            .set(
+                hashMapOf(
+                    "id" to uid
+                )
+            )
     }
 
     companion object {

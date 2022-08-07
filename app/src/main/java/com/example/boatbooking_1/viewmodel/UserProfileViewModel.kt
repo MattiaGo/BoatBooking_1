@@ -34,4 +34,8 @@ class UserProfileViewModel : ViewModel() {
     fun editEmail(email: String, context: Context) {
         return userProfileRepository.editEmail(email, context)
     }
+
+    fun activateFavoritesIfNot(){
+        return userProfileRepository.activateFavoritesIfNot()
+    }
 }

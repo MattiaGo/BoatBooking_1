@@ -3,7 +3,9 @@ package com.example.boatbooking_1.viewmodel
 import android.app.ProgressDialog
 import android.net.Uri
 import android.util.Log
+import android.widget.ImageButton
 import androidx.lifecycle.ViewModel
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.ui.*
@@ -160,6 +162,25 @@ class DetailsAnnouncementViewModel : ViewModel() {
                     }
 
                 }
+            }
+    }
+
+    fun checkIfFavorite(id: String, imgButton: ImageButton) {
+        Util.fDatabase.collection("UsersFavorites")
+            .document(Util.getUID()!!)
+            .collection("Announcement")
+            .document(id)
+            .get()
+            .addOnSuccessListener {
+                if (it.exists()) {
+                    imgButton.setImageResource(R.drawable.ic_favorite)
+                }
+                else{
+                    imgButton.setImageResource(R.drawable.ic_favorite_border)
+                }
+            }
+            .addOnFailureListener {
+                Log.d("Error", it.toString())
             }
     }
 }
