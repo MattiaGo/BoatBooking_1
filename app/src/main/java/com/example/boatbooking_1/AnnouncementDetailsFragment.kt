@@ -26,12 +26,15 @@ import com.example.boatbooking_1.ui.*
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.DetailsAnnouncementViewModel
+import com.example.boatbooking_1.viewmodel.UserProfileViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class AnnouncementDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentAnnouncementDetailsBinding
     private val announcementViewModel: AnnouncementViewModel by activityViewModels()
     private val detailsAnnouncementViewModel: DetailsAnnouncementViewModel by activityViewModels()
+    private val userViewModel: UserProfileViewModel by activityViewModels()
 
     private lateinit var observer: Observer<Announcement>
 
@@ -127,50 +130,12 @@ class AnnouncementDetailsFragment : Fragment() {
 
             imagesName.clear()
             remoteImageURIList.clear()
-            getImageForAnnouncement(announcement.imageList!!, imageAdapter,remoteImageURIList)
+            getImageForAnnouncement(announcement.imageList!!, imageAdapter, remoteImageURIList)
         }
 
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
 
         //getImageForAnnouncement(arguments!!.getString("id")!!, imageList, imageAdapter)
-
-            //TODO: Immagini
-
-//            serviceList = announcement.services!!
-//            servicesAdapter.notifyDataSetChanged()
-//            rvService.adapter = servicesAdapter
-//            Log.d("Booking", serviceList.toString())
-
-//            Log.d("Booking", serviceList.toString())
-
-//            Util.fDatabase.collection("BoatAnnouncement")
-//                .document(Util.getUID()!!)
-//                .collection("Announcement")
-////            .document(arguments?.getString("id")!!)
-//                .document(announcementViewModel.getAnnouncement().value!!.id!!)
-//                .get()
-//                .addOnSuccessListener {
-//                    val services = it.get("services")
-//                    Log.d("Firestore", it.toString())
-//                    val serviceListMap = services as ArrayList<HashMap<String, String>>
-//
-////                Log.d("Firestore", serviceListString.toString())
-//                    when (services) {
-//                        null -> {}
-//                        else -> {
-//                            for (service in serviceListMap) {
-//                                val boatService = BoatService(
-//                                    service["name"]!!,
-//                                    service["price"]!!
-//                                )
-//                                serviceList.add(boatService)
-////                    Log.d("Firestore", service["name"]!!)
-////                    Log.d("Firestore", service["price"]!!)
-//                            }
-//                            servicesAdapter.notifyDataSetChanged()
-//                        }
-//                    }
-//                }
 
 //            getRemoteImages(announcement.id!!)
 
@@ -185,10 +150,23 @@ class AnnouncementDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.bookBtn.setOnClickListener {
-            val action =
-                AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToBookingFragment()
-            findNavController().navigate(action)
+        if (userViewModel.getUser().value == null || userViewModel.getUser().value!!.shipOwner) {
+            binding.bookBtn.setOnClickListener {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    getString(R.string.booking_validation),
+                    Snackbar.LENGTH_SHORT
+                )
+                    .setAnchorView(R.id.bottom_nav)
+                    .setAction("HO CAPITO") { // Responds to click on the action
+                    }.show()
+            }
+        } else {
+            binding.bookBtn.setOnClickListener {
+                val action =
+                    AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToBookingFragment()
+                findNavController().navigate(action)
+            }
         }
 
         binding.backBtn.setOnClickListener {
@@ -197,15 +175,13 @@ class AnnouncementDetailsFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        /*binding.ivMainImg.setOnClickListener{
-        binding.ivMainImg.setOnClickListener {
-            Toast.makeText(context, "Clicked Main IMG", Toast.LENGTH_SHORT).show()
-        }
-
-         */
     }
 
-    private fun getImageForAnnouncement(imagesName: ArrayList<String>, adapter: PublicImageAdapter, remoteImageURIList : ArrayList<String>,) {
+    private fun getImageForAnnouncement(
+        imagesName: ArrayList<String>,
+        adapter: PublicImageAdapter,
+        remoteImageURIList: ArrayList<String>,
+    ) {
         val progressDialog = ProgressDialog(context)
         progressDialog.setMessage("Caricamento immagini...")
         progressDialog.setCancelable(false)

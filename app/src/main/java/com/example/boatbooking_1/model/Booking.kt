@@ -5,6 +5,7 @@ import java.util.*
 class Booking(
     var id: String? = null,
     var announcement: Announcement? = null,
+    var AID: String? = null,
     var startDate: Date? = null,
     var endDate: Date? = null,
     var services: ArrayList<BoatService>? = ArrayList(),

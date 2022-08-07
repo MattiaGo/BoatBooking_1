@@ -11,7 +11,12 @@ import com.example.boatbooking_1.utils.Util
 import com.google.firebase.firestore.ktx.toObject
 
 class DetailsAnnouncementViewModel : ViewModel() {
-    fun getImageForAnnouncement(imagesName: ArrayList<String>, adapter: PublicImageAdapter, progressDialog: ProgressDialog, remoteImageURIList: ArrayList<String>) {
+    fun getImageForAnnouncement(
+        imagesName: ArrayList<String>,
+        adapter: PublicImageAdapter,
+        progressDialog: ProgressDialog,
+        remoteImageURIList: ArrayList<String>
+    ) {
         /*when (imagesName) {
             null -> {}
             else -> {
@@ -24,43 +29,43 @@ class DetailsAnnouncementViewModel : ViewModel() {
          */
 
 //              Log.d("Firestore", serviceListString.toString())
-                for (image in imagesName) {
+        for (image in imagesName) {
 //                val localFile = File.createTempFile("temp-image$i", ".jpg")
 
-                    var downloadUri: Uri
+            var downloadUri: Uri
 //                var remoteImages: ArrayList<String> = ArrayList()
 
-                    Util.fStorage.reference.child("/images/$image")
-                        .downloadUrl
-                        .addOnCompleteListener {
-                            // Got the download URL
-                                downloadUri = it.result
-                                Log.d("Adapter", "$downloadUri")
+            Util.fStorage.reference.child("/images/$image")
+                .downloadUrl
+                .addOnCompleteListener {
+                    // Got the download URL
+                    downloadUri = it.result
+                    Log.d("Adapter", "$downloadUri")
 //                                        val generatedFilePath = downloadUri.toString()
-                                if(!remoteImageURIList.contains(downloadUri.toString())){
-                                    remoteImageURIList.add(downloadUri.toString())
-                                }
-                                //remoteImageList.add(image) // Name of image on Storage
+                    if (!remoteImageURIList.contains(downloadUri.toString())) {
+                        remoteImageURIList.add(downloadUri.toString())
+                    }
+                    //remoteImageList.add(image) // Name of image on Storage
 
-                                Log.d("Adapter", "$remoteImageURIList")
-                                /// The string (file link) that you need
-                                if (progressDialog.isShowing) {
-                                    progressDialog.dismiss()
-                                }
+                    Log.d("Adapter", "$remoteImageURIList")
+                    /// The string (file link) that you need
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
 
 
-                            if (progressDialog.isShowing) {
-                                progressDialog.dismiss()
-                            }
-                            adapter.notifyDataSetChanged()
-                        }
-                        .addOnFailureListener {
-                            if (progressDialog.isShowing) {
-                                progressDialog.dismiss()
-                            }
-                            Log.d("Adapter", "Error: $it")
-                        }
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
+                    adapter.notifyDataSetChanged()
                 }
+                .addOnFailureListener {
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
+                    Log.d("Adapter", "Error: $it")
+                }
+        }
         //}
         //}
     }
@@ -134,7 +139,11 @@ class DetailsAnnouncementViewModel : ViewModel() {
 
      */
 
-    fun getServiceForAnnouncement(announcement_id: String, list:  ArrayList<BoatService>, adapter: PublicServiceAdapter) {
+    fun getServiceForAnnouncement(
+        announcement_id: String,
+        list: ArrayList<BoatService>,
+        adapter: PublicServiceAdapter
+    ) {
         Util.fDatabase.collectionGroup("BoatAnnouncement")
             .whereEqualTo("id", announcement_id)
             .get()

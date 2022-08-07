@@ -1,12 +1,10 @@
 package com.example.boatbooking_1.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.repository.AnnouncementRepository
 import com.example.boatbooking_1.repository.BookingRepository
 import com.example.boatbooking_1.ui.MyBookingAdapter
 import java.util.*
@@ -17,6 +15,14 @@ class BookingViewModel : ViewModel() {
 
     fun getBooking() : LiveData<Booking> {
         return repository.bookingLiveData
+    }
+
+    fun getAvailability() : LiveData<Boolean> {
+        return repository.available
+    }
+
+    fun resetAvailability() {
+        repository.resetAvailability()
     }
 
     fun getUserBookingList(myBookingList: ArrayList<Booking>, myBookingAdapter: MyBookingAdapter) {
@@ -35,7 +41,11 @@ class BookingViewModel : ViewModel() {
         repository.updateBoatServiceList(service, toAdd)
     }
 
-    fun addBookingOnDatabase() {
-        repository.addBookingOnDatabase()
+    fun addBookingOnDatabase(AID: String) {
+        repository.addBookingOnDatabase(AID)
+    }
+
+    fun isPeriodAvailable(startDate: Date, endDate: Date, id: String, context: Context) {
+        return repository.isPeriodAvailable(startDate, endDate, id, context)
     }
 }

@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -121,7 +120,7 @@ class BookingServicesFragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             Log.d("Booking", bookingViewModel.getBooking().value.toString())
-            bookingViewModel.addBookingOnDatabase()
+            bookingViewModel.addBookingOnDatabase(announcementViewModel.getAnnouncement().value!!.id!!)
 
             Snackbar.make(
                 activity!!.findViewById(android.R.id.content),
