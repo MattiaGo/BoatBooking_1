@@ -29,7 +29,6 @@ class AnnouncementViewModel : ViewModel() {
     }
 
     fun setAnnouncement(id: String?, context: Context) {
-        Log.d("Firestore", "setAnnouncement() ViewModel")
         repository.setAnnouncementLiveData(id, context)
     }
 

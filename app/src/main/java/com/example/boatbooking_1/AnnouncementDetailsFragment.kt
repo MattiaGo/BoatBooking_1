@@ -25,7 +25,8 @@ import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.DetailsAnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.FavoritesBoatsViewModel
-
+import com.example.boatbooking_1.viewmodel.UserProfileViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class AnnouncementDetailsFragment : Fragment() {
 
@@ -33,6 +34,7 @@ class AnnouncementDetailsFragment : Fragment() {
     private val announcementViewModel: AnnouncementViewModel by activityViewModels()
     private val detailsAnnouncementViewModel: DetailsAnnouncementViewModel by activityViewModels()
     private val favoritesBoatsViewModel: FavoritesBoatsViewModel by activityViewModels()
+    private val userViewModel: UserProfileViewModel by activityViewModels()
 
     private lateinit var observer: Observer<Announcement>
 
@@ -131,52 +133,7 @@ class AnnouncementDetailsFragment : Fragment() {
             getImageForAnnouncement(announcement.imageList!!, imageAdapter,remoteImageURIList)
 
             detailsAnnouncementViewModel.checkIfFavorite(announcement.id!!, binding.likeBtn)
-
         }
-
-        announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
-
-        //getImageForAnnouncement(arguments!!.getString("id")!!, imageList, imageAdapter)
-
-            //TODO: Immagini
-
-//            serviceList = announcement.services!!
-//            servicesAdapter.notifyDataSetChanged()
-//            rvService.adapter = servicesAdapter
-//            Log.d("Booking", serviceList.toString())
-
-//            Log.d("Booking", serviceList.toString())
-
-//            Util.fDatabase.collection("BoatAnnouncement")
-//                .document(Util.getUID()!!)
-//                .collection("Announcement")
-////            .document(arguments?.getString("id")!!)
-//                .document(announcementViewModel.getAnnouncement().value!!.id!!)
-//                .get()
-//                .addOnSuccessListener {
-//                    val services = it.get("services")
-//                    Log.d("Firestore", it.toString())
-//                    val serviceListMap = services as ArrayList<HashMap<String, String>>
-//
-////                Log.d("Firestore", serviceListString.toString())
-//                    when (services) {
-//                        null -> {}
-//                        else -> {
-//                            for (service in serviceListMap) {
-//                                val boatService = BoatService(
-//                                    service["name"]!!,
-//                                    service["price"]!!
-//                                )
-//                                serviceList.add(boatService)
-////                    Log.d("Firestore", service["name"]!!)
-////                    Log.d("Firestore", service["price"]!!)
-//                            }
-//                            servicesAdapter.notifyDataSetChanged()
-//                        }
-//                    }
-//                }
-
-//            getRemoteImages(announcement.id!!)
 
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
 
@@ -189,10 +146,23 @@ class AnnouncementDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.bookBtn.setOnClickListener {
-            val action =
-                AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToBookingFragment()
-            findNavController().navigate(action)
+        if (userViewModel.getUser().value == null || userViewModel.getUser().value!!.shipOwner) {
+            binding.bookBtn.setOnClickListener {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    getString(R.string.booking_validation),
+                    Snackbar.LENGTH_SHORT
+                )
+                    .setAnchorView(R.id.bottom_nav)
+                    .setAction("HO CAPITO") { // Responds to click on the action
+                    }.show()
+            }
+        } else {
+            binding.bookBtn.setOnClickListener {
+                val action =
+                    AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToBookingFragment()
+                findNavController().navigate(action)
+            }
         }
 
         binding.backBtn.setOnClickListener {

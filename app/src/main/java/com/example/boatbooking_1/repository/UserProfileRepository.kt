@@ -21,25 +21,32 @@ import com.google.firebase.database.ValueEventListener
 class UserProfileRepository {
     private var liveData: MutableLiveData<User?>? = null
 
+    init {
+        liveData = MutableLiveData()
+    }
+
     val user: LiveData<User?>
         get() {
-//            if (liveData == null || liveData!!.value!!.uid != Util.getUID()) { // Change account
-            liveData = MutableLiveData()
-            Util.mDatabase.child("users").child(Util.getUID()!!)
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            val userModel = dataSnapshot.getValue(
-                                User::class.java
-                            )
-                            liveData!!.value = userModel
+            if (Util.getUID() == null) {
+                return liveData!!
+            }
+
+            if (liveData!!.value == null || liveData!!.value!!.uid != Util.getUID()) { // Change account
+                liveData = MutableLiveData()
+                Util.mDatabase.child("users").child(Util.getUID()!!)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                val userModel = dataSnapshot.getValue(
+                                    User::class.java
+                                )
+                                liveData!!.value = userModel
+                            }
                         }
-                    }
 
-                    override fun onCancelled(databaseError: DatabaseError) {}
-                })
-//            }
-
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
+            }
             return liveData!!
         }
 

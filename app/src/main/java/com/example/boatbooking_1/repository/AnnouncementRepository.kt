@@ -125,7 +125,7 @@ class AnnouncementRepository {
     fun updateAnnouncementOnDatabase(announcementID: String) {
         val announcement = _announcementLiveData.value
 
-        Log.d("Firestore", "Pre-updated: ${announcement.toString()}")
+//        Log.d("Firestore", "Pre-updated: ${announcement.toString()}")
 
         val formatter = Util.sdf()
         val now = Date()

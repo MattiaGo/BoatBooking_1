@@ -43,7 +43,7 @@ class HomeAnnouncementViewModel : ViewModel() {
                     val announcement = document.toObject(Announcement::class.java)
                     arrayList.add(announcement)
                 }
-                Log.d("Firestore", "announcementList: $arrayList")
+//                Log.d("Firestore", "announcementList: $arrayList")
                 adapter.notifyDataSetChanged()
             }
     }

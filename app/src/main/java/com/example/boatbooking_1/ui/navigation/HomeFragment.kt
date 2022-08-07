@@ -12,11 +12,13 @@ import com.example.boatbooking_1.databinding.FragmentHomeBinding
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.viewmodel.HomeAnnouncementViewModel
+import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private val homeAnnouncementViewModel: HomeAnnouncementViewModel by activityViewModels()
+    private val userViewModel: UserProfileViewModel by activityViewModels()
 
     private lateinit var lastAddedAdapter: PublicAnnouncementAdapter
     private lateinit var lastSeenAdapter: PublicAnnouncementAdapter
@@ -42,6 +44,8 @@ class HomeFragment : Fragment() {
         lastAddedAdapter = PublicAnnouncementAdapter(lastAddedList)
         lastSeenAdapter = PublicAnnouncementAdapter(lastSeenList)
         mostRequestedAdapter = PublicAnnouncementAdapter(mostRequestedList)
+
+        userViewModel.getUser()
     }
 
     override fun onCreateView(

@@ -162,4 +162,6 @@
     </string-array>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="booking_validation">Effettua il login come utente per effettuare la tua prenotazione.</string>
+    <string name="error_availability">Prenotazione non disponibile\n\nSeleziona un nuovo periodo</string>
 </resources>
