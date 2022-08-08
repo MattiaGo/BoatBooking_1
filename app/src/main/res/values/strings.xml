@@ -50,7 +50,7 @@
     </string-array>
 
     <string-array name="lengths_array">
-        <item>0</item>
+        <item>1</item>
         <item>24</item>
     </string-array>
 
@@ -81,7 +81,7 @@
     </string-array>
 
     <string-array name="passengers_array">
-        <item>0</item>
+        <item>1</item>
         <item>20</item>
     </string-array>
 
