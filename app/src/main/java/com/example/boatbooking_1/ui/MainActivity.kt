@@ -40,9 +40,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.passwordResetFragment -> hideBottomNav()
                 R.id.account -> hideBottomNav()
                 R.id.chatFragment -> hideBottomNav()
+                R.id.chatFragmentFromAnnouncement -> hideBottomNav()
                 R.id.registration -> hideBottomNav()
                 R.id.addBoatFragment -> hideBottomNav()
                 R.id.addAnnouncementFragment -> hideBottomNav()
+                R.id.announcementDetailsFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

@@ -40,7 +40,7 @@
             android:layout_marginStart="15dp"
             android:fontFamily="sans-serif-medium"
             android:gravity="center"
-            android:text="Chat"
+            android:text=""
             android:textColor="@color/navy_blue"
             android:textSize="25dp"
             android:textStyle="bold" />

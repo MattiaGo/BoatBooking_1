@@ -65,13 +65,25 @@ class UserProfileFragment : Fragment() {
 
         disableOnBackClick()
 
-        Util.fDatabase.collection("BoatBookings")
-            .document(Util.getUID()!!)
-            .set(
-                hashMapOf(
-                    "id" to Util.getUID()
+        if (!Util.getUID().isNullOrBlank()) {
+            Util.fDatabase.collection("BoatBookings")
+                .document(Util.getUID()!!)
+                .set(
+                    hashMapOf(
+                        "id" to Util.getUID()
+                    )
                 )
-            )
+
+            if (userProfileViewModel.getUser().value?.shipOwner == true) {
+                Util.fDatabase.collection("BoatAnnouncement")
+                    .document(Util.getUID()!!)
+                    .set(
+                        hashMapOf(
+                            "id" to Util.getUID()
+                        )
+                    )
+            }
+        }
 
         /*mAuthListener = AuthStateListener {
             val user = FirebaseAuth.getInstance().currentUser
@@ -294,7 +306,7 @@ class UserProfileFragment : Fragment() {
 
         if (user != null) {
             myBookingsViewModel.refresh()
-
+            userProfileViewModel.refresh()
             Util.firebaseAuth.signOut()
             val action = UserProfileFragmentDirections.actionUserProfileToMainAccount()
             findNavController().navigate(action)

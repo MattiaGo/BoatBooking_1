@@ -71,6 +71,7 @@ class DetailsAnnouncementViewModel : ViewModel() {
         //}
         //}
     }
+
     /*
     fun getImageForAnnouncement(announcement_id: String, list: ArrayList<String>, adapter: ImageAdapter , progressDialog: ProgressDialog, remoteImageURIList: ArrayList<String>, remoteImageList: ArrayList<String>) {
         Util.fDatabase.collectionGroup("Announcement")

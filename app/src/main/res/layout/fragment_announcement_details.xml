@@ -553,7 +553,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/sendMsgBtn"
+            android:id="@+id/btn_send_message"
             android:layout_width="172dp"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_shape2"

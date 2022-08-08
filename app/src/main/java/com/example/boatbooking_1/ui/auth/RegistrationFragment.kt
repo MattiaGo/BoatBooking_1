@@ -20,10 +20,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
-private lateinit var database: DatabaseReference
-
-
-
 class RegistrationFragment : Fragment() {
 
     private lateinit var binding: FragmentRegistrationBinding
@@ -142,10 +138,10 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun addUserToDatabase(name: String, email: String, uid: String) {
-        Util.mDatabase.child("users").child(uid).setValue(User(name, email))
+        Util.mDatabase.child("users").child(uid).setValue(User(name, email, uid))
 
         Util.fDatabase.collection("BoatBookings")
-            .document(Util.getUID()!!)
+            .document(uid)
             .set(
                 hashMapOf(
                     "id" to Util.getUID()

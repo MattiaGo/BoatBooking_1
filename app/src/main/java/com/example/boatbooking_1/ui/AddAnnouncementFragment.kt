@@ -176,7 +176,7 @@ class AddAnnouncementFragment : Fragment() {
     }
 
     private fun validatePrice(): Boolean {
-        return if (etPort.text.toString().trim().isEmpty()) {
+        return if (etPrice.text.toString().trim().isEmpty()) {
             binding.textInputLayoutPrice.isErrorEnabled = true
             binding.textInputLayoutPrice.error = getString(R.string.required_field)
             etPrice.requestFocus()

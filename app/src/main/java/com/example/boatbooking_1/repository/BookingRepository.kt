@@ -75,7 +75,7 @@ class BookingRepository {
         val hours = minutes / 60
         val days = (hours / 24).toInt() + 1
 
-        bookingUpdated!!.total = (price * days)
+        bookingUpdated.total = (price * days)
         _bookingLiveData.value = bookingUpdated
     }
 

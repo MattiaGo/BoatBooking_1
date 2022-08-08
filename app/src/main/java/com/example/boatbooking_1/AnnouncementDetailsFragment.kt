@@ -75,8 +75,14 @@ class AnnouncementDetailsFragment : Fragment() {
         binding = FragmentAnnouncementDetailsBinding.inflate(inflater, container, false)
 
         //if (announcementViewModel.getAnnouncement().value == null) {
-            announcementViewModel.setAnnouncement(arguments!!.getString("id"), requireContext())
-        //}
+        if (!arguments!!.getString("id").isNullOrBlank())
+            announcementViewModel.setAnnouncement(
+                arguments!!.getString("id"),
+                requireContext()
+            )
+//        } else {
+//            announcementViewModel.setAnnouncement(arguments!!.getString("id"), requireContext())
+//        }
 
         rvService = binding.rvServices
         rvService.layoutManager =
@@ -130,9 +136,9 @@ class AnnouncementDetailsFragment : Fragment() {
 
             imagesName.clear()
             remoteImageURIList.clear()
-            getImageForAnnouncement(announcement.imageList!!, imageAdapter,remoteImageURIList)
+            getImageForAnnouncement(announcement.imageList!!, imageAdapter, remoteImageURIList)
 
-            if(!Util.getUID().isNullOrBlank()) {
+            if (!Util.getUID().isNullOrBlank()) {
                 detailsAnnouncementViewModel.checkIfFavorite(announcement.id!!, binding.likeBtn)
             }
         }
@@ -148,18 +154,79 @@ class AnnouncementDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (userViewModel.getUser().value == null || userViewModel.getUser().value!!.shipOwner) {
+        if (userViewModel.getUser().value == null) {
             binding.bookBtn.setOnClickListener {
                 Snackbar.make(
                     activity!!.findViewById(android.R.id.content),
                     getString(R.string.booking_validation),
                     Snackbar.LENGTH_SHORT
                 )
+                    .setActionTextColor(Color.White.hashCode())
                     .setAnchorView(R.id.bottom_nav)
                     .setAction("HO CAPITO") { // Responds to click on the action
                     }.show()
             }
-        } else {
+
+            binding.btnSendMessage.setOnClickListener {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    getString(R.string.send_message_validation),
+                    Snackbar.LENGTH_SHORT
+                )
+                    .setActionTextColor(Color.White.hashCode())
+                    .setAnchorView(R.id.bottom_nav)
+                    .setAction("HO CAPITO") { // Responds to click on the action
+                    }.show()
+            }
+        }
+
+        if (userViewModel.getUser().value?.shipOwner == true) {
+            binding.bookBtn.setOnClickListener {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    getString(R.string.owner_booking_validation),
+                    Snackbar.LENGTH_SHORT
+                )
+                    .setActionTextColor(Color.White.hashCode())
+                    .setAnchorView(R.id.bottom_nav)
+                    .setAction("HO CAPITO") { // Responds to click on the action
+                    }.show()
+            }
+
+            binding.btnSendMessage.setOnClickListener {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    getString(R.string.send_message_validation),
+                    Snackbar.LENGTH_SHORT
+                )
+                    .setActionTextColor(Color.White.hashCode())
+                    .setAnchorView(R.id.bottom_nav)
+                    .setAction("HO CAPITO") { // Responds to click on the action
+                    }.show()
+
+            }
+
+        }
+
+//        Log.d("MyDebug", userViewModel.getUser().value?.shipOwner!!.toString())
+        if (!Util.getUID().isNullOrBlank() && userViewModel.getUser().value?.shipOwner == false) {
+
+            binding.btnSendMessage.setOnClickListener {
+
+                val bundle = Bundle()
+                bundle.putString("id_owner", announcementViewModel.getAnnouncement().value!!.id_owner)
+                findNavController().navigate(R.id.chatFragmentFromAnnouncement, bundle)
+//                Snackbar.make(
+//                    activity!!.findViewById(android.R.id.content),
+//                    "Invia messaggio",
+//                    Snackbar.LENGTH_SHORT
+//                )
+//                    .setActionTextColor(Color.White.hashCode())
+//                    .setAnchorView(R.id.bottom_nav)
+//                    .setAction("HO CAPITO") { // Responds to click on the action
+//                    }.show()
+            }
+
             binding.bookBtn.setOnClickListener {
                 val action =
                     AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToBookingFragment()
@@ -173,30 +240,19 @@ class AnnouncementDetailsFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.likeBtn.setOnClickListener{
-            if(!Util.getUID().isNullOrBlank()) {
+        binding.likeBtn.setOnClickListener {
+            if (!Util.getUID().isNullOrBlank()) {
                 val announcement = announcementViewModel.getAnnouncement().value
-                favoritesBoatsViewModel.manageFavoritesBoat(announcement = announcement!!, binding.likeBtn)
+                favoritesBoatsViewModel.manageFavoritesBoat(
+                    announcement = announcement!!,
+                    binding.likeBtn
+                )
             } else {
                 Snackbar.make(
                     activity!!.findViewById(android.R.id.content),
-                    "Effettua il login per salvare questa barca tra le tue preferite", Snackbar.LENGTH_LONG
-                ).setAnchorView(com.example.boatbooking_1.R.id.bottom_nav).setAction("HO CAPITO") {
-                    // Responds to click on the action
-                }.show()
-//            Toast.makeText(context, "Effettua il login per visualizzare i tuoi messaggi", Toast.LENGTH_SHORT).show()
-
-            }
-        }
-
-        binding.sendMsgBtn.setOnClickListener {
-            if(!Util.getUID().isNullOrBlank()) {
-                //TODO: manda messaggio
-            } else {
-                Snackbar.make(
-                    activity!!.findViewById(android.R.id.content),
-                    "Effettua il login per contattare il proprietario", Snackbar.LENGTH_LONG
-                ).setAnchorView(com.example.boatbooking_1.R.id.bottom_nav).setAction("HO CAPITO") {
+                    "Effettua il login per salvare questa barca tra le tue preferite",
+                    Snackbar.LENGTH_LONG
+                ).setAnchorView(R.id.bottom_nav).setAction("HO CAPITO") {
                     // Responds to click on the action
                 }.show()
 //            Toast.makeText(context, "Effettua il login per visualizzare i tuoi messaggi", Toast.LENGTH_SHORT).show()
@@ -204,6 +260,22 @@ class AnnouncementDetailsFragment : Fragment() {
             }
         }
     }
+
+
+//        binding.btnSendMessage.setOnClickListener {
+//            if (!Util.getUID().isNullOrBlank()) {
+//                //TODO: manda messaggio
+//            } else {
+//                Snackbar.make(
+//                    activity!!.findViewById(android.R.id.content),
+//                    "Effettua il login per contattare il proprietario", Snackbar.LENGTH_LONG
+//                ).setAnchorView(com.example.boatbooking_1.R.id.bottom_nav).setAction("HO CAPITO") {
+//                    // Responds to click on the action
+//                }.show()
+////            Toast.makeText(context, "Effettua il login per visualizzare i tuoi messaggi", Toast.LENGTH_SHORT).show()
+//
+//            }
+//        }
 
     private fun getImageForAnnouncement(
         imagesName: ArrayList<String>,

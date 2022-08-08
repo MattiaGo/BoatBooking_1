@@ -1,31 +1,22 @@
 package com.example.boatbooking_1.viewmodel
 
-import android.app.ProgressDialog
-import android.net.Uri
 import android.util.Log
 import android.widget.ImageButton
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.ui.FavoritesAnnouncementAdapter
-import com.example.boatbooking_1.ui.ImageAdapter
-import com.example.boatbooking_1.ui.MyAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.ktx.toObject
 
 class FavoritesBoatsViewModel : ViewModel() {
 
     fun getFavoritesBoats(
-        arrayList: java.util.ArrayList<Announcement>,
+        arrayList: ArrayList<Announcement>,
         adapter: FavoritesAnnouncementAdapter
     ) {
         Util.fDatabase.collection("UsersFavorites")
             .document(Util.getUID()!!)
-            .collection("Announcement")
+            .collection("Favorites")
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEach { document ->
@@ -43,16 +34,11 @@ class FavoritesBoatsViewModel : ViewModel() {
 
         Util.fDatabase.collection("UsersFavorites")
             .document(uid)
-            .collection("Announcement")
+            .collection("Favorites")
             .document(announcement.id!!)
             .get()
             .addOnSuccessListener {
-                if(it.exists()){
-                    exist = true
-                }
-                else{
-                    exist = false
-                }
+                exist = it.exists()
             }
             .addOnFailureListener {
                 Log.d("Error", it.toString())
@@ -66,7 +52,7 @@ class FavoritesBoatsViewModel : ViewModel() {
 
         Util.fDatabase.collection("UsersFavorites")
             .document(uid)
-            .collection("Announcement")
+            .collection("Favorites")
             .document(announcement.id!!)
             .get()
             .addOnSuccessListener {
@@ -84,10 +70,10 @@ class FavoritesBoatsViewModel : ViewModel() {
             }
     }
 
-    fun addBoatToFavorites(announcement: Announcement, uid: String){
+    private fun addBoatToFavorites(announcement: Announcement, uid: String){
         Util.fDatabase.collection("UsersFavorites")
             .document(uid)
-            .collection("Announcement")
+            .collection("Favorites")
             .document(announcement.id!!)
             .set(announcement)
             .addOnCompleteListener {
@@ -98,10 +84,10 @@ class FavoritesBoatsViewModel : ViewModel() {
             }
     }
 
-    fun removeBoatFromFavorites(announcement: Announcement, uid: String){
+    private fun removeBoatFromFavorites(announcement: Announcement, uid: String){
         Util.fDatabase.collection("UsersFavorites")
             .document(uid)
-            .collection("Announcement")
+            .collection("Favorites")
             .document(announcement.id!!)
             .delete()
             .addOnCompleteListener {

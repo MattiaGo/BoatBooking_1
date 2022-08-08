@@ -162,6 +162,8 @@
     </string-array>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="booking_validation">Effettua il login come utente per effettuare la tua prenotazione.</string>
-    <string name="error_availability">Prenotazione non disponibile\n\nSeleziona un nuovo periodo</string>
+    <string name="booking_validation">ATTENZIONE! Effettua il login per effettuare la tua prenotazione.</string>
+    <string name="owner_booking_validation">ATTENZIONE! I proprietari non possono effettuare prenotazioni.</string>
+    <string name="error_availability">ATTENZIONE! Prenotazione non disponibile\n\nSeleziona un nuovo periodo</string>
+    <string name="send_message_validation">Solo gli utenti registrati possono inviare i messaggi ai proprietari.</string>
 </resources>

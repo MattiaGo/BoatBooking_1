@@ -22,7 +22,15 @@ class UserProfileRepository {
     private var liveData: MutableLiveData<User?>? = null
 
     init {
+        resetLiveData()
+    }
+
+    private fun resetLiveData() {
         liveData = MutableLiveData()
+    }
+
+    fun refresh() {
+        resetLiveData()
     }
 
     val user: LiveData<User?>

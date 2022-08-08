@@ -11,16 +11,16 @@ import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.firestore.ktx.toObject
 
-const val limit_of_query: Long = 4
+const val limit_of_query: Long = 5
 
 class HomeAnnouncementViewModel : ViewModel() {
 
     fun getBestHomeAnnouncements(
-        arrayList: java.util.ArrayList<Announcement>,
+        arrayList: ArrayList<Announcement>,
         adapter: PublicAnnouncementAdapter
     ) {
         Util.fDatabase.collectionGroup("Announcement")
-            .whereGreaterThan("average_vote",4)
+            .whereGreaterThan("average_vote", 4)
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEach { document ->
@@ -32,11 +32,11 @@ class HomeAnnouncementViewModel : ViewModel() {
     }
 
     fun getMostRequestedAnnouncement(
-        arrayList: java.util.ArrayList<Announcement>,
+        arrayList: ArrayList<Announcement>,
         adapter: PublicAnnouncementAdapter
     ) {
         Util.fDatabase.collectionGroup("Announcement")
-            .whereLessThan("average_vote",4)
+            .whereLessThan("average_vote", 4)
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEach { document ->
@@ -49,7 +49,7 @@ class HomeAnnouncementViewModel : ViewModel() {
     }
 
     fun getLastAddedAnnouncement(
-        arrayList: java.util.ArrayList<Announcement>,
+        arrayList: ArrayList<Announcement>,
         adapter: PublicAnnouncementAdapter
     ) {
         Util.fDatabase.collectionGroup("Announcement")
@@ -71,7 +71,7 @@ class HomeAnnouncementViewModel : ViewModel() {
 
 
         Util.fDatabase.collectionGroup("Announcement")
-            .whereEqualTo("location","LIVORNO")
+            .whereEqualTo("location", "LIVORNO")
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEach { document ->
@@ -80,11 +80,18 @@ class HomeAnnouncementViewModel : ViewModel() {
                 }
                 adapter.notifyDataSetChanged()
             }
-        }
     }
+}
 
-    fun getRemoteImageforAnnouncement(announcement_id: String, list: ArrayList<String>, adapter: ImageAdapter , progressDialog: ProgressDialog, remoteImageURIList: ArrayList<String>, remoteImageList: ArrayList<String>) {
-        Util.fDatabase.collectionGroup("Announcement")
+fun getRemoteImageforAnnouncement(
+    announcement_id: String,
+    list: ArrayList<String>,
+    adapter: ImageAdapter,
+    progressDialog: ProgressDialog,
+    remoteImageURIList: ArrayList<String>,
+    remoteImageList: ArrayList<String>
+) {
+    Util.fDatabase.collectionGroup("Announcement")
         .whereEqualTo("id", announcement_id)
         .get()
         .addOnSuccessListener { documents ->

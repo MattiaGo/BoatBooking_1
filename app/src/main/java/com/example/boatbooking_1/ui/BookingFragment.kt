@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentBookingBinding
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.utils.Util
@@ -77,8 +78,9 @@ class BookingFragment : Fragment() {
             val action =
                 BookingFragmentDirections.actionBookingFragmentToAnnouncementDetailsFragment()
             val bundle = Bundle()
-//            bundle.putString("id", )
-            findNavController().navigate(action)
+            bundle.putString("id", announcementViewModel.getAnnouncement().value!!.id)
+
+            findNavController().navigate(R.id.announcementDetailsFragment, bundle)
         }
 
         val sdf = Util.sdfBooking()

@@ -27,7 +27,6 @@
         <action
             android:id="@+id/action_chat_fragment_to_main_messages"
             app:destination="@id/main_messages"
-
             app:popUpToInclusive="true"
             />
     </fragment>

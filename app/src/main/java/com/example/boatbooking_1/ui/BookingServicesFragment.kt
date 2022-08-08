@@ -71,7 +71,7 @@ class BookingServicesFragment : Fragment() {
 //            bookingServiceList.addAll(announcement.services!!)
 //            bookingServiceAdapter.notifyDataSetChanged()
 
-            binding.tvPrice.setText(announcement.price.toString())
+            binding.tvPrice.text = announcement.price.toString()
 
             bookingViewModel.setBasePrice(announcement.price.toString().toInt())
 

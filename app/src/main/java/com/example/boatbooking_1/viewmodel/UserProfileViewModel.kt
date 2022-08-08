@@ -15,6 +15,10 @@ class UserProfileViewModel : ViewModel() {
         return userProfileRepository.user
     }
 
+    fun refresh() {
+        userProfileRepository.refresh()
+    }
+
     fun editImage(uri: String) {
         userProfileRepository.editImage(uri)
     }
