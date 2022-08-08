@@ -6,9 +6,82 @@
     app:startDestination="@+id/main_search">
 
     <fragment
+        android:id="@+id/announcementDetailsFragment"
+        android:name="com.example.boatbooking_1.AnnouncementDetailsFragment"
+        android:label="fragment_announcement_details"
+        tools:layout="@layout/fragment_announcement_details">
+        <action
+            android:id="@+id/action_announcementDetailsFragment_to_main_home"
+            app:destination="@id/main_home" />
+        <action
+            android:id="@+id/action_announcementDetailsFragment_to_zoomImageFragment"
+            app:destination="@id/zoomImageFragment" />
+        <action
+            android:id="@+id/action_announcementDetailsFragment_to_bookingFragment"
+            app:destination="@id/bookingServicesFragment" />
+        <action
+            android:id="@+id/action_announcementDetailsFragment_to_chatFragment2"
+            app:destination="@id/chatFragmentFromAnnouncement" />
+        <action
+            android:id="@+id/action_announcementDetailsFragment_to_chatFragmentFromAnnouncement"
+            app:destination="@id/chatFragmentFromAnnouncement"
+            app:popUpTo="@+id/announcementDetailsFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingServicesFragment"
+        android:name="com.example.boatbooking_1.ui.BookingServicesFragment"
+        android:label="fragment_booking_services"
+        tools:layout="@layout/fragment_booking_services">
+        <action
+            android:id="@+id/action_bookingServicesFragment_to_bookingFragment"
+            app:destination="@id/announcementDetailsFragment" />
+        <action
+            android:id="@+id/action_bookingServicesFragment_to_main_home"
+            app:destination="@id/main_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/zoomImageFragment"
+        android:name="com.example.boatbooking_1.ZoomImageFragment"
+        android:label="fragment_zoom_image"
+        tools:layout="@layout/fragment_zoom_image">
+        <action
+            android:id="@+id/action_zoomImageFragment_to_announcementDetailsFragment"
+            app:destination="@id/announcementDetailsFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/main_search"
         android:name="com.example.boatbooking_1.ui.navigation.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_main_search_to_searchFilterFragment"
+            app:destination="@id/searchFilterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultsFragment"
+        android:name="com.example.boatbooking_1.SearchResultsFragment"
+        android:label="fragment_search_results"
+        tools:layout="@layout/fragment_search_results" >
+        <action
+            android:id="@+id/action_searchResultsFragment_to_searchFilterFragment"
+            app:destination="@id/searchFilterFragment" />
+        <action
+            android:id="@+id/action_searchResultsFragment_to_announcementDetailsFragment2"
+            app:destination="@id/announcementDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFilterFragment"
+        android:name="com.example.boatbooking_1.SearchFilterFragment"
+        android:label="fragment_search_filter"
+        tools:layout="@layout/fragment_search_filter" >
+        <action
+            android:id="@+id/action_searchFilterFragment_to_main_search"
+            app:destination="@id/main_search" />
+        <action
+            android:id="@+id/action_searchFilterFragment_to_searchResultsFragment"
+            app:destination="@id/searchResultsFragment" />
+    </fragment>
 
 </navigation>

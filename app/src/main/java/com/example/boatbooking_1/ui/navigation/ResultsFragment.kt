@@ -12,6 +12,6 @@ class ResultsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_results, container, false)
+        return inflater.inflate(R.layout.fragment_search_results, container, false)
     }
 }
