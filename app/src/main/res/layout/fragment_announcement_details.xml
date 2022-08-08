@@ -7,6 +7,39 @@
     android:background="@color/light_grey"
     tools:context=".AnnouncementDetailsFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:translationZ="90dp"
+        >
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_btn"
+            android:contentDescription="@string/backBtn"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_back" />
+
+        <ImageButton
+            android:id="@+id/likeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ic_icon"
+            android:contentDescription="@string/backBtn"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_favorite_border"/>
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,37 +68,6 @@
                     android:layout_height="300dp"
                     android:layout_alignParentTop="true"
                     android:src="@drawable/ic_rudder" />-->
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:orientation="horizontal"
-                    android:layout_alignParentTop="true">
-
-                    <ImageButton
-                        android:id="@+id/backBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/back_btn"
-                        android:contentDescription="@string/backBtn"
-                        android:minWidth="48dp"
-                        android:minHeight="48dp"
-                        android:src="@drawable/ic_back" />
-
-                    <ImageButton
-                        android:id="@+id/likeBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:background="@drawable/ic_icon"
-                        android:contentDescription="@string/backBtn"
-                        android:minWidth="48dp"
-                        android:minHeight="48dp"
-                        android:src="@drawable/ic_favorite_border"/>
-                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -113,7 +115,7 @@
                                 android:id="@+id/tv_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Luogo barca"
+                                android:text="Luogo"
                                 android:textColor="@color/dark_grey"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -126,14 +128,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="center_horizontal">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="5dp"
-                            android:src="@drawable/ic_passengers" />
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginEnd="5dp"-->
+<!--                            android:src="" />-->
 
                         <TextView
                             android:id="@+id/tv_passengers"
@@ -142,7 +145,9 @@
                             android:layout_marginEnd="5dp"
                             android:text="N"
                             android:textColor="@color/navy_blue"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:drawablePadding="3dp"
+                            app:drawableStartCompat="@drawable/ic_passengers" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -153,13 +158,13 @@
                             android:textSize="16sp" />
 
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="5dp"
-                            android:src="@drawable/ic_bed" />
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="20dp"-->
+<!--                            android:layout_marginEnd="5dp"-->
+<!--                            android:src="@drawable/ic_bed" />-->
 
                         <TextView
                             android:id="@+id/tv_beds"
@@ -168,7 +173,10 @@
                             android:layout_marginEnd="5dp"
                             android:text="N"
                             android:textColor="@color/navy_blue"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:drawablePadding="3dp"
+                            app:drawableStartCompat="@drawable/ic_bed"
+                            android:layout_marginStart="10dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -178,13 +186,13 @@
                             android:textColor="@color/navy_blue"
                             android:textSize="16sp" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="5dp"
-                            android:src="@drawable/ic_bathroom" />
+<!--                        <ImageView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center_vertical"-->
+<!--                            android:layout_marginStart="20dp"-->
+<!--                            android:layout_marginEnd="5dp"-->
+<!--                            android:src="@drawable/ic_bathroom" />-->
 
                         <TextView
                             android:id="@+id/tv_bathrooms"
@@ -193,7 +201,10 @@
                             android:layout_marginEnd="5dp"
                             android:text="N"
                             android:textColor="@color/navy_blue"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:drawableStart="@drawable/ic_bathroom"
+                            android:drawablePadding="3dp"
+                            android:layout_marginStart="10dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -349,7 +360,7 @@
                             android:id="@+id/tv_builder"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="nome costruttore"
+                            android:text=""
                             android:textColor="@color/navy_blue"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -372,7 +383,7 @@
                             android:id="@+id/tv_model"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="nome modello"
+                            android:text=""
                             android:textColor="@color/navy_blue"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -395,7 +406,7 @@
                             android:id="@+id/tv_year"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="dato Anno"
+                            android:text=""
                             android:textColor="@color/navy_blue"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -418,8 +429,8 @@
                             android:id="@+id/tv_length"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:text="dato lunghezza"
+                            android:layout_marginEnd="5dp"
+                            android:text=""
                             android:textColor="@color/navy_blue"
                             android:textSize="15sp" />
 
@@ -450,7 +461,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
-                            android:text="dato cabine"
+                            android:text=""
                             android:textColor="@color/navy_blue"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -486,7 +497,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="top"
-                        android:text="descrizione"
+                        android:text=""
                         android:textColor="@color/navy_blue"
                         android:textSize="16sp"
                         android:layout_marginBottom="10dp"/>
@@ -524,7 +535,7 @@
                         android:layout_marginEnd="10dp"
                         android:textSize="20sp"
                         android:textColor="@color/navy_blue"
-                        android:text="prezzo" />
+                        android:text="" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -539,13 +550,12 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="10dp"
+        android:layout_height="70dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="5dp"
         android:gravity="center"
@@ -554,19 +564,21 @@
 
         <Button
             android:id="@+id/btn_send_message"
-            android:layout_width="172dp"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
             android:background="@drawable/btn_shape2"
-            android:text="Chatta con il proprietario"
+            android:layout_marginEnd="35dp"
+            android:text="Scrivi un messaggio al proprietario"
             android:textColor="@color/navy_blue"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:visibility="visible" />
+            android:visibility="visible"
+            />
 
         <Button
             android:id="@+id/bookBtn"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/btn_shape1"
             android:text="Prenota"
             android:textColor="@color/white"

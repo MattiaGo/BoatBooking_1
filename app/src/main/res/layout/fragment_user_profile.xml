@@ -29,14 +29,33 @@
                 android:layout_marginEnd="25dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/relative_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/profilo"
-                    android:textColor="@color/navy_blue"
-                    android:textSize="30sp"
-                    android:layout_marginBottom="20dp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="@string/profilo"
+                        android:textColor="@color/navy_blue"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/logoutBtn"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="top"
+                        android:background="@drawable/btn_logout"
+                        android:text="@string/logout_button_text"
+                        android:textColor="@color/error"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -136,10 +155,10 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
                             android:text="@string/language"
                             android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:layout_alignParentStart="true"/>
+                            android:textSize="16sp" />
 
                         <Spinner
                             android:id="@+id/spinner_language"
@@ -170,12 +189,12 @@
                         tools:ignore="TouchTargetSizeCheck">
 
                         <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:text="@string/currency"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:text="@string/currency"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/et_currency"
@@ -200,13 +219,14 @@
                         android:layout_gravity="center_vertical"
                         android:padding="10dp"
                         tools:ignore="TouchTargetSizeCheck">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:text="@string/reminders"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:text="@string/reminders"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/et_alarms"
@@ -231,22 +251,23 @@
                         android:layout_gravity="center_vertical"
                         android:padding="10dp"
                         tools:ignore="TouchTargetSizeCheck">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:text="@string/udm"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/et_udm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="@string/udm"
-                        android:textAlignment="viewStart"
-                        android:textColor="#616161" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:text="@string/udm"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/et_udm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="@string/udm"
+                            android:textAlignment="viewStart"
+                            android:textColor="#616161" />
                     </RelativeLayout>
 
                     <View
@@ -262,13 +283,13 @@
                         tools:ignore="TouchTargetSizeCheck">
 
                         <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_margin="10dp"
-                        android:text="@string/location"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_margin="10dp"
+                            android:text="@string/location"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
                         <Switch
                             android:id="@+id/switch_position"
@@ -310,23 +331,12 @@
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:visibility="gone"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/logoutBtn"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="50dp"
-                        android:layout_marginBottom="50dp"
-                        android:background="@drawable/btn_logout"
-                        android:text="@string/logout_button_text"
-                        android:textColor="@color/error"
-                        android:textStyle="bold" />
+                        android:visibility="invisible" />
 
                 </LinearLayout>
 
             </LinearLayout>
+
         </ScrollView>
 
     </FrameLayout>

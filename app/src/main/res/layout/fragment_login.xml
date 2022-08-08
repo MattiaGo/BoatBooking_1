@@ -7,8 +7,6 @@
     android:background="@color/light_grey"
     tools:context=".ui.auth.LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,7 +79,7 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/btn_shape2"
             android:text="@string/registration"
-            android:textColor="@color/navy_blue"/>
+            android:textColor="@color/navy_blue" />
 
         <View
             android:layout_width="200dp"

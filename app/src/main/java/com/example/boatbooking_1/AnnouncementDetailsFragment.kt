@@ -264,7 +264,6 @@ class AnnouncementDetailsFragment : Fragment() {
 
 //        binding.btnSendMessage.setOnClickListener {
 //            if (!Util.getUID().isNullOrBlank()) {
-//                //TODO: manda messaggio
 //            } else {
 //                Snackbar.make(
 //                    activity!!.findViewById(android.R.id.content),

@@ -8,6 +8,7 @@ import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.ui.ImageAdapter
 import com.example.boatbooking_1.ui.MyAnnouncementAdapter
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
+import com.example.boatbooking_1.ui.PublicImageAdapter
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.firestore.ktx.toObject
 
@@ -33,20 +34,50 @@ class HomeAnnouncementViewModel : ViewModel() {
 
     fun getMostRequestedAnnouncement(
         arrayList: ArrayList<Announcement>,
-        adapter: PublicAnnouncementAdapter
+        adapter: PublicAnnouncementAdapter,
+        remoteImageURIList: ArrayList<String>
     ) {
         Util.fDatabase.collectionGroup("Announcement")
             .whereLessThan("average_vote", 4)
             .get()
             .addOnSuccessListener { documents ->
-                documents.forEach { document ->
+                documents.forEachIndexed { i, document ->
                     val announcement = document.toObject(Announcement::class.java)
-                    arrayList.add(announcement)
+                    arrayList.add(i, announcement)
+
+                    getImageForAnnouncement(
+                        announcement.imageList?.get(0),
+                        adapter,
+                        remoteImageURIList,
+                        i
+                    )
                 }
 //                Log.d("Firestore", "announcementList: $arrayList")
-                adapter.notifyDataSetChanged()
             }
     }
+
+    private fun getImageForAnnouncement(
+        imageName: String?,
+        adapter: PublicAnnouncementAdapter,
+        remoteImageURIList: ArrayList<String>,
+        position: Int
+    ) {
+        var downloadUri: Uri
+
+        Util.fStorage.reference.child("/images/$imageName")
+            .downloadUrl
+            .addOnCompleteListener {
+                // Got the download URL
+                downloadUri = it.result
+                remoteImageURIList.add(position, downloadUri.toString())
+                adapter.notifyDataSetChanged()
+//                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener {
+                Log.d("HomeImage", "Error: $it")
+            }
+    }
+
 
     fun getLastAddedAnnouncement(
         arrayList: ArrayList<Announcement>,

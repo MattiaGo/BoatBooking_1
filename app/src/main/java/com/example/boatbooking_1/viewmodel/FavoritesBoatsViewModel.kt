@@ -10,6 +10,8 @@ import com.example.boatbooking_1.utils.Util
 
 class FavoritesBoatsViewModel : ViewModel() {
 
+    // TODO: Fix the visualization of like button
+
     fun getFavoritesBoats(
         arrayList: ArrayList<Announcement>,
         adapter: FavoritesAnnouncementAdapter

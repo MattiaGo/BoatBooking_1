@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.addBoatFragment -> hideBottomNav()
                 R.id.addAnnouncementFragment -> hideBottomNav()
                 R.id.announcementDetailsFragment -> hideBottomNav()
+                R.id.editAnnouncementFragment -> hideBottomNav()
                 else -> showBottomNav()
             }
         }

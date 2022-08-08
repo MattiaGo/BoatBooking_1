@@ -19,17 +19,6 @@ class DetailsAnnouncementViewModel : ViewModel() {
         progressDialog: ProgressDialog,
         remoteImageURIList: ArrayList<String>
     ) {
-        /*when (imagesName) {
-            null -> {}
-            else -> {
-                if (imagesName.isEmpty()) {
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
-                }
-
-         */
-
 //              Log.d("Firestore", serviceListString.toString())
         for (image in imagesName) {
 //                val localFile = File.createTempFile("temp-image$i", ".jpg")
@@ -184,8 +173,7 @@ class DetailsAnnouncementViewModel : ViewModel() {
             .addOnSuccessListener {
                 if (it.exists()) {
                     imgButton.setImageResource(R.drawable.ic_favorite)
-                }
-                else{
+                } else {
                     imgButton.setImageResource(R.drawable.ic_favorite_border)
                 }
             }
