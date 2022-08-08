@@ -132,7 +132,9 @@ class AnnouncementDetailsFragment : Fragment() {
             remoteImageURIList.clear()
             getImageForAnnouncement(announcement.imageList!!, imageAdapter,remoteImageURIList)
 
-            detailsAnnouncementViewModel.checkIfFavorite(announcement.id!!, binding.likeBtn)
+            if(!Util.getUID().isNullOrBlank()) {
+                detailsAnnouncementViewModel.checkIfFavorite(announcement.id!!, binding.likeBtn)
+            }
         }
 
         announcementViewModel.getAnnouncement().observe(viewLifecycleOwner, observer)
@@ -172,8 +174,34 @@ class AnnouncementDetailsFragment : Fragment() {
         }
 
         binding.likeBtn.setOnClickListener{
-            val announcement = announcementViewModel.getAnnouncement().value
-            favoritesBoatsViewModel.manageFavoritesBoat(announcement = announcement!!, binding.likeBtn)
+            if(!Util.getUID().isNullOrBlank()) {
+                val announcement = announcementViewModel.getAnnouncement().value
+                favoritesBoatsViewModel.manageFavoritesBoat(announcement = announcement!!, binding.likeBtn)
+            } else {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    "Effettua il login per salvare questa barca tra le tue preferite", Snackbar.LENGTH_LONG
+                ).setAnchorView(com.example.boatbooking_1.R.id.bottom_nav).setAction("HO CAPITO") {
+                    // Responds to click on the action
+                }.show()
+//            Toast.makeText(context, "Effettua il login per visualizzare i tuoi messaggi", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
+        binding.sendMsgBtn.setOnClickListener {
+            if(!Util.getUID().isNullOrBlank()) {
+                //TODO: manda messaggio
+            } else {
+                Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    "Effettua il login per contattare il proprietario", Snackbar.LENGTH_LONG
+                ).setAnchorView(com.example.boatbooking_1.R.id.bottom_nav).setAction("HO CAPITO") {
+                    // Responds to click on the action
+                }.show()
+//            Toast.makeText(context, "Effettua il login per visualizzare i tuoi messaggi", Toast.LENGTH_SHORT).show()
+
+            }
         }
     }
 
