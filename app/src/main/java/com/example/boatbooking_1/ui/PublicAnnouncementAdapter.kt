@@ -22,7 +22,7 @@ import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 class PublicAnnouncementAdapter(
     private val announcementList: ArrayList<Announcement>,
     private val context: Context,
-    private val imagesURIList: ArrayList<String>
+    private val imagesURIList: MutableList<String>
 ) :
     RecyclerView.Adapter<PublicAnnouncementAdapter.MyViewHolder>() {
 
@@ -41,9 +41,11 @@ class PublicAnnouncementAdapter(
 
 //        Log.d("HomeImage", imagesURIList[position])
 
-        Glide.with(context)
-            .load(imagesURIList[position])
-            .into(holder.imageView)
+        if (imagesURIList[position].startsWith("https")) {
+            Glide.with(context)
+                .load(imagesURIList[position])
+                .into(holder.imageView)
+        }
 
         holder.itemView.setOnClickListener { view ->
             val id: String = currentItem.id.toString()

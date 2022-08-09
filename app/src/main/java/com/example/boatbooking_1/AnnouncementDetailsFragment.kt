@@ -1,14 +1,10 @@
 package com.example.boatbooking_1
 
-import com.example.boatbooking_1.R
 import android.app.ProgressDialog
-import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -128,7 +124,7 @@ class AnnouncementDetailsFragment : Fragment() {
                 binding.layoutCaptain.isVisible = true
             }
 
-            binding.tvDescription.setText(announcement.description.toString())
+            binding.tvDescription.text = announcement.description.toString()
 
             serviceList.clear()
             serviceList.addAll(announcement.services!!)
@@ -137,6 +133,10 @@ class AnnouncementDetailsFragment : Fragment() {
             imagesName.clear()
             remoteImageURIList.clear()
             getImageForAnnouncement(announcement.imageList!!, imageAdapter, remoteImageURIList)
+            if (announcement.imageList!!.isEmpty()) {
+                remoteImageURIList.add("default")
+                imageAdapter.notifyDataSetChanged()
+            }
 
             if (!Util.getUID().isNullOrBlank()) {
                 detailsAnnouncementViewModel.checkIfFavorite(announcement.id!!, binding.likeBtn)
@@ -214,7 +214,10 @@ class AnnouncementDetailsFragment : Fragment() {
             binding.btnSendMessage.setOnClickListener {
 
                 val bundle = Bundle()
-                bundle.putString("id_owner", announcementViewModel.getAnnouncement().value!!.id_owner)
+                bundle.putString(
+                    "id_owner",
+                    announcementViewModel.getAnnouncement().value!!.id_owner
+                )
                 findNavController().navigate(R.id.chatFragmentFromAnnouncement, bundle)
 //                Snackbar.make(
 //                    activity!!.findViewById(android.R.id.content),
@@ -235,6 +238,7 @@ class AnnouncementDetailsFragment : Fragment() {
         }
 
         binding.backBtn.setOnClickListener {
+            announcementViewModel.reset()
             val action =
                 AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToMainHome()
             findNavController().navigate(action)
@@ -281,14 +285,13 @@ class AnnouncementDetailsFragment : Fragment() {
         adapter: PublicImageAdapter,
         remoteImageURIList: ArrayList<String>
     ) {
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Caricamento immagini...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
+//        val progressDialog = ProgressDialog(context)
+//        progressDialog.setMessage("Caricamento immagini...")
+//        progressDialog.setCancelable(false)
+//        progressDialog.show()
         detailsAnnouncementViewModel.getImageForAnnouncement(
             imagesName,
             adapter,
-            progressDialog,
             remoteImageURIList
         )
     }

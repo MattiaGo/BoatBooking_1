@@ -16,7 +16,6 @@ class DetailsAnnouncementViewModel : ViewModel() {
     fun getImageForAnnouncement(
         imagesName: ArrayList<String>,
         adapter: PublicImageAdapter,
-        progressDialog: ProgressDialog,
         remoteImageURIList: ArrayList<String>
     ) {
 //              Log.d("Firestore", serviceListString.toString())
@@ -40,20 +39,20 @@ class DetailsAnnouncementViewModel : ViewModel() {
 
                     Log.d("Adapter", "$remoteImageURIList")
                     /// The string (file link) that you need
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
+//                    if (progressDialog.isShowing) {
+//                        progressDialog.dismiss()
+//                    }
 
 
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
+//                    if (progressDialog.isShowing) {
+//                        progressDialog.dismiss()
+//                    }
                     adapter.notifyDataSetChanged()
                 }
                 .addOnFailureListener {
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
+//                    if (progressDialog.isShowing) {
+//                        progressDialog.dismiss()
+//                    }
                     Log.d("Adapter", "Error: $it")
                 }
         }

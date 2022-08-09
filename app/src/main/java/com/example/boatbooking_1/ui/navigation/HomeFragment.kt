@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var rvRecentSeen: RecyclerView
     private lateinit var rvMostRequested: RecyclerView
 
-    private var remoteImagesURIMostRequestedList: ArrayList<String> = ArrayList()
+    private var remoteImagesURIMostRequestedList: MutableList<String> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

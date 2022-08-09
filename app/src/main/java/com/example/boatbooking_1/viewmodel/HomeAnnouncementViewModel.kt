@@ -35,7 +35,7 @@ class HomeAnnouncementViewModel : ViewModel() {
     fun getMostRequestedAnnouncement(
         arrayList: ArrayList<Announcement>,
         adapter: PublicAnnouncementAdapter,
-        remoteImageURIList: ArrayList<String>
+        remoteImageURIList: MutableList<String>
     ) {
         Util.fDatabase.collectionGroup("Announcement")
             .whereLessThan("average_vote", 4)
@@ -45,12 +45,22 @@ class HomeAnnouncementViewModel : ViewModel() {
                     val announcement = document.toObject(Announcement::class.java)
                     arrayList.add(i, announcement)
 
-                    getImageForAnnouncement(
-                        announcement.imageList?.get(0),
-                        adapter,
-                        remoteImageURIList,
-                        i
-                    )
+                    Log.d("Home", announcement.imageList.toString())
+                    Log.d("Home", announcement.imageList!!.isNotEmpty().toString())
+
+                    if (announcement.imageList!!.isNotEmpty()) {
+                        getImageForAnnouncement(
+                            announcement.imageList?.get(0),
+                            adapter,
+                            remoteImageURIList,
+                            i
+                        )
+                    } else {
+                        remoteImageURIList.add("default")
+                        adapter.notifyDataSetChanged()
+                    }
+
+                    Log.d("Home", "RemoteURIList: ${remoteImageURIList.toString()}")
                 }
 //                Log.d("Firestore", "announcementList: $arrayList")
             }
@@ -59,16 +69,18 @@ class HomeAnnouncementViewModel : ViewModel() {
     private fun getImageForAnnouncement(
         imageName: String?,
         adapter: PublicAnnouncementAdapter,
-        remoteImageURIList: ArrayList<String>,
+        remoteImageURIList: MutableList<String>,
         position: Int
     ) {
         var downloadUri: Uri
 
+        remoteImageURIList.add(position, "")
+
         Util.fStorage.reference.child("/images/$imageName")
             .downloadUrl
-            .addOnCompleteListener {
+            .addOnSuccessListener {
                 // Got the download URL
-                downloadUri = it.result
+                downloadUri = it
                 remoteImageURIList.add(position, downloadUri.toString())
                 adapter.notifyDataSetChanged()
 //                adapter.notifyDataSetChanged()

@@ -36,14 +36,14 @@ class PublicImageAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = imageList[position]
 
+        Log.d("Image", currentItem)
         if (currentItem.startsWith("https")) {
-            Log.d("Adapter", "Edit > $currentItem")
             Glide.with(context)
                 .load(currentItem)
                 .into(holder.imageView)
         } else {
-            Log.d("Adapter", "New > $currentItem")
-            holder.imageView.setImageURI(Uri.parse(currentItem))
+//            Log.d("Adapter", "New > $currentItem")
+//            holder.imageView.setImageURI(Uri.parse(currentItem))
         }
 
         holder.layoutImg.setOnClickListener{ view ->
