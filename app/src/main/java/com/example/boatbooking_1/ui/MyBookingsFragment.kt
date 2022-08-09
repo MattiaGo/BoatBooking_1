@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.databinding.FragmentMyBookingsBinding
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.model.User
 import com.example.boatbooking_1.viewmodel.BookingViewModel
 import com.example.boatbooking_1.viewmodel.MyBookingViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
@@ -35,22 +34,24 @@ class MyBookingsFragment : Fragment() {
     private val myBookingsViewModel: MyBookingViewModel by activityViewModels()
     private val userViewModel: UserProfileViewModel by activityViewModels()
 
-    private lateinit var myBookingPastList: ArrayList<Booking>
-    private lateinit var myBookingPastAdapter: MyBookingAdapter
+    private lateinit var myPastBookingList: ArrayList<Booking>
+    private lateinit var myPastBookingAdapter: MyBookingAdapter
     private lateinit var myBookingList: ArrayList<Booking>
     private lateinit var myBookingAdapter: MyBookingAdapter
     private lateinit var myBookingsObserver: Observer<ArrayList<Booking>>
+    private lateinit var myPastBookingsObserver: Observer<ArrayList<Booking>>
 
     private lateinit var rvMyBookings: RecyclerView
+    private lateinit var rvMyPastBookings: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         myBookingList = ArrayList()
-        myBookingPastList = ArrayList()
+        myPastBookingList = ArrayList()
 
-        myBookingPastAdapter = MyBookingAdapter(
-            myBookingPastList,
+        myPastBookingAdapter = MyBookingAdapter(
+            myPastBookingList,
             requireContext(),
             myBookingsViewModel,
             userViewModel
@@ -71,6 +72,7 @@ class MyBookingsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentMyBookingsBinding.inflate(inflater, container, false)
         rvMyBookings = binding.rvMyCurrentBookings
+        rvMyPastBookings = binding.rvMyPastBookings
 
 //        bookingViewModel.getUserBookingList(myBookingPastList, myBookingPastAdapter)
 
@@ -95,7 +97,23 @@ class MyBookingsFragment : Fragment() {
             myBookingAdapter.notifyDataSetChanged()
         }
 
+        myPastBookingsObserver = Observer<ArrayList<Booking>> { booking ->
+            myPastBookingList = booking
+
+            myPastBookingAdapter = MyBookingAdapter(
+                myPastBookingList,
+                requireContext(),
+                myBookingsViewModel,
+                userViewModel
+            )
+            rvMyPastBookings.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            rvMyPastBookings.adapter = myPastBookingAdapter
+            myPastBookingAdapter.notifyDataSetChanged()
+        }
+
         myBookingsViewModel.bookingLiveData.observe(viewLifecycleOwner, myBookingsObserver)
+        myBookingsViewModel.pastBookingLiveData.observe(viewLifecycleOwner, myPastBookingsObserver)
 
         binding.backBtn.setOnClickListener {
             val action = MyBookingsFragmentDirections.actionMyBookingsFragmentToUserProfile()

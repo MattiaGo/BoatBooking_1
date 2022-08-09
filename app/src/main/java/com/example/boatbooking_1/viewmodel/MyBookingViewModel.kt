@@ -1,5 +1,7 @@
 package com.example.boatbooking_1.viewmodel
 
+import android.icu.util.Calendar
+import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,8 +9,38 @@ import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.ui.MyBookingAdapter
 import com.example.boatbooking_1.utils.Util
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MyBookingViewModel : ViewModel() {
+    private var _pastBookingLiveData = MutableLiveData<ArrayList<Booking>>()
+    val pastBookingLiveData: LiveData<ArrayList<Booking>>
+        get() {
+            if (_pastBookingLiveData.value == null) {
+                val bookingList = arrayListOf<Booking>()
+                _pastBookingLiveData.value = bookingList
+
+//                val today = LocalDateTime.now()
+//                Log.d("Booking", "Today: ${today}")
+
+                Util.fDatabase.collection("BoatBookings")
+                    .document(Util.getUID()!!)
+                    .collection("Booking")
+                    .whereLessThanOrEqualTo("endDate", Date(System.currentTimeMillis()))
+                    .get()
+                    .addOnSuccessListener {
+                        for (document in it) {
+                            val booking = document.toObject(Booking::class.java)
+                            bookingList.add(booking)
+                        }
+                        _pastBookingLiveData.value = bookingList
+                    }
+
+                return _pastBookingLiveData
+
+            } else return _pastBookingLiveData
+        }
+
     private var _bookingLiveData = MutableLiveData<ArrayList<Booking>>()
     val bookingLiveData: LiveData<ArrayList<Booking>>
         get() {
@@ -16,9 +48,13 @@ class MyBookingViewModel : ViewModel() {
                 val bookingList = arrayListOf<Booking>()
                 _bookingLiveData.value = bookingList
 
+//                val today = LocalDateTime.now()
+//                Log.d("Booking", "Today: ${today}")
+
                 Util.fDatabase.collection("BoatBookings")
                     .document(Util.getUID()!!)
                     .collection("Booking")
+                    .whereGreaterThanOrEqualTo("endDate", Date(System.currentTimeMillis()))
                     .get()
                     .addOnSuccessListener {
                         for (document in it) {
