@@ -32,6 +32,8 @@ class HomeFragment : Fragment() {
     private lateinit var rvRecentSeen: RecyclerView
     private lateinit var rvMostRequested: RecyclerView
 
+    private var remoteImagesURILastAddedList: MutableList<String> = mutableListOf()
+    private var remoteImagesURILastSeenList: MutableList<String> = mutableListOf()
     private var remoteImagesURIMostRequestedList: MutableList<String> = mutableListOf()
 
 
@@ -42,8 +44,8 @@ class HomeFragment : Fragment() {
         lastSeenList = ArrayList()
         mostRequestedList = ArrayList()
 
-//        lastAddedAdapter = PublicAnnouncementAdapter(lastAddedList, requireContext(), ArrayList())
-//        lastSeenAdapter = PublicAnnouncementAdapter(lastSeenList, requireContext(), ArrayList())
+        lastAddedAdapter = PublicAnnouncementAdapter(lastAddedList, requireContext(), remoteImagesURILastAddedList)
+        lastSeenAdapter = PublicAnnouncementAdapter(lastSeenList, requireContext(), remoteImagesURILastSeenList)
         mostRequestedAdapter = PublicAnnouncementAdapter(mostRequestedList, requireContext(), remoteImagesURIMostRequestedList)
 
         userViewModel.getUser()
@@ -58,21 +60,23 @@ class HomeFragment : Fragment() {
         lastSeenList.clear()
         mostRequestedList.clear()
 
+        remoteImagesURILastAddedList.clear()
         remoteImagesURIMostRequestedList.clear()
 
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        //BEST CHARTER
-//        rvLastAdded = binding.rvLastAdded
-//        rvLastAdded.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-//        rvLastAdded.adapter = lastAddedAdapter
+        //LAST ADDED
+        rvLastAdded = binding.rvLastAdded
+        rvLastAdded.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        rvLastAdded.adapter = lastAddedAdapter
 
         //LAST SEEN
-//        rvRecentSeen = binding.rvRecentSeen
-//        rvRecentSeen.layoutManager =
-//            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-//        rvRecentSeen.adapter = lastSeenAdapter
+        rvRecentSeen = binding.rvRecentSeen
+        rvRecentSeen.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+        rvRecentSeen.adapter = lastSeenAdapter
 
         //MOST REQ LOCATION
         rvMostRequested = binding.rvMostRequested
@@ -80,15 +84,24 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvMostRequested.adapter = mostRequestedAdapter
 
-//        homeAnnouncementViewModel.getLastAddedAnnouncement(
-//            lastAddedList,
-//            lastAddedAdapter
-//        )
+
+
+        homeAnnouncementViewModel.getLastAddedAnnouncement(
+            lastAddedList,
+            lastAddedAdapter,
+            remoteImagesURILastAddedList
+        )
 
         homeAnnouncementViewModel.getMostRequestedAnnouncement(
             mostRequestedList,
             mostRequestedAdapter,
             remoteImagesURIMostRequestedList
+        )
+
+        homeAnnouncementViewModel.getLastSeenAnnouncement(
+            lastSeenList,
+            lastSeenAdapter,
+            remoteImagesURILastSeenList
         )
 
         return binding.root

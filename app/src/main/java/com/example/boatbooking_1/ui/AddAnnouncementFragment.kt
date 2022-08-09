@@ -127,7 +127,8 @@ class AddAnnouncementFragment : Fragment() {
                     services = serviceList,
                     imageList = imageList,
                     price = etPrice.text.toString().toInt(),
-                    available = true
+                    available = true,
+                    timestamp = Timestamp.now()
                 )
 
                 announceViewModel.addAnnouncementToDatabase(announcement, AID, requireContext())

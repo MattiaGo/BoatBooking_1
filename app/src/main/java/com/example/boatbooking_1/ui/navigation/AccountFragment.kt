@@ -116,6 +116,7 @@ class AccountFragment : Fragment() {
 
     private fun updateUI() {
         userProfileViewModel.activateFavoritesIfNot()
+        userProfileViewModel.activateLastSeenIfNot()
         val action = AccountFragmentDirections.actionMainAccountToUserProfile()
         findNavController().navigate(action)
     }

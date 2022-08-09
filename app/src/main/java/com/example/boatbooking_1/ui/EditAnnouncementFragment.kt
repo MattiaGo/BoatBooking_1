@@ -236,7 +236,8 @@ class EditAnnouncementFragment : Fragment() {
                 services = serviceList,
                 imageList = newImageList,
                 price = binding.etPrice.text.toString().toInt(),
-                available = announcementViewModel.getAnnouncement().value!!.available
+                available = announcementViewModel.getAnnouncement().value!!.available,
+                timestamp = announcementViewModel.getAnnouncement().value!!.timestamp
             )
 
             announcementViewModel.refreshAnnouncement(announcement)

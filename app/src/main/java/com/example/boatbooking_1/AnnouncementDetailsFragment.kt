@@ -139,6 +139,7 @@ class AnnouncementDetailsFragment : Fragment() {
             }
 
             if (!Util.getUID().isNullOrBlank()) {
+                detailsAnnouncementViewModel.addAnnouncementToLastSeen(announcement)
                 detailsAnnouncementViewModel.checkIfFavorite(announcement.id!!, binding.likeBtn)
             }
         }

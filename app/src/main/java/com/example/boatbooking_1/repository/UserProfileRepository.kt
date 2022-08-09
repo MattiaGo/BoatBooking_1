@@ -238,6 +238,18 @@ class UserProfileRepository {
             )
     }
 
+    fun activateLastSeenIfNot(){
+        val uid = Util.getUID()!!
+
+        Util.fDatabase.collection("UsersLastSeen")
+            .document(uid)
+            .set(
+                hashMapOf(
+                    "id" to uid
+                )
+            )
+    }
+
     fun addUserToDatabase(name: String, email: String, uid: String) {
         Util.mDatabase.child("users").child(uid).setValue(User(name, email, uid))
         Util.fDatabase.collection("BoatBookings")

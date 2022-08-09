@@ -43,6 +43,9 @@ class UserProfileViewModel : ViewModel() {
     fun activateFavoritesIfNot(){
         return userProfileRepository.activateFavoritesIfNot()
     }
+    fun activateLastSeenIfNot(){
+        return userProfileRepository.activateLastSeenIfNot()
+    }
 
     fun addUserToDatabase(name: String, email: String, uid: String) {
         return userProfileRepository.addUserToDatabase(name, email, uid)

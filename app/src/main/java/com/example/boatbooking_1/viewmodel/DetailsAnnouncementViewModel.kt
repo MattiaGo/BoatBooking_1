@@ -181,4 +181,13 @@ class DetailsAnnouncementViewModel : ViewModel() {
                 Log.d("Error", it.toString())
             }
     }
+
+    fun addAnnouncementToLastSeen(announcement: Announcement) {
+        Util.fDatabase.collection("UsersLastSeen")
+            .document(Util.getUID()!!)
+            .collection("LastSeen")
+            .document(announcement.id!!)
+            .set(announcement)
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.boatbooking_1.model
 
 import androidx.compose.ui.text.toUpperCase
+import java.sql.Timestamp
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,7 +18,8 @@ data class Announcement(
     var imageList: ArrayList<String>? = null,
     var price: Int? = null,
     var available: Boolean = false,
-    var average_vote: Double = 0.00
+    var average_vote: Double = 0.00,
+    var timestamp: com.google.firebase.Timestamp? = null
 ) {
     override fun toString(): String {
         return "\nBOAT:\n${boat}ANNOUNCEMENT:\n$announce_name" +
