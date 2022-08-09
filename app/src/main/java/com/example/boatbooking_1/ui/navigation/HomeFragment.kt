@@ -58,6 +58,8 @@ class HomeFragment : Fragment() {
         lastSeenList.clear()
         mostRequestedList.clear()
 
+        remoteImagesURIMostRequestedList.clear()
+
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 

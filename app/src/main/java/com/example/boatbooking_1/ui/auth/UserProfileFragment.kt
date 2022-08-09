@@ -66,7 +66,7 @@ class UserProfileFragment : Fragment() {
         disableOnBackClick()
 
         if (!Util.getUID().isNullOrBlank()) {
-            Util.fDatabase.collection("BoatBookings")
+            Util.fDatabase.collection("BoatBookings")       //clienti e proprietari (x storico)
                 .document(Util.getUID()!!)
                 .set(
                     hashMapOf(
@@ -74,7 +74,7 @@ class UserProfileFragment : Fragment() {
                     )
                 )
 
-            if (userProfileViewModel.getUser().value?.shipOwner == true) {
+            if (userProfileViewModel.getUser().value?.shipOwner == true) {      //solo proprietari
                 Util.fDatabase.collection("BoatAnnouncement")
                     .document(Util.getUID()!!)
                     .set(

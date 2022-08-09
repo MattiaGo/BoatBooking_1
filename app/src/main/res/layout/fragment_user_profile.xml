@@ -160,16 +160,16 @@
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
-                        <Spinner
-                            android:id="@+id/spinner_language"
-                            android:layout_width="120dp"
+                        <TextView
+                            android:id="@+id/et_lingua"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:entries="@array/languages"
-                            android:text="@string/language"
+                            android:text="Italiano"
                             android:textAlignment="viewStart"
                             android:textColor="#616161" />
+
+
 
                     </RelativeLayout>
 
@@ -330,6 +330,7 @@
                         android:text=""
                         android:textColor="@color/white"
                         android:textSize="15sp"
+                        android:layout_marginBottom="100dp"
                         android:textStyle="bold"
                         android:visibility="invisible" />
 

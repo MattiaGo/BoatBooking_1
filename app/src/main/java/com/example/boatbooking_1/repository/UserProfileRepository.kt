@@ -238,6 +238,17 @@ class UserProfileRepository {
             )
     }
 
+    fun addUserToDatabase(name: String, email: String, uid: String) {
+        Util.mDatabase.child("users").child(uid).setValue(User(name, email, uid))
+        Util.fDatabase.collection("BoatBookings")
+            .document(uid)
+            .set(
+                hashMapOf(
+                    "id" to Util.getUID()
+                )
+            )
+    }
+
     companion object {
         private var userProfileRepository: UserProfileRepository? = null
         val instance: UserProfileRepository

@@ -29,26 +29,6 @@ class FavoritesBoatsViewModel : ViewModel() {
             }
     }
 
-    fun checkFavoriteStatus(announcement: Announcement): Boolean {
-        val uid = Util.getUID()!!
-
-        var exist: Boolean = false
-
-        Util.fDatabase.collection("UsersFavorites")
-            .document(uid)
-            .collection("Favorites")
-            .document(announcement.id!!)
-            .get()
-            .addOnSuccessListener {
-                exist = it.exists()
-            }
-            .addOnFailureListener {
-                Log.d("Error", it.toString())
-            }
-
-        return exist
-    }
-
     fun manageFavoritesBoat(announcement: Announcement, ib: ImageButton) {
         val uid = Util.getUID()!!
 

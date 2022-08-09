@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageButton
+import androidx.compose.runtime.key
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Announcement
@@ -166,7 +167,7 @@ class DetailsAnnouncementViewModel : ViewModel() {
     fun checkIfFavorite(id: String, imgButton: ImageButton) {
         Util.fDatabase.collection("UsersFavorites")
             .document(Util.getUID()!!)
-            .collection("Announcement")
+            .collection("Favorites")
             .document(id)
             .get()
             .addOnSuccessListener {

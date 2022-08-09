@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.repository.UserProfileRepository
 import com.example.boatbooking_1.model.User
+import com.example.boatbooking_1.utils.Util
 
 
 class UserProfileViewModel : ViewModel() {
@@ -41,5 +42,9 @@ class UserProfileViewModel : ViewModel() {
 
     fun activateFavoritesIfNot(){
         return userProfileRepository.activateFavoritesIfNot()
+    }
+
+    fun addUserToDatabase(name: String, email: String, uid: String) {
+        return userProfileRepository.addUserToDatabase(name, email, uid)
     }
 }

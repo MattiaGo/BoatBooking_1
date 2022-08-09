@@ -10,11 +10,13 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentRegistrationBinding
 import com.example.boatbooking_1.model.User
 import com.example.boatbooking_1.utils.Util
+import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -29,6 +31,7 @@ class RegistrationFragment : Fragment() {
     private lateinit var confirmPassword: EditText
 
     private lateinit var signUpErrorMessage: TextView
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +119,7 @@ class RegistrationFragment : Fragment() {
                                     signUpErrorMessage.setTextColor(resources.getColor(R.color.black))
                                     signUpErrorMessage.isVisible = true
 
-                                    addUserToDatabase(
+                                    userProfileViewModel.addUserToDatabase(
                                         name.text.toString(),
                                         user.email.toString(),
                                         user.uid
@@ -135,18 +138,6 @@ class RegistrationFragment : Fragment() {
             binding.registrationBtn.isEnabled = true
             binding.registrationBtn.alpha = 1f
         }
-    }
-
-    private fun addUserToDatabase(name: String, email: String, uid: String) {
-        Util.mDatabase.child("users").child(uid).setValue(User(name, email, uid))
-
-        Util.fDatabase.collection("BoatBookings")
-            .document(uid)
-            .set(
-                hashMapOf(
-                    "id" to Util.getUID()
-                )
-            )
     }
 
 }

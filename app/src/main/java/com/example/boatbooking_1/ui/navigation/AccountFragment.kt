@@ -49,8 +49,6 @@ class AccountFragment : Fragment() {
 
     companion object {
         const val GOOGLE_SIGN_IN = 1903
-        const val LOGIN_SUCCESSFUL: String = "LOGIN_SUCCESSFUL"
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,6 +149,12 @@ class AccountFragment : Fragment() {
         mFirebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+
+                    userProfileViewModel.addUserToDatabase(
+                        acct.givenName!!,
+                        acct.email!!,
+                        Util.getUID()!!
+                    )
                     updateUI()
                 } else {
                     binding.loginBtn.isEnabled = true
