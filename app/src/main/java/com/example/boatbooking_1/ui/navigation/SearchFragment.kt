@@ -6,20 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.example.boatbooking_1.AnnouncementDetailsFragmentDirections
 import com.example.boatbooking_1.R
-import com.example.boatbooking_1.databinding.FragmentMessagesBinding
 import com.example.boatbooking_1.databinding.FragmentSearchBinding
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.ui.BookingFragmentDirections
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.BookingViewModel
 import com.google.android.material.datepicker.CalendarConstraints
@@ -103,35 +98,11 @@ class SearchFragment : Fragment() {
 
 //            bookingViewModel.isPeriodAvailable(startDate!!, endDate!!, AID!!, context!!)
 
-           binding.btnContinue.setOnClickListener {
-                if (!validateDate()) {
-                    Toast.makeText(
-                        context,
-                        "Inserisci un periodo in cui vuoi effettuare la prenotazione!",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                        val action =
-                            SearchFragmentDirections.actionMainSearchToSearchFilterFragment()
-                        findNavController().navigate(action)
-                }
-            }
-            Log.d("MyDebug", "${startDate.toString()} ${endDate.toString()}")
-        //}
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        /*binding.btnContinue.setOnClickListener{
-            val action =
-                SearchFragmentDirections.actionMainSearchToSearchFilterFragment()
-            findNavController().navigate(action)
-        }
-
-         */
 
         binding.btnSelectDate.setOnClickListener {
 //            bookingViewModel.resetAvailability()
@@ -180,6 +151,24 @@ class SearchFragment : Fragment() {
                 Log.d("DatePicker", "Negative: $it")
             }
         }
+
+        binding.btnContinue.setOnClickListener {
+            if (!validateDate()) {
+                Toast.makeText(
+                    context,
+                    "Inserisci un periodo in cui vuoi effettuare la prenotazione!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                val bundle = Bundle()
+                //bundle.putString("location", binding.)
+                bundle.putSerializable("startDate", startDate)
+                bundle.putSerializable("endDate", endDate)
+                findNavController().navigate(R.id.action_main_search_to_searchFilterFragment, bundle)
+            }
+        }
+        Log.d("MyDebug", "${startDate.toString()} ${endDate.toString()}")
+        //}
     }
 
     private fun validateDate(): Boolean {
@@ -187,7 +176,7 @@ class SearchFragment : Fragment() {
 //            "MyDebug", (binding.tvStartDate.text.trim().isEmpty() ||
 //                    binding.tvEndDate.text.trim().isEmpty()).toString()
 //        )
-        return binding.tvStartDate.text.trim().isNotEmpty() ||
+        return  binding.tvStartDate.text.trim().isNotEmpty() ||
                 binding.tvEndDate.text.trim().isNotEmpty()
     }
 }

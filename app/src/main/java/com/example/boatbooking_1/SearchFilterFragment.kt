@@ -1,6 +1,7 @@
 package com.example.boatbooking_1
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,22 @@ import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.databinding.ActivityMainBinding.inflate
 import com.example.boatbooking_1.databinding.FragmentSearchBinding
 import com.example.boatbooking_1.databinding.FragmentSearchFilterBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SearchFilterFragment : Fragment() {
     private lateinit var binding: FragmentSearchFilterBinding
 
+    private var startDate: Date? = null
+    private var endDate: Date? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            startDate = it.getSerializable("startDate") as Date?
+            endDate = it.getSerializable("startDate") as Date?
         }
     }
 
@@ -26,7 +34,6 @@ class SearchFilterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSearchFilterBinding.inflate(inflater, container, false)
-
 
         return binding.root
     }
@@ -75,8 +82,36 @@ class SearchFilterFragment : Fragment() {
         }
 
         binding.btnNext.setOnClickListener{
-            val action = SearchFilterFragmentDirections.actionSearchFilterFragmentToSearchResultsFragment()
-            findNavController().navigate(action)
+            val bundle = Bundle()
+            //bundle.putString("location", binding.)
+            bundle.putSerializable("startDate", startDate)
+            bundle.putSerializable("endDate", endDate)
+
+            bundle.putInt("lvYear", binding.lvYear.text.toString().toInt())
+            bundle.putInt("hvYear", binding.hvYear.text.toString().toInt())
+
+            bundle.putInt("lvLength", binding.lvLength.text.toString().toInt())
+            bundle.putInt("hvLength", binding.hvLength.text.toString().toInt())
+
+            bundle.putInt("lvPassengers", binding.lvPassengers.text.toString().toInt())
+            bundle.putInt("hvPassengers", binding.hvPassengers.text.toString().toInt())
+
+            bundle.putInt("lvBeds", binding.lvBeds.text.toString().toInt())
+            bundle.putInt("hvBeds", binding.hvBeds.text.toString().toInt())
+
+            bundle.putInt("lvCabins", binding.lvCabins.text.toString().toInt())
+            bundle.putInt("hvCabins", binding.hvCabins.text.toString().toInt())
+
+            bundle.putInt("lvBath", binding.lvBath.text.toString().toInt())
+            bundle.putInt("hvBath", binding.hvBath.text.toString().toInt())
+
+            bundle.putBoolean("licenceNeeded", binding.checkBoxLicense.isChecked)
+            bundle.putBoolean("captainNeeded", binding.checkBoxCaptainNeeded.isChecked)
+
+            bundle.putInt("lvPrice", binding.lvPrice.text.toString().toInt())
+            bundle.putInt("hvPrice", binding.hvPrice.text.toString().toInt())
+
+            findNavController().navigate(R.id.action_searchFilterFragment_to_searchResultsFragment, bundle)
         }
     }
 

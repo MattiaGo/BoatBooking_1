@@ -79,7 +79,6 @@ class ZoomImageFragment : Fragment() {
         arguments?.let {
             imageList = it.getStringArrayList("imageList") as ArrayList<String>
             announcement_id = it.getString("id") as String
-
         }
     }
 
