@@ -19,6 +19,7 @@ import com.example.boatbooking_1.viewmodel.MyBookingViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.w3c.dom.Text
+import java.sql.Date
 
 class MyBookingAdapter(
     private val bookingList: ArrayList<Booking>,
@@ -38,8 +39,9 @@ class MyBookingAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val booking = bookingList[position]
         val shipOwnerID = booking.announcement!!.id_owner
-        holder.tvShipOwner.text = ""
         val sdf = Util.sdfBooking()
+
+        holder.tvShipOwner.text = ""
 
         if (userViewModel.getUser().value!!.shipOwner) {
             holder.btnRemove.isVisible = false
@@ -66,6 +68,10 @@ class MyBookingAdapter(
         holder.tvBathrooms.text =
             booking.announcement!!.boat!!.bathrooms.toString().plus(" Camere")
         holder.tvTotal.text = booking.total.toString().plus(" €")
+
+        if (booking.endDate!!.before(Date(System.currentTimeMillis()))) {
+            holder.btnRemove.isVisible = false
+        }
 
         holder.btnRemove.setOnClickListener {
             MaterialAlertDialogBuilder(context)

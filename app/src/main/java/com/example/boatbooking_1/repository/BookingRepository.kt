@@ -69,7 +69,7 @@ class BookingRepository {
         val startDate = bookingUpdated?.startDate
         val endDate = bookingUpdated?.endDate
 
-        val diff: Long = endDate!!.getTime() - startDate!!.getTime()
+        val diff: Long = endDate!!.time - startDate!!.time
         val seconds = diff / 1000
         val minutes = seconds / 60
         val hours = minutes / 60

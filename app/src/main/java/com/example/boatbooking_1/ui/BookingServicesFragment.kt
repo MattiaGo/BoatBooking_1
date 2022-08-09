@@ -103,7 +103,7 @@ class BookingServicesFragment : Fragment() {
                 "${booking.startDate.toString()}\n ${booking.startDate.toString()}"
             )
 
-            Log.d("BookingService", "Observer: ${booking.total.toString()}")
+            Log.d("BookingService", "Observer: ${booking.total}")
 
             binding.tvTotalPrice.text = booking.total.toString()
 
