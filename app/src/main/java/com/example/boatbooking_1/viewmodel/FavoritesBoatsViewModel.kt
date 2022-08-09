@@ -1,11 +1,13 @@
 package com.example.boatbooking_1.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import android.widget.ImageButton
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.ui.FavoritesAnnouncementAdapter
+import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 
 class FavoritesBoatsViewModel : ViewModel() {
@@ -14,18 +16,60 @@ class FavoritesBoatsViewModel : ViewModel() {
 
     fun getFavoritesBoats(
         arrayList: ArrayList<Announcement>,
-        adapter: FavoritesAnnouncementAdapter
+        adapter: FavoritesAnnouncementAdapter,
+        remoteImageURIList: MutableList<String>
+
     ) {
         Util.fDatabase.collection("UsersFavorites")
             .document(Util.getUID()!!)
             .collection("Favorites")
             .get()
             .addOnSuccessListener { documents ->
-                documents.forEach { document ->
+                documents.forEachIndexed { i, document ->
                     val announcement = document.toObject(Announcement::class.java)
-                    arrayList.add(announcement)
+                    arrayList.add(i, announcement)
+
+                    Log.d("Home", announcement.imageList.toString())
+                    Log.d("Home", announcement.imageList!!.isNotEmpty().toString())
+
+                    if (announcement.imageList!!.isNotEmpty()) {
+                        getImageForAnnouncement(
+                            announcement.imageList?.get(0),
+                            adapter,
+                            remoteImageURIList,
+                            i
+                        )
+                    } else {
+                        remoteImageURIList.add("default")
+                        adapter.notifyDataSetChanged()
+                    }
+
+                    Log.d("Home", "RemoteURIList: ${remoteImageURIList.toString()}")
                 }
+            }
+    }
+
+    private fun getImageForAnnouncement(
+        imageName: String?,
+        adapter: FavoritesAnnouncementAdapter,
+        remoteImageURIList: MutableList<String>,
+        position: Int
+    ) {
+        var downloadUri: Uri
+
+        remoteImageURIList.add(position, "")
+
+        Util.fStorage.reference.child("/images/$imageName")
+            .downloadUrl
+            .addOnSuccessListener {
+                // Got the download URL
+                downloadUri = it
+                remoteImageURIList.add(position, downloadUri.toString())
                 adapter.notifyDataSetChanged()
+//                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener {
+                Log.d("HomeImage", "Error: $it")
             }
     }
 

@@ -19,6 +19,9 @@ private lateinit var resultAdapter: FavoritesAnnouncementAdapter
 private lateinit var resultList: ArrayList<Announcement>
 private lateinit var rvResults: RecyclerView
 
+private var remoteImagesURIList: MutableList<String> = mutableListOf()
+
+
 class SearchResultsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +30,7 @@ class SearchResultsFragment : Fragment() {
         }
 
         resultList = ArrayList()
-        resultAdapter = FavoritesAnnouncementAdapter(resultList)
+        resultAdapter = FavoritesAnnouncementAdapter(resultList,requireContext(),remoteImagesURIList)
     }
 
     override fun onCreateView(

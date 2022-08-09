@@ -16,7 +16,6 @@ import com.example.boatbooking_1.databinding.FragmentFavoritesBinding
 import com.example.boatbooking_1.databinding.FragmentHomeBinding
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.ui.FavoritesAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.viewmodel.FavoritesBoatsViewModel
 import com.example.boatbooking_1.viewmodel.HomeAnnouncementViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -36,6 +35,8 @@ class FavoritesFragment : Fragment() {
     private lateinit var favoritesList: ArrayList<Announcement>
     private lateinit var rvFavorites: RecyclerView
 
+    private var remoteImagesURIFavorites: MutableList<String> = mutableListOf()
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -47,7 +48,7 @@ class FavoritesFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         favoritesList = ArrayList()
-        favoritesAdapter = FavoritesAnnouncementAdapter(favoritesList)
+        favoritesAdapter = FavoritesAnnouncementAdapter(favoritesList, requireContext(), remoteImagesURIFavorites)
 
         if (fAuth.currentUser == null) {
             Snackbar.make(
@@ -65,6 +66,7 @@ class FavoritesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        remoteImagesURIFavorites.clear()
         favoritesList.clear()
         // Inflate the layout for this fragment
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
@@ -81,7 +83,8 @@ class FavoritesFragment : Fragment() {
 
             favoritesBoatsViewModel.getFavoritesBoats(
                 favoritesList,
-                favoritesAdapter
+                favoritesAdapter,
+                remoteImagesURIFavorites
             )
         }
         return binding.root
