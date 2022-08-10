@@ -70,30 +70,30 @@
     <string name="shipowner">Shipowner</string>
 
 
-    <string-array name="cabins_array">
+    <integer-array name="cabins_array">
         <item>0</item>
         <item>10</item>
-    </string-array>
+    </integer-array>
 
-    <string-array name="beds_array">
+    <integer-array name="beds_array">
         <item>0</item>
         <item>20</item>
-    </string-array>
+    </integer-array>
 
-    <string-array name="passengers_array">
+    <integer-array name="passengers_array">
         <item>1</item>
         <item>20</item>
-    </string-array>
+    </integer-array>
 
-    <string-array name="bath_array">
+    <integer-array name="bath_array">
         <item>0</item>
         <item>10</item>
-    </string-array>
+    </integer-array>
 
-    <string-array name="price_array">
+    <integer-array name="price_array">
         <item>0</item>
         <item>3000</item>
-    </string-array>
+    </integer-array>
 
 
     <string-array name="languages">

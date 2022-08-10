@@ -12,11 +12,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentSearchBinding
-import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.utils.Util
-import com.example.boatbooking_1.viewmodel.BookingViewModel
+import com.example.boatbooking_1.viewmodel.SearchViewModel
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -29,17 +27,17 @@ class SearchFragment : Fragment() {
     private lateinit var locationList: Array<String>
     private lateinit var locationAdapter: ArrayAdapter<String>
 
-    private val bookingViewModel: BookingViewModel by activityViewModels()
-    private lateinit var observer: androidx.lifecycle.Observer<Booking>
-    private lateinit var availabilityObserver: androidx.lifecycle.Observer<Boolean>
+    private val searchViewModel: SearchViewModel by activityViewModels()
 
     private var startDate: Date? = null
     private var endDate: Date? = null
-    private var availability: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        arguments?.let {
+            //startDate = it.getSerializable("startDate") as Date?
+            //endDate = it.getSerializable("startDate") as Date?
+        }
         locationList = arrayOf(
             "Brescia",
             "Bergamo",
@@ -52,17 +50,23 @@ class SearchFragment : Fragment() {
             requireContext(), android.R.layout.simple_list_item_1,
             locationList
         )
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-//        val view = inflater.inflate(R.layout.fragment_search, container, false)
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
+        binding.dateContainer.isVisible = false
+
+        val sdf = Util.sdfBooking()
+
+        if(searchViewModel.searchData.startDate != null && searchViewModel.searchData.startDate != null){
+            binding.tvStartDate.text = sdf.format(searchViewModel.searchData.startDate!!).toString()
+            binding.tvEndDate.text = sdf.format(searchViewModel.searchData.endDate!!).toString()
+            binding.dateContainer.isVisible = true
+        }
         searchView = binding.searchView
-        //binding.lvLocation.adapter = locationAdapter
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -82,21 +86,6 @@ class SearchFragment : Fragment() {
             }
 
         })
-
-
-        val sdf = Util.sdfBooking()
-
-        //startDate = bookingViewModel.getBooking().value!!.startDate
-        //endDate = bookingViewModel.getBooking().value!!.endDate
-
-        /*if (startDate != null && endDate != null) {
-            binding.dateContainer.isVisible = true
-            binding.tvStartDate.text = sdf.format(startDate!!).toString()
-            binding.tvEndDate.text = sdf.format(endDate!!).toString()
-
-         */
-
-//            bookingViewModel.isPeriodAvailable(startDate!!, endDate!!, AID!!, context!!)
 
         return binding.root
     }
@@ -133,6 +122,9 @@ class SearchFragment : Fragment() {
                 startDate = Date(dateRangePicker.selection!!.first)
                 endDate = Date(dateRangePicker.selection!!.second)
 
+                searchViewModel.searchData.startDate = startDate
+                searchViewModel.searchData.endDate = endDate
+
                 Log.d("Booking", startDate.toString() + "\n${endDate.toString()}")
 
                 binding.dateContainer.isVisible = true
@@ -160,15 +152,18 @@ class SearchFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                val bundle = Bundle()
-                //bundle.putString("location", binding.)
-                bundle.putSerializable("startDate", startDate)
-                bundle.putSerializable("endDate", endDate)
-                findNavController().navigate(R.id.action_main_search_to_searchFilterFragment, bundle)
+                val action = SearchFragmentDirections.actionMainSearchToSearchFilterFragment()
+                findNavController().navigate(action)
             }
         }
         Log.d("MyDebug", "${startDate.toString()} ${endDate.toString()}")
-        //}
+
+        binding.resetAllParam.setOnClickListener {
+            searchViewModel.resetData()
+            binding.tvStartDate.text = ""
+            binding.tvEndDate.text = ""
+            binding.dateContainer.isVisible = false
+        }
     }
 
     private fun validateDate(): Boolean {
@@ -176,7 +171,7 @@ class SearchFragment : Fragment() {
 //            "MyDebug", (binding.tvStartDate.text.trim().isEmpty() ||
 //                    binding.tvEndDate.text.trim().isEmpty()).toString()
 //        )
-        return  binding.tvStartDate.text.trim().isNotEmpty() ||
-                binding.tvEndDate.text.trim().isNotEmpty()
+        return  searchViewModel.searchData.startDate != null ||
+                searchViewModel.searchData.endDate != null
     }
 }

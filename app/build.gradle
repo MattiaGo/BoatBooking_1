@@ -12,12 +12,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.boatbooking_1"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 

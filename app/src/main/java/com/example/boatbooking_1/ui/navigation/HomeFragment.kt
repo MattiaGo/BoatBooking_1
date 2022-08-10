@@ -1,9 +1,11 @@
 package com.example.boatbooking_1.ui.navigation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +15,13 @@ import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.viewmodel.HomeAnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
+import com.google.firebase.auth.FirebaseAuth
+import okhttp3.internal.Util
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+
+    private lateinit var fAuth: FirebaseAuth
 
     private val homeAnnouncementViewModel: HomeAnnouncementViewModel by activityViewModels()
     private val userViewModel: UserProfileViewModel by activityViewModels()
@@ -36,6 +42,12 @@ class HomeFragment : Fragment() {
     private var remoteImagesURILastSeenList: MutableList<String> = mutableListOf()
     private var remoteImagesURIMostRequestedList: MutableList<String> = mutableListOf()
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        fAuth = FirebaseAuth.getInstance()
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +74,7 @@ class HomeFragment : Fragment() {
 
         remoteImagesURILastAddedList.clear()
         remoteImagesURIMostRequestedList.clear()
+        remoteImagesURILastSeenList.clear()
 
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -98,11 +111,14 @@ class HomeFragment : Fragment() {
             remoteImagesURIMostRequestedList
         )
 
-        homeAnnouncementViewModel.getLastSeenAnnouncement(
-            lastSeenList,
-            lastSeenAdapter,
-            remoteImagesURILastSeenList
-        )
+        if (fAuth.currentUser !== null) {
+            binding.layoutLastSeen.isVisible = true
+            homeAnnouncementViewModel.getLastSeenAnnouncement(
+                lastSeenList,
+                lastSeenAdapter,
+                remoteImagesURILastSeenList
+            )
+        }
 
         return binding.root
     }

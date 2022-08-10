@@ -11,8 +11,11 @@
         android:label="fragment_announcement_details"
         tools:layout="@layout/fragment_announcement_details">
         <action
+            android:id="@+id/action_like_to_announcementDetailsFragment"
+            app:destination="@id/announcementDetailsFragment" />
+        <action
             android:id="@+id/action_announcementDetailsFragment_to_main_home"
-            app:destination="@id/main_home" />
+            app:destination="@id/searchResultsFragment" />
         <action
             android:id="@+id/action_announcementDetailsFragment_to_zoomImageFragment"
             app:destination="@id/zoomImageFragment" />
