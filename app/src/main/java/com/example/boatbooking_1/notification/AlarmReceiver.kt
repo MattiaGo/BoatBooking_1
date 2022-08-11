@@ -28,7 +28,7 @@ class AlarmReceiver : BroadcastReceiver() {
 //        Log.d("MyService", Util.getUID().toString())
 
         if (!Util.getUID().isNullOrBlank()) {
-            Log.d("MyService", "DEBUG")
+//            Log.d("MyService", "DEBUG")
             showNotification(context)
         }
 //        Toast.makeText(context, intent.getStringExtra("notification"), Toast.LENGTH_SHORT).show()
@@ -71,6 +71,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     val requestCode = System.currentTimeMillis().toInt()
 
                     val intent = Intent(activity, NotificationBookingActivity::class.java)
+                    intent.action = "VIEW_BOOKING"
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                     intent.putExtra("id", booking.id)
 //                    intent.putExtra("id_notification", CHANNEL_ID + i)

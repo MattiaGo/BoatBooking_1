@@ -102,9 +102,7 @@ class HomeFragment : Fragment() {
         rvLastAdded.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvLastAdded.adapter = lastAddedAdapter
-        binding.layoutLogo.setOnClickListener {
-            showNotification()
-        }
+
         //BEST CHARTER
 //        rvLastAdded = binding.rvLastAdded
 //        rvLastAdded.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
@@ -146,74 +144,6 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun showNotification() {
-        var notificationManager: NotificationManager? = null
-        val ID = 0
-        val name = "Test1"
-        val id = "test1"
-        val description = "test_description1"
-
-        val pendingIntent: PendingIntent
-
-        if (notificationManager == null) {
-            notificationManager =
-                activity!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            var mChannel = notificationManager.getNotificationChannel(id)
-            if (mChannel == null) {
-                mChannel = NotificationChannel(id, name, importance)
-                mChannel.description = description
-                mChannel.enableVibration(true)
-                mChannel.lightColor = Color.GREEN
-//                mChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
-                notificationManager.createNotificationChannel(mChannel)
-            }
-
-        }
-
-        val builder: NotificationCompat.Builder = NotificationCompat.Builder(activity!!, id)
-
-        val intent: Intent = Intent(activity, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.action = "DEBUG"
-        intent.putExtra("ciao", "IntentTest")
-        pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-        builder.setContentTitle("My Notification")
-            .setSmallIcon(R.drawable.ic_rudder)
-            .setContentText("KotlinApp")
-            .setDefaults(Notification.DEFAULT_ALL)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
-            .setTicker("Notification")
-            .setVibrate(longArrayOf())
-
-        val dismissIntent = Intent(activity, MainActivity::class.java)
-        dismissIntent.action = "TEST"
-        dismissIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-//        dismissIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        dismissIntent.putExtra("id", "_DEBUG")
-
-        val pendingDismissIntent =
-            PendingIntent.getActivity(
-                activity,
-                System.currentTimeMillis().toInt(),
-                dismissIntent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-        val dismissAction = NotificationCompat.Action(null, "EXAMPLE", pendingDismissIntent)
-
-        builder.addAction(dismissAction)
-        val notification = builder.build()
-
-        notificationManager.notify(ID, notification)
-
     }
 
 }

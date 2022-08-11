@@ -225,6 +225,7 @@ class UserProfileFragment : Fragment() {
 
     private fun activateOwnerMode() {
         userProfileViewModel.editStatus(true)
+        myBookingsViewModel.removeAllBookings()
 //        binding.myBoatBtn.setText("Le mie barche")
     }
 
