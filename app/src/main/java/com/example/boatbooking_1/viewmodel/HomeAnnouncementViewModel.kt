@@ -97,7 +97,8 @@ class HomeAnnouncementViewModel : ViewModel() {
         remoteImageURIList: MutableList<String>
     ) {
         Util.fDatabase.collectionGroup("Announcement")
-            .orderBy("timestamp").limit(limit_of_query)
+            .orderBy("timestamp")
+            .limit(limit_of_query)
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEachIndexed { i, document ->
@@ -119,7 +120,7 @@ class HomeAnnouncementViewModel : ViewModel() {
                         adapter.notifyDataSetChanged()
                     }
 
-                    Log.d("Home", "RemoteURIList: ${remoteImageURIList.toString()}")
+                    Log.d("Home", "LastAdded: ${remoteImageURIList}")
                 }
 //                Log.d("Firestore", "announcementList: $arrayList")
             }

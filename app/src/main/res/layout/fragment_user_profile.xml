@@ -137,26 +137,32 @@
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:background="@color/grey"
+                    android:layout_marginTop="10dp"/>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/sel_language"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"
-                        tools:ignore="TouchTargetSizeCheck">
+                        android:layout_height="wrap_content"
+                        tools:ignore="TouchTargetSizeCheck"
+                        android:minHeight="50dp">
 
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:text="@string/language"
+                            android:layout_margin="10dp"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -165,6 +171,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
+                            android:layout_margin="10dp"
                             android:text="Italiano"
                             android:textAlignment="viewStart"
                             android:textColor="#616161" />
@@ -180,30 +187,61 @@
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:background="@color/grey" />
 
+<!--                    <RelativeLayout-->
+<!--                        android:id="@+id/sel_currency"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:layout_margin="10dp"-->
+<!--                        tools:ignore="TouchTargetSizeCheck">-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="start"-->
+<!--                            android:text="@string/currency"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="16sp" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/et_currency"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_alignParentEnd="true"-->
+<!--                            android:text="@string/currency"-->
+<!--                            android:textAlignment="viewStart"-->
+<!--                            android:textColor="#616161" />-->
+<!--                    </RelativeLayout>-->
+
+<!--                    <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:layout_gravity="center_horizontal|center_vertical"-->
+<!--                        android:background="@color/grey" />-->
+
                     <RelativeLayout
-                        android:id="@+id/sel_currency"
+                        android:id="@+id/notification"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"
-                        tools:ignore="TouchTargetSizeCheck">
+                        tools:ignore="TouchTargetSizeCheck"
+                        android:minHeight="50dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:text="@string/currency"
+                            android:layout_margin="10dp"
+                            android:text="Notifiche"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
-                        <TextView
-                            android:id="@+id/et_currency"
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switch_notification"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:text="@string/currency"
-                            android:textAlignment="viewStart"
-                            android:textColor="#616161" />
+                            android:checked="false"
+                            android:gravity="center_vertical" />
+
                     </RelativeLayout>
 
                     <View
@@ -212,75 +250,44 @@
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:background="@color/grey" />
 
-                    <RelativeLayout
-                        android:id="@+id/sel_alarms"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"
-                        tools:ignore="TouchTargetSizeCheck">
+<!--                    <RelativeLayout-->
+<!--                        android:id="@+id/sel_udm"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:padding="10dp"-->
+<!--                        tools:ignore="TouchTargetSizeCheck">-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:text="@string/reminders"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="start"-->
+<!--                            android:text="@string/udm"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="16sp" />-->
 
-                        <TextView
-                            android:id="@+id/et_alarms"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:text="@string/reminders"
-                            android:textAlignment="viewStart"
-                            android:textColor="#616161" />
-                    </RelativeLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/et_udm"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_alignParentEnd="true"-->
+<!--                            android:text="@string/udm"-->
+<!--                            android:textAlignment="viewStart"-->
+<!--                            android:textColor="#616161" />-->
+<!--                    </RelativeLayout>-->
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:background="@color/grey" />
-
-                    <RelativeLayout
-                        android:id="@+id/sel_udm"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"
-                        tools:ignore="TouchTargetSizeCheck">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:text="@string/udm"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/et_udm"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:text="@string/udm"
-                            android:textAlignment="viewStart"
-                            android:textColor="#616161" />
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:background="@color/grey" />
+<!--                    <View-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="1dp"-->
+<!--                        android:layout_gravity="center_horizontal|center_vertical"-->
+<!--                        android:background="@color/grey" />-->
 
                     <RelativeLayout
                         android:id="@+id/position"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:ignore="TouchTargetSizeCheck">
+                        tools:ignore="TouchTargetSizeCheck"
+                        android:minHeight="50dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -291,13 +298,13 @@
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
-                        <Switch
+                        <androidx.appcompat.widget.SwitchCompat
                             android:id="@+id/switch_position"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginTop="6dp"
-                            android:gravity="bottom" />
+                            android:checked="true"
+                            android:gravity="center_vertical" />
 
                     </RelativeLayout>
 

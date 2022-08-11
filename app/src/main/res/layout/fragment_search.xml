@@ -125,8 +125,9 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="Resetta tutti i paramentri di ricerca"
+            android:text="Reset dei parametri di ricerca"
             android:textColor="@color/black"
+            android:textAllCaps="true"
             android:textSize="16sp"
             android:textStyle="bold" />
 

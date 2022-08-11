@@ -3,11 +3,14 @@ package com.example.boatbooking_1.ui
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.boatbooking_1.databinding.ActivityNotificationDetailsBinding
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.model.Booking
@@ -67,6 +70,26 @@ class NotificationBookingActivity : AppCompatActivity() {
                 binding.tvPrice.text = booking.total.toString()
                 binding.tvStartDate.text = Util.sdfBooking().format(booking.startDate!!)
                 binding.tvEndDate.text = Util.sdfBooking().format(booking.endDate!!)
+
+                val image = booking.announcement!!.imageList?.first()
+
+                if (!image.isNullOrBlank()) {
+                    binding.ivBoatPreview.isVisible = false
+
+                    Util.fStorage.reference.child("/images/$image")
+                        .downloadUrl
+                        .addOnSuccessListener {
+                            // Got the download URL
+                            Glide.with(applicationContext)
+                                .load(it.toString())
+                                .into(binding.ivBoatPreview)
+
+                            binding.ivBoatPreview.isVisible = true
+                        }
+                        .addOnFailureListener {
+                            Log.d("Storage", "Error: $it")
+                        }
+                }
 
                 serviceList.addAll(booking.services!!)
                 Log.d("MyService", serviceList.toString())

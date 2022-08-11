@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
+    private val intervalMillis: Long = 60000 * 1000
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,29 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-//        PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-//        this.intent = intent
-//
-//
-//        if (intent!!.action == "VIEW_BOOKING") {
-//            Toast.makeText(this, "DEBUG!", Toast.LENGTH_SHORT).show()
-//
-//            val notificationManager =
-//                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//
-//            notificationManager.cancel(0)
-//
-//            val id = intent.extras?.getString("id")
-//
-//            val notificationIntent =
-//                Intent(applicationContext, NotificationBookingActivity::class.java).apply {
-//                    action = "Notification"
-//                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                    putExtra("id", id)
-//                }
-//
-//            startActivity(notificationIntent)
-//        }
+
     }
 
     private fun startAlarm() {
@@ -103,8 +83,6 @@ class MainActivity : AppCompatActivity() {
                 intent,
                 PendingIntent.FLAG_IMMUTABLE
             )
-
-        val intervalMillis: Long = 60 * 1000
 
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,

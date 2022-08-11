@@ -208,7 +208,7 @@ class UserProfileFragment : Fragment() {
     private fun showConfirmDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Sei sicuro di attivare la modalità PROPRIETARIO?")
-            .setMessage("ATTENZIONE! QUESTA OPERAZIONE È IRREVERSIBILE")
+            .setMessage(getString(R.string.activate_owner_mode_message))
             .setCancelable(false)
             .setNegativeButton("Annulla") { _, _ ->
             }
