@@ -1,22 +1,31 @@
 package com.example.boatbooking_1.ui.navigation
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentHomeBinding
 import com.example.boatbooking_1.model.Announcement
+import com.example.boatbooking_1.ui.MainActivity
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.viewmodel.HomeAnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
-import okhttp3.internal.Util
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -56,11 +65,20 @@ class HomeFragment : Fragment() {
         lastSeenList = ArrayList()
         mostRequestedList = ArrayList()
 
-        lastAddedAdapter = PublicAnnouncementAdapter(lastAddedList, requireContext(), remoteImagesURILastAddedList)
-        lastSeenAdapter = PublicAnnouncementAdapter(lastSeenList, requireContext(), remoteImagesURILastSeenList)
-        mostRequestedAdapter = PublicAnnouncementAdapter(mostRequestedList, requireContext(), remoteImagesURIMostRequestedList)
+        lastAddedAdapter =
+            PublicAnnouncementAdapter(lastAddedList, requireContext(), remoteImagesURILastAddedList)
+        lastSeenAdapter =
+            PublicAnnouncementAdapter(lastSeenList, requireContext(), remoteImagesURILastSeenList)
+        mostRequestedAdapter = PublicAnnouncementAdapter(
+            mostRequestedList,
+            requireContext(),
+            remoteImagesURIMostRequestedList
+        )
+//        lastAddedAdapter = PublicAnnouncementAdapter(lastAddedList, requireContext(), ArrayList())
+//        lastSeenAdapter = PublicAnnouncementAdapter(lastSeenList, requireContext(), ArrayList())
 
         userViewModel.getUser()
+
     }
 
     override fun onCreateView(
@@ -84,6 +102,13 @@ class HomeFragment : Fragment() {
         rvLastAdded.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvLastAdded.adapter = lastAddedAdapter
+        binding.layoutLogo.setOnClickListener {
+            showNotification()
+        }
+        //BEST CHARTER
+//        rvLastAdded = binding.rvLastAdded
+//        rvLastAdded.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+//        rvLastAdded.adapter = lastAddedAdapter
 
         //LAST SEEN
         rvRecentSeen = binding.rvRecentSeen
@@ -121,6 +146,74 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun showNotification() {
+        var notificationManager: NotificationManager? = null
+        val ID = 0
+        val name = "Test1"
+        val id = "test1"
+        val description = "test_description1"
+
+        val pendingIntent: PendingIntent
+
+        if (notificationManager == null) {
+            notificationManager =
+                activity!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            var mChannel = notificationManager.getNotificationChannel(id)
+            if (mChannel == null) {
+                mChannel = NotificationChannel(id, name, importance)
+                mChannel.description = description
+                mChannel.enableVibration(true)
+                mChannel.lightColor = Color.GREEN
+//                mChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+                notificationManager.createNotificationChannel(mChannel)
+            }
+
+        }
+
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(activity!!, id)
+
+        val intent: Intent = Intent(activity, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.action = "DEBUG"
+        intent.putExtra("ciao", "IntentTest")
+        pendingIntent = PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        builder.setContentTitle("My Notification")
+            .setSmallIcon(R.drawable.ic_rudder)
+            .setContentText("KotlinApp")
+            .setDefaults(Notification.DEFAULT_ALL)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .setTicker("Notification")
+            .setVibrate(longArrayOf())
+
+        val dismissIntent = Intent(activity, MainActivity::class.java)
+        dismissIntent.action = "TEST"
+        dismissIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+//        dismissIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        dismissIntent.putExtra("id", "_DEBUG")
+
+        val pendingDismissIntent =
+            PendingIntent.getActivity(
+                activity,
+                System.currentTimeMillis().toInt(),
+                dismissIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        val dismissAction = NotificationCompat.Action(null, "EXAMPLE", pendingDismissIntent)
+
+        builder.addAction(dismissAction)
+        val notification = builder.build()
+
+        notificationManager.notify(ID, notification)
+
     }
 
 }

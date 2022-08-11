@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/form_background"
     android:gravity="center_horizontal"
     android:orientation="vertical">
@@ -27,7 +28,7 @@
             android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_background"
+            android:background="@drawable/background_remove"
             android:src="@drawable/ic_remove"
             android:layout_gravity="end"
             android:layout_margin="10dp"

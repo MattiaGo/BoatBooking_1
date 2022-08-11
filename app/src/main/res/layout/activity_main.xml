@@ -27,5 +27,5 @@
         app:itemTextColor="@color/menu_colors"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav"/>
-
+    
 </LinearLayout>
