@@ -30,8 +30,8 @@ class PublicServiceAdapter(private val serviceList: ArrayList<BoatService>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = serviceList[position]
 
-        holder.etService.setText(currentItem.name)
-        holder.etPrice.setText(currentItem.price.toString())
+        holder.etService.text = currentItem.name
+        holder.etPrice.text = currentItem.price.toString()
     }
 
     override fun getItemCount(): Int {

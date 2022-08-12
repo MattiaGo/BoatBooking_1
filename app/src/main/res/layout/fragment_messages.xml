@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.navigation.MessagesFragment">
 
+    <TextView
+        android:id="@+id/tv_no_messages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Non hai nessun messaggio"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:layout_marginTop="100dp"
+        android:visibility="gone"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chat_preview"
         android:layout_width="match_parent"

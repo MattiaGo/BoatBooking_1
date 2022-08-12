@@ -1,5 +1,6 @@
 package com.example.boatbooking_1.model
 
+import com.example.boatbooking_1.utils.Util
 import java.util.*
 
 class Booking(
@@ -14,7 +15,11 @@ class Booking(
 ) {
 
     override fun toString(): String {
-        return "\nStart: ${startDate.toString()}\nEnd: ${endDate.toString()}\n${services.toString()}"
+//        return "\nStart: ${startDate.toString()}\nEnd: ${endDate.toString()}\n${services.toString()}"
+        return "Data inizio: ${Util.sdfBooking().format(startDate)}\n" +
+                "Data fine: ${Util.sdfBooking().format(endDate)}\n" +
+                "Luogo: ${announcement!!.location}\n" +
+                "Totale: $total €"
     }
 
 }

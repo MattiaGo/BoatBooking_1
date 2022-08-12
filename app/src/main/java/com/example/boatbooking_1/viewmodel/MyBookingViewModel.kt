@@ -119,4 +119,16 @@ class MyBookingViewModel : ViewModel() {
             }
 
     }
+
+    fun removeAllBookings() {
+        Util.fDatabase.collection("BoatBookings")
+            .document(Util.getUID()!!)
+            .collection("Booking")
+            .get()
+            .addOnSuccessListener {
+                for (document in it) {
+                    document.reference.delete()
+                }
+            }
+    }
 }

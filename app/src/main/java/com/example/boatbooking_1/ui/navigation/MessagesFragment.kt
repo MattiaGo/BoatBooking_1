@@ -1,12 +1,15 @@
 package com.example.boatbooking_1.ui.navigation
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintSet.GONE
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -102,6 +105,12 @@ class MessagesFragment : Fragment() {
                         chatPreviewList.reverse()
 
                         chatPreviewAdapter.notifyDataSetChanged()
+
+                        if (chatPreviewList.isEmpty()) {
+                            binding.tvNoMessages.visibility = View.VISIBLE
+                        } else {
+                            binding.tvNoMessages.visibility = View.GONE
+                        }
                     }
 
                     override fun onCancelled(error: DatabaseError) {

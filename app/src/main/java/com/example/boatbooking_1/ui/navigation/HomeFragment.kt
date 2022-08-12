@@ -1,22 +1,31 @@
 package com.example.boatbooking_1.ui.navigation
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.NotificationCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentHomeBinding
 import com.example.boatbooking_1.model.Announcement
+import com.example.boatbooking_1.ui.MainActivity
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.viewmodel.HomeAnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
-import okhttp3.internal.Util
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -56,11 +65,20 @@ class HomeFragment : Fragment() {
         lastSeenList = ArrayList()
         mostRequestedList = ArrayList()
 
-        lastAddedAdapter = PublicAnnouncementAdapter(lastAddedList, requireContext(), remoteImagesURILastAddedList)
-        lastSeenAdapter = PublicAnnouncementAdapter(lastSeenList, requireContext(), remoteImagesURILastSeenList)
-        mostRequestedAdapter = PublicAnnouncementAdapter(mostRequestedList, requireContext(), remoteImagesURIMostRequestedList)
+        lastAddedAdapter =
+            PublicAnnouncementAdapter(lastAddedList, requireContext(), remoteImagesURILastAddedList)
+        lastSeenAdapter =
+            PublicAnnouncementAdapter(lastSeenList, requireContext(), remoteImagesURILastSeenList)
+        mostRequestedAdapter = PublicAnnouncementAdapter(
+            mostRequestedList,
+            requireContext(),
+            remoteImagesURIMostRequestedList
+        )
+//        lastAddedAdapter = PublicAnnouncementAdapter(lastAddedList, requireContext(), ArrayList())
+//        lastSeenAdapter = PublicAnnouncementAdapter(lastSeenList, requireContext(), ArrayList())
 
         userViewModel.getUser()
+
     }
 
     override fun onCreateView(
@@ -84,6 +102,11 @@ class HomeFragment : Fragment() {
         rvLastAdded.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvLastAdded.adapter = lastAddedAdapter
+
+        //BEST CHARTER
+//        rvLastAdded = binding.rvLastAdded
+//        rvLastAdded.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
+//        rvLastAdded.adapter = lastAddedAdapter
 
         //LAST SEEN
         rvRecentSeen = binding.rvRecentSeen

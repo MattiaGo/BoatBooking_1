@@ -145,5 +145,4 @@
                 android:visibility="visible" />
 
         </LinearLayout>
-
 </FrameLayout>

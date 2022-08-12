@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
         android:allowBackup="true"
@@ -17,15 +19,27 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:showOnLockScreen="true"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name="com.example.boatbooking_1.SplashActivity"
+
+        <activity
+            android:name=".ui.NotificationBookingActivity"
+            android:parentActivityName=".ui.MainActivity" />
+
+        <activity
+            android:name="com.example.boatbooking_1.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".notification.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
     </application>
 
 </manifest>

@@ -109,5 +109,6 @@
     <string name="owner_booking_validation">ATTENZIONE! I proprietari non possono effettuare prenotazioni.</string>
     <string name="error_availability">ATTENZIONE! Prenotazione non disponibile\n\nSeleziona un nuovo periodo</string>
     <string name="send_message_validation">Solo gli utenti registrati possono inviare i messaggi ai proprietari.</string>
+    <string name="activate_owner_mode_message">ATTENZIONE! Tutte le tue prenotazioni saranno eliminate.\nL\'operazione è IRREVERSIBILE</string>
 
 </resources>
