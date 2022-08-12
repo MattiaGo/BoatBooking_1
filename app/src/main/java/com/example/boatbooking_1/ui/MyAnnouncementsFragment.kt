@@ -40,7 +40,7 @@ class MyAnnouncementsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         myAnnouncementList = ArrayList()
-        myAnnouncementAdapter = MyAnnouncementAdapter(myAnnouncementList, requireContext())
+        myAnnouncementAdapter = MyAnnouncementAdapter(myAnnouncementList, announcementViewModel, requireContext())
     }
 
     override fun onCreateView(

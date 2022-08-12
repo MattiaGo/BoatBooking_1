@@ -7,10 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,10 +17,15 @@ import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.repository.AnnouncementRepository
 import com.example.boatbooking_1.utils.Util
+import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
+import com.example.boatbooking_1.viewmodel.DetailsAnnouncementViewModel
+import com.example.boatbooking_1.viewmodel.MyBookingViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class MyAnnouncementAdapter(
     private val announcementList: ArrayList<Announcement>,
+    private val announcementViewModel: AnnouncementViewModel,
     private val context: Context
 ) :
     RecyclerView.Adapter<MyAnnouncementAdapter.MyViewHolder>() {
@@ -108,6 +112,25 @@ class MyAnnouncementAdapter(
                 holder.tvAvailable.setTextColor(R.color.error)
             }
         }
+
+        holder.btnRemove.setOnClickListener {
+            MaterialAlertDialogBuilder(context)
+                .setTitle("Sei sicuro di eliminare questa barca?")
+                .setMessage("")
+                .setCancelable(false)
+                .setNegativeButton("Annulla") { _, _ ->
+                }
+                .setPositiveButton("Conferma") { _, _ ->
+                    announcementViewModel.deleteAnnouncement(currentItem!!, context)
+                    notifyItemRemoved(position)
+                    Toast.makeText(
+                        context,
+                        "Prenotazione rimossa con successo!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .show()
+        }
     }
 
     private fun changeAvailability(available: Boolean, id: String) {
@@ -124,6 +147,8 @@ class MyAnnouncementAdapter(
         val tvAvailable: TextView = itemView.findViewById(R.id.tv_available)
         val checkBoxAvailability: CheckBox = itemView.findViewById(R.id.check_box_availability)
         val ivBoat: ImageView = itemView.findViewById(R.id.iv_boat)
+        val btnRemove: ImageButton = itemView.findViewById(R.id.btn_delete)
+
     }
 
 }

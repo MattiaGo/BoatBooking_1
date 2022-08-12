@@ -1,13 +1,17 @@
 package com.example.boatbooking_1.ui.navigation
 
+import android.R
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.compose.ui.text.toUpperCase
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,12 +23,14 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 class SearchFragment : Fragment() {
 
     private lateinit var searchView: SearchView
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var locationList: Array<String>
+    private lateinit var locationList: ArrayList<String>
     private lateinit var locationAdapter: ArrayAdapter<String>
 
     private val searchViewModel: SearchViewModel by activityViewModels()
@@ -35,16 +41,22 @@ class SearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            //startDate = it.getSerializable("startDate") as Date?
-            //endDate = it.getSerializable("startDate") as Date?
         }
-        locationList = arrayOf(
+
+        /*locationList =
+            arrayOf(
             "Brescia",
             "Bergamo",
+                "LIVORNO",
             "Milano",
             "Verona",
             "Torino"
         )
+
+         */
+
+        locationList = ArrayList()
+        searchViewModel.getLocationsFromDatabase(locationList)
 
         locationAdapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_list_item_1,
@@ -61,31 +73,46 @@ class SearchFragment : Fragment() {
 
         val sdf = Util.sdfBooking()
 
+
+        if(searchViewModel.searchData.location != null){
+            binding.searchView.setQuery(searchViewModel.searchData.location!!,true)
+        }
+
         if(searchViewModel.searchData.startDate != null && searchViewModel.searchData.startDate != null){
+
             binding.tvStartDate.text = sdf.format(searchViewModel.searchData.startDate!!).toString()
             binding.tvEndDate.text = sdf.format(searchViewModel.searchData.endDate!!).toString()
             binding.dateContainer.isVisible = true
         }
+
+
         searchView = binding.searchView
+        binding.lvLocation.adapter = locationAdapter
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchView.clearFocus()
-
+                binding.datePickerLayout.isVisible = false
                 if (locationList.contains(query)) {
                     locationAdapter.filter.filter(query)
                 }
-
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                binding.datePickerLayout.isVisible = false
+                binding.lvLocation.isVisible = true
                 locationAdapter.filter.filter(newText)
+                if(newText!!.isEmpty()){
+                    binding.lvLocation.isVisible = false
+                    binding.datePickerLayout.isVisible = true
 
+                }
                 return false
             }
-
         })
+
+
 
         return binding.root
     }
@@ -144,6 +171,13 @@ class SearchFragment : Fragment() {
             }
         }
 
+        binding.lvLocation.setOnItemClickListener { locationAdapter, it, i, l ->
+            binding.searchView.setQuery(binding.lvLocation.getItemAtPosition(i).toString(),true)
+            searchViewModel.searchData.location = binding.searchView.query.toString().toUpperCase()
+            binding.lvLocation.isVisible = false
+            binding.datePickerLayout.isVisible = true
+        }
+
         binding.btnContinue.setOnClickListener {
             if (!validateDate()) {
                 Toast.makeText(
@@ -160,6 +194,7 @@ class SearchFragment : Fragment() {
 
         binding.resetAllParam.setOnClickListener {
             searchViewModel.resetData()
+            binding.searchView.setQuery("", true)
             binding.tvStartDate.text = ""
             binding.tvEndDate.text = ""
             binding.dateContainer.isVisible = false

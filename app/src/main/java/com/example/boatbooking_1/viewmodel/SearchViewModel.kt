@@ -22,7 +22,6 @@ import kotlin.collections.ArrayList
 class SearchViewModel : ViewModel() {
     private var _searchData = Search()
     val searchData: Search
-
         get() = _searchData
 
     fun resetData() {
@@ -30,14 +29,17 @@ class SearchViewModel : ViewModel() {
     }
 
     fun resetFilterParam() {
+        val location = _searchData.location
         val startDate = _searchData.startDate
         val endDate = _searchData.endDate
 
         _searchData = Search()
 
+        _searchData.location = location
         _searchData.startDate = startDate
         _searchData.endDate = endDate
     }
+
 //TODO location
     fun searchAnnouncement(
     arrayList: ArrayList<Announcement>,
@@ -45,6 +47,7 @@ class SearchViewModel : ViewModel() {
     adapter: SearchResultAnnouncementAdapter,
     remoteImageURIList: MutableList<String> ){
         Util.fDatabase.collectionGroup("Announcement")
+            .whereEqualTo("location", searchParam.location!!)
             .whereEqualTo("available", true)
             .whereEqualTo("licence_needed", searchParam.licenceNeeded!!)
             .whereEqualTo("capt_needed", searchParam.captainNeeded!!)
@@ -55,23 +58,58 @@ class SearchViewModel : ViewModel() {
                 documents.forEachIndexed { i, document ->
                     val announcement = document.toObject(Announcement::class.java)
 
-                    //if(checkAvailability(announcement.id!!,searchParam)) {
-                            if (filterBoatInfo(announcement.boat!!, searchParam)) {
-                                arrayList.add(i, announcement)
+                    val rangeInputDate = searchParam.startDate!!.rangeTo(searchParam.endDate!!)
+                    var available = false
+                    Util.fDatabase.collectionGroup("Booking")
+                        .whereEqualTo("aid", announcement.id)
+                        .get()
+                        .addOnSuccessListener {
+//                var availableUpdated = _available.value
+                            if (it.isEmpty) {
+                                available = it.isEmpty
+                            } else {
+                                available = true
 
-                                if (announcement.imageList!!.isNotEmpty()) {
-                                    getImageForAnnouncement(
-                                        announcement.imageList?.get(0),
-                                        adapter,
-                                        remoteImageURIList,
-                                        i
-                                    )
-                                } else {
-                                    remoteImageURIList.add("default")
-                                    adapter.notifyDataSetChanged()
+                                loop@for (document in it) {
+                                    val booking = document.toObject(Booking::class.java)
+                                    val rangeDate = booking.startDate!!.rangeTo(booking.endDate!!)
+
+                                    for (date in rangeDate) {
+//                            Log.d("MyDebug", "for: $date}")
+                                        if (date in rangeInputDate) {
+//                                Log.d("MyDebug", "if: $date}")
+                                            available = false
+                                            break@loop
+                                        }
+                                    }
+//                    Log.d("MyDebug", booking.toString())
                                 }
                             }
-                      //  }
+
+                            if(available){
+                                if (filterBoatInfo(announcement.boat!!, searchParam)) {
+                                    arrayList.add(i, announcement)
+
+                                    if (announcement.imageList!!.isNotEmpty()) {
+                                        getImageForAnnouncement(
+                                            announcement.imageList?.get(0),
+                                            adapter,
+                                            remoteImageURIList,
+                                            i
+                                        )
+                                    } else {
+                                        remoteImageURIList.add("default")
+                                        adapter.notifyDataSetChanged()
+                                    }
+                                }
+                            }
+
+
+
+                        }
+                        .addOnFailureListener {
+                            Log.d("Booking", "Error: $it")
+                        }
                 }
             }
             .addOnFailureListener {
@@ -115,43 +153,13 @@ class SearchViewModel : ViewModel() {
                 boat.bathrooms!! in searchParam.lvBath!!..searchParam.hvBath!!
     }
 
-    private fun checkAvailability(
-        AID: String,
-        searchParam: Search
-    ): Boolean{
-        var available: Boolean = false
-        val rangeInputDate = searchParam.startDate!!.rangeTo(searchParam.endDate!!)
-
-        Util.fDatabase.collectionGroup("Booking")
-            .whereEqualTo("aid", AID)
+    fun getLocationsFromDatabase(arrayList: ArrayList<String>){
+        Util.fDatabase.collection("Locations")
             .get()
-            .addOnSuccessListener {
-//                var availableUpdated = _available.value
-                if (it.isEmpty) {
-                    available = false
-                } else {
-                    available = true
-
-                    loop@for (document in it) {
-                        val booking = document.toObject(Booking::class.java)
-                        val rangeDate = booking.startDate!!.rangeTo(booking.endDate!!)
-
-                        for (date in rangeDate) {
-//                            Log.d("MyDebug", "for: $date}")
-                            if (date in rangeInputDate) {
-//                                Log.d("MyDebug", "if: $date}")
-                                available = false
-                                break@loop
-                            }
-                        }
-//                    Log.d("MyDebug", booking.toString())
-                    }
+            .addOnSuccessListener { documents ->
+                documents.forEach { document ->
+                    arrayList.add(document.get("location").toString())
                 }
             }
-            .addOnFailureListener {
-                Log.d("Booking", "Error: $it")
-            }
-
-        return available
     }
 }

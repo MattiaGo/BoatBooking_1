@@ -3,6 +3,8 @@ package com.example.boatbooking_1.model
 import java.util.*
 
 data class Search(
+    var location: String? = null,
+
     var startDate: Date? = null,
     var endDate: Date? = null,
 

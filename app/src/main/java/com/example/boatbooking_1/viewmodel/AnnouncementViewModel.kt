@@ -57,4 +57,8 @@ class AnnouncementViewModel : ViewModel() {
     fun reset() {
         repository.resetLiveData()
     }
+
+    fun deleteAnnouncement(announcement: Announcement, context: Context){
+        repository.delateAnnouncementOnDatabase(announcement, context)
+    }
 }

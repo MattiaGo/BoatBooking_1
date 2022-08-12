@@ -5,14 +5,18 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.ui.text.toUpperCase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.boatbooking_1.model.Announcement
+import com.example.boatbooking_1.model.Booking
 
 import com.example.boatbooking_1.utils.Util
 
 import com.google.firebase.firestore.FirebaseFirestore
+import me.moallemi.tools.daterange.date.rangeTo
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AnnouncementRepository {
     private var _announcementLiveData = MutableLiveData<Announcement>()
@@ -119,6 +123,8 @@ class AnnouncementRepository {
                 ).show()
             }
 
+        saveLocationToDatabase(announcement.location!!)
+
     }
 
     fun updateAnnouncementOnDatabase(announcementID: String) {
@@ -175,6 +181,7 @@ class AnnouncementRepository {
             )
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+                    saveLocationToDatabase(announcement.location!!)
                     Log.d("Firestore", "Updated")
                 } else {
                     Log.d("Firestore", "Error")
@@ -182,6 +189,34 @@ class AnnouncementRepository {
                     resetLiveData()
             }
 
+    }
+
+    fun delateAnnouncementOnDatabase(
+        announcement: Announcement,
+        context: Context
+    ){
+        val formatter = Util.sdf()
+        val now = Date()
+        val fileName = formatter.format(now)
+
+        val newImagesURI = ArrayList<String>()
+
+        announcement.imageList!!.forEach() { image ->
+            val reference = Util.fStorage.getReference("images/$image").delete()
+        }
+
+        Util.fDatabase.collection("BoatAnnouncement")
+            .document(Util.getUID()!!)
+            .collection("Announcement")
+            .document(announcement.id!!)
+            .delete()
+            .addOnCompleteListener {
+                Toast.makeText(
+                    context,
+                    "Annuncio eliminato con successo!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 
     fun refreshAnnouncement(announcement: Announcement) {
@@ -207,13 +242,15 @@ class AnnouncementRepository {
             }
     }
 
-/*.collection("Announcement")
-.whereGreaterThanOrEqualTo("average_vote", 4.5)
-.get()
-.addOnSuccessListener {
-}
-
- */
+    fun saveLocationToDatabase(location: String){
+        Util.fDatabase.collection("Locations")
+            .document(location.toUpperCase())
+            .set(
+                hashMapOf(
+                    "location" to location.toUpperCase()
+                )
+            )
+    }
 
     companion object {
         private var announcementRepository: AnnouncementRepository? = null

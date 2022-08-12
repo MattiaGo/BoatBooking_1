@@ -69,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="150dp"
-                android:background="@drawable/white_background"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="20dp"

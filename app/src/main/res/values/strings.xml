@@ -1,4 +1,7 @@
 <resources>
+    <string name="maps_API">AIzaSyBJzpWniHvRazMlLjutjrEy4UNNTv8ZP3I</string>
+
+
     <string name="app_name">Boat Booking</string>
     <string name="forgotPwd"><a href="https://learntodroid.com">Password dimenticata?</a></string>
     <string name="activity_link"><u>Password dimenticata?</u></string>
