@@ -29,7 +29,7 @@ class MyBookingAdapter(
     private val myBookingViewModel: MyBookingViewModel,
     private val userViewModel: UserProfileViewModel,
 
-) :
+    ) :
     RecyclerView.Adapter<MyBookingAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -50,18 +50,20 @@ class MyBookingAdapter(
             holder.tvShipOwner.isVisible = false
         }
 
-        Util.fStorage.reference.child("/images/${booking.announcement!!.imageList!![0]!!}")
-            .downloadUrl
-            .addOnSuccessListener {
-                // Got the download URL
-                val downloadUri = it
-                Glide.with(context)
-                    .load(downloadUri.toString())
-                    .into(holder.imageView)
-            }
-            .addOnFailureListener {
-                Log.d("HomeImage", "Error: $it")
-            }
+        if (booking.announcement!!.imageList!!.isNotEmpty()) {
+            Util.fStorage.reference.child("/images/${booking.announcement!!.imageList!![0]!!}")
+                .downloadUrl
+                .addOnSuccessListener {
+                    // Got the download URL
+                    val downloadUri = it
+                    Glide.with(context)
+                        .load(downloadUri.toString())
+                        .into(holder.imageView)
+                }
+                .addOnFailureListener {
+                    Log.d("HomeImage", "Error: $it")
+                }
+        }
 
         Util.mDatabase
             .child("users/$shipOwnerID")

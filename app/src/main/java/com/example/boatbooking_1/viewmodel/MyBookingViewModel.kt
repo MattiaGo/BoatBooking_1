@@ -77,6 +77,7 @@ class MyBookingViewModel : ViewModel() {
 
     fun refresh() {
         _bookingLiveData.value = null
+        _pastBookingLiveData.value = null
     }
 
     fun removeBookingFromDatabase(booking: Booking) {
@@ -116,21 +117,41 @@ class MyBookingViewModel : ViewModel() {
         _bookingLiveData.value = bookingList
     }
 
-    fun setOwnerBookings(adapter: MyBookingAdapter) {
-        val bookingList = arrayListOf<Booking>()
+    fun setOwnerBookings(currentBookingsAdapter: MyBookingAdapter, pastBookingsAdapter: MyBookingAdapter) {
+        _pastBookingLiveData.value = ArrayList()
+        _bookingLiveData.value = ArrayList()
+
+        val bookingList = ArrayList<Booking>()
 
         Util.fDatabase.collectionGroup("Booking")
             .whereEqualTo("idShipOwner", Util.getUID())
             .get()
             .addOnSuccessListener {
-                Log.d("MyBookings", it.isEmpty.toString())
+                Log.d("MyBookings", "isEmpty: ${it.isEmpty}")
+
                 for (document in it) {
                     val booking = document.toObject(Booking::class.java)
                     bookingList.add(booking)
                     Log.d("MyBookings", booking.toString())
                 }
-                _bookingLiveData.value = bookingList
-                adapter.notifyDataSetChanged()
+
+                val pastBookingList = ArrayList<Booking>()
+                val currentBookingList = ArrayList<Booking>()
+
+                for (booking in bookingList) {
+                    if (booking.endDate!!.before(Date(System.currentTimeMillis())))
+                    {
+                        pastBookingList.add(booking)
+                    } else {
+                        currentBookingList.add(booking)
+                    }
+                }
+
+                _bookingLiveData.value = currentBookingList
+                _pastBookingLiveData.value = pastBookingList
+//                _bookingLiveData.value!!.addAll(bookingList)
+                currentBookingsAdapter.notifyDataSetChanged()
+                pastBookingsAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener {
                 Log.d("MyBookings", "Error: $it")

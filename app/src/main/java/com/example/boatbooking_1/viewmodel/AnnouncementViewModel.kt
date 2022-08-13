@@ -1,16 +1,11 @@
 package com.example.boatbooking_1.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.model.Boat
-import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.repository.AnnouncementRepository
 import com.example.boatbooking_1.ui.MyAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 
 class AnnouncementViewModel : ViewModel() {
@@ -59,6 +54,6 @@ class AnnouncementViewModel : ViewModel() {
     }
 
     fun deleteAnnouncement(announcement: Announcement, context: Context){
-        repository.delateAnnouncementOnDatabase(announcement, context)
+        repository.deleteAnnouncementOnDatabase(announcement, context)
     }
 }

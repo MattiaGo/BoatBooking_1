@@ -219,16 +219,12 @@ class AnnouncementDetailsFragment : Fragment() {
                     "id_owner",
                     announcementViewModel.getAnnouncement().value!!.id_owner
                 )
+                bundle.putString(
+                    "boat_name",
+                    announcementViewModel.getAnnouncement().value!!.announce_name
+                )
+
                 findNavController().navigate(R.id.chatFragmentFromAnnouncement, bundle)
-//                Snackbar.make(
-//                    activity!!.findViewById(android.R.id.content),
-//                    "Invia messaggio",
-//                    Snackbar.LENGTH_SHORT
-//                )
-//                    .setActionTextColor(Color.White.hashCode())
-//                    .setAnchorView(R.id.bottom_nav)
-//                    .setAction("HO CAPITO") { // Responds to click on the action
-//                    }.show()
             }
 
             binding.bookBtn.setOnClickListener {

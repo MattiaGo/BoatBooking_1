@@ -191,7 +191,7 @@ class AnnouncementRepository {
 
     }
 
-    fun delateAnnouncementOnDatabase(
+    fun deleteAnnouncementOnDatabase(
         announcement: Announcement,
         context: Context
     ){
@@ -210,6 +210,20 @@ class AnnouncementRepository {
             .collection("Announcement")
             .document(announcement.id!!)
             .delete()
+            .addOnSuccessListener {
+                // Remove all bookings related to the announcement removed
+                Util.fDatabase.collectionGroup("Booking")
+                    .whereEqualTo("aid", announcement.id!!)
+                    .get()
+                    .addOnSuccessListener {
+                        for (document in it) {
+                            document.reference.delete()
+                        }
+                    }
+            }
+            .addOnFailureListener {
+                Log.d("Firestore", "OnFailure: Announcement#${announcement.id!!} not removed!")
+            }
     }
 
     fun refreshAnnouncement(announcement: Announcement) {

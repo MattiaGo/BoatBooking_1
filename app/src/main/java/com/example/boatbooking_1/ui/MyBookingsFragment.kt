@@ -77,7 +77,7 @@ class MyBookingsFragment : Fragment() {
 //        bookingViewModel.getUserBookingList(myBookingPastList, myBookingPastAdapter)
 
         if (userViewModel.getUser().value?.shipOwner == true) {
-            myBookingsViewModel.setOwnerBookings(myBookingAdapter)
+            myBookingsViewModel.setOwnerBookings(myBookingAdapter, myPastBookingAdapter)
             Log.d("MyBookings", userViewModel.getUser().value?.shipOwner.toString())
         }
 

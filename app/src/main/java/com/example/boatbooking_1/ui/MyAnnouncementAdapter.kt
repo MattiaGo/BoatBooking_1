@@ -122,7 +122,7 @@ class MyAnnouncementAdapter(
                 .setNegativeButton("Annulla") { _, _ ->
                 }
                 .setPositiveButton("Conferma") { _, _ ->
-                    announcementViewModel.deleteAnnouncement(currentItem!!, context)
+                    announcementViewModel.deleteAnnouncement(currentItem, context)
                     notifyItemRemoved(position)
                     Toast.makeText(
                         context,

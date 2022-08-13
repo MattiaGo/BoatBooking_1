@@ -1,13 +1,20 @@
 package com.example.boatbooking_1.ui.chat
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.inputmethodservice.InputMethodService
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +27,11 @@ import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -54,17 +66,22 @@ class ChatFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser
 
         senderRoom = user!!.uid
-        Log.d("UID", "Sender ${senderRoom.toString()}")
+        Log.d("UID", "Sender: $senderRoom")
 
-        if (!arguments?.getString("id_owner").isNullOrBlank()) {
-            receiverRoom = arguments?.getString("id_owner").toString()
+        receiverRoom = if (!arguments?.getString("id_owner").isNullOrBlank()) {
+            arguments?.getString("id_owner").toString()
         } else {
-            receiverRoom = arguments?.getString(ARG_UID).toString()
+            arguments?.getString(ARG_UID).toString()
         }
-        Log.d("UID", "Receiver ${receiverRoom.toString()}")
+        Log.d("UID", "Receiver: $receiverRoom")
 
         messageArrayList = ArrayList()
         myMessageAdapter = MyMessageAdapter(messageArrayList)
+    }
+
+    fun EditText.showSoftKeyboard(){
+        (this.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
+            .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 
     override fun onCreateView(
@@ -80,11 +97,37 @@ class ChatFragment : Fragment() {
         chatRecyclerView = binding.rvChatMessages
 
         var receiverUser: User? = null
+        val boatName = arguments?.getString("boat_name")
+        val message = "Ciao, ti contatto per l'annuncio: $boatName"
 
-        Util.mDatabase.child("users").child(receiverRoom).get().addOnSuccessListener {
-            receiverUser = it.getValue(User::class.java)
-            chatTitle.text = receiverUser?.name
+        if (!boatName.isNullOrBlank()) {
+            messageBox.text = message
+            messageBox.isFocusableInTouchMode = true
+            messageBox.isFocusable = true
+            messageBox.requestFocus()
+
+//            val imm = this.context!!.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
+//            imm!!.showSoftInput(messageBox, InputMethodManager.SHOW_FORCED)
         }
+
+        Util.mDatabase.child("users")
+            .child(receiverRoom)
+            .get()
+            .addOnSuccessListener {
+                receiverUser = it.getValue(User::class.java)
+                chatTitle.text = receiverUser?.name
+
+                // First message
+                if (!boatName.isNullOrBlank()) {
+                    val messageObject =
+                        MyMessage(message, senderRoom)
+
+                    Log.d("Chat", "ReceiverUser: $receiverUser")
+                    Log.d("Chat", "SenderUser: ${userProfileViewModel.getUser().value}")
+
+                    addMessageOnDatabase(messageObject, receiverUser)
+                }
+            }
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this.context)
         chatRecyclerView.adapter = myMessageAdapter
@@ -104,6 +147,7 @@ class ChatFragment : Fragment() {
                         }
 
                         myMessageAdapter.notifyDataSetChanged()
+                        chatRecyclerView.scrollToPosition(messageArrayList.size - 1)
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -133,42 +177,53 @@ class ChatFragment : Fragment() {
                 val messageObject =
                     MyMessage(message, FirebaseAuth.getInstance().currentUser!!.uid)
 
-                mDatabase.child("messages").child(senderRoom).child(receiverRoom).push()
-                    .setValue(messageObject).addOnSuccessListener {
-                        mDatabase.child("messages").child(receiverRoom).child(senderRoom).push()
-                            .setValue(messageObject).addOnSuccessListener {
-
-                                Util.mDatabase.child("chats")
-                                    .child(receiverRoom)
-                                    .child(senderRoom)
-                                    .child("user")
-                                    .setValue(userProfileViewModel.getUser().value)
-
-                                Util.mDatabase
-                                    .child("chats")
-                                    .child(senderRoom)
-                                    .child(receiverRoom)
-                                    .child("user")
-                                    .setValue(receiverUser)
-
-                                // Update chat preview last message [chats > uid > uid]
-                                mDatabase.child("chats").child(senderRoom).child(receiverRoom)
-                                    .child("lastMessage").setValue(messageObject.message)
-                                mDatabase.child("chats").child(senderRoom).child(receiverRoom)
-                                    .child("timestamp").setValue(messageObject.timestamp)
-
-                                mDatabase.child("chats").child(receiverRoom).child(senderRoom)
-                                    .child("lastMessage").setValue(messageObject.message)
-                                mDatabase.child("chats").child(receiverRoom).child(senderRoom)
-                                    .child("timestamp").setValue(messageObject.timestamp)
-                            }
-                    }
+                addMessageOnDatabase(messageObject, receiverUser)
 
                 messageBox.text = ""
             }
         }
 
         return binding.root
+    }
+
+    private fun addMessageOnDatabase(
+        messageObject: MyMessage,
+        receiverUser: User?
+    ) {
+        mDatabase.child("messages").child(senderRoom).child(receiverRoom).push()
+            .setValue(messageObject).addOnSuccessListener {
+                mDatabase.child("messages")
+                    .child(receiverRoom)
+                    .child(senderRoom)
+                    .push()
+                    .setValue(messageObject)
+                    .addOnSuccessListener {
+
+                        Util.mDatabase.child("chats")
+                            .child(receiverRoom)
+                            .child(senderRoom)
+                            .child("user")
+                            .setValue(userProfileViewModel.getUser().value)
+
+                        Util.mDatabase
+                            .child("chats")
+                            .child(senderRoom)
+                            .child(receiverRoom)
+                            .child("user")
+                            .setValue(receiverUser)
+
+                        // Update chat preview last message [chats > uid > uid]
+                        mDatabase.child("chats").child(senderRoom).child(receiverRoom)
+                            .child("lastMessage").setValue(messageObject.message)
+                        mDatabase.child("chats").child(senderRoom).child(receiverRoom)
+                            .child("timestamp").setValue(messageObject.timestamp)
+
+                        mDatabase.child("chats").child(receiverRoom).child(senderRoom)
+                            .child("lastMessage").setValue(messageObject.message)
+                        mDatabase.child("chats").child(receiverRoom).child(senderRoom)
+                            .child("timestamp").setValue(messageObject.timestamp)
+                    }
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

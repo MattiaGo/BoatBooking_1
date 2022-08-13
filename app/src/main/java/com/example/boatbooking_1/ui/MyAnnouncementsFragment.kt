@@ -57,7 +57,7 @@ class MyAnnouncementsFragment : Fragment() {
         announcementViewModel.getOwnerAnnouncement(myAnnouncementList, myAnnouncementAdapter)
         //getMyAnnouncementsFirestore()
 
-        Log.d("myAnnouncements", myAnnouncementList.toString())
+//        Log.d("myAnnouncements", myAnnouncementList.toString())
 
         return binding.root
     }
