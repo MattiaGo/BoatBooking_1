@@ -6,9 +6,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.ui.MyBookingAdapter
 import com.example.boatbooking_1.utils.Util
+import com.google.firebase.firestore.FieldValue
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -88,6 +90,22 @@ class MyBookingViewModel : ViewModel() {
             }
 
         refreshLiveData(booking)
+    }
+
+    fun decrementCounter(announcement: Announcement) {
+        //ADD +1 RESERVATION COUNTER
+        Util.fDatabase.collectionGroup("Announcement")
+            .whereEqualTo("id", announcement.id!!)
+            .get()
+            .addOnSuccessListener {
+                val id_owner = it.documents[0].get("id_owner").toString()
+
+                Util.fDatabase.collection("BoatAnnouncement")
+                    .document(id_owner)
+                    .collection("Announcement")
+                    .document(announcement.id!!)
+                    .update("reservation_counter", FieldValue.increment(-1) )
+            }
     }
 
     private fun refreshLiveData(booking: Booking) {

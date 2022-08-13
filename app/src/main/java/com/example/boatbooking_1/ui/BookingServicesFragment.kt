@@ -125,6 +125,7 @@ class BookingServicesFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             Log.d("Booking", bookingViewModel.getBooking().value.toString())
             bookingViewModel.addBookingOnDatabase(announcementViewModel.getAnnouncement().value!!.id!!)
+            bookingViewModel.incrementReservationCounter((announcementViewModel.getAnnouncement().value!!))
 
             Snackbar.make(
                 activity!!.findViewById(android.R.id.content),

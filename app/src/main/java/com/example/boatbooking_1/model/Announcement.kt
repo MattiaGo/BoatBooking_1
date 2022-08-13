@@ -17,6 +17,7 @@ data class Announcement(
     var price: Int? = null,
     var available: Boolean = false,
     var average_vote: Double = 0.00,
+    var reservation_counter: Int = 0,
     var timestamp: com.google.firebase.Timestamp? = null
 ) {
     override fun toString(): String {

@@ -210,13 +210,6 @@ class AnnouncementRepository {
             .collection("Announcement")
             .document(announcement.id!!)
             .delete()
-            .addOnCompleteListener {
-                Toast.makeText(
-                    context,
-                    "Annuncio eliminato con successo!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
     }
 
     fun refreshAnnouncement(announcement: Announcement) {

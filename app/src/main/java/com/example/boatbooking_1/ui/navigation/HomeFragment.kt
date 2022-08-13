@@ -67,15 +67,15 @@ class HomeFragment : Fragment() {
 
         lastAddedAdapter =
             PublicAnnouncementAdapter(lastAddedList, requireContext(), remoteImagesURILastAddedList)
+
         lastSeenAdapter =
             PublicAnnouncementAdapter(lastSeenList, requireContext(), remoteImagesURILastSeenList)
+
         mostRequestedAdapter = PublicAnnouncementAdapter(
             mostRequestedList,
             requireContext(),
             remoteImagesURIMostRequestedList
         )
-//        lastAddedAdapter = PublicAnnouncementAdapter(lastAddedList, requireContext(), ArrayList())
-//        lastSeenAdapter = PublicAnnouncementAdapter(lastSeenList, requireContext(), ArrayList())
 
         userViewModel.getUser()
 
@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvRecentSeen.adapter = lastSeenAdapter
 
-        //MOST REQ LOCATION
+        //MOST REQ
         rvMostRequested = binding.rvMostRequested
         rvMostRequested.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)

@@ -10,6 +10,7 @@ import com.example.boatbooking_1.ui.MyAnnouncementAdapter
 import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
 import com.example.boatbooking_1.ui.PublicImageAdapter
 import com.example.boatbooking_1.utils.Util
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 
 const val limit_of_query: Long = 4
@@ -38,7 +39,8 @@ class HomeAnnouncementViewModel : ViewModel() {
         remoteImageURIList: MutableList<String>
     ) {
         Util.fDatabase.collectionGroup("Announcement")
-            .whereLessThan("average_vote", 4)
+            .orderBy("reservation_counter", Query.Direction.DESCENDING)
+            .limit(limit_of_query)
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEachIndexed { i, document ->

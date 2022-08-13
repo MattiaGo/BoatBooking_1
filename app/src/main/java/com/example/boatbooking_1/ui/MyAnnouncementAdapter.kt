@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.boatbooking_1.R
@@ -125,9 +126,15 @@ class MyAnnouncementAdapter(
                     notifyItemRemoved(position)
                     Toast.makeText(
                         context,
-                        "Prenotazione rimossa con successo!",
+                        "Barca rimossa con successo!",
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    //Refresh fragment
+                    Navigation.findNavController(it).navigate(
+                        R.id.action_myAnnouncementsFragment_to_userProfile)
+                    Navigation.findNavController(it).navigate(
+                        R.id.action_userProfile_to_myAnnouncementsFragment)
                 }
                 .show()
         }

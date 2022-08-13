@@ -3,6 +3,7 @@ package com.example.boatbooking_1.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.repository.BookingRepository
@@ -51,5 +52,9 @@ class BookingViewModel : ViewModel() {
 
     fun isPeriodAvailable(startDate: Date, endDate: Date, id: String, context: Context) {
         return repository.isPeriodAvailable(startDate, endDate, id, context)
+    }
+
+    fun incrementReservationCounter(announcement: Announcement){
+        repository.incrementReservationCounter(announcement)
     }
 }
