@@ -7,7 +7,7 @@ import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.repository.BookingRepository
-import com.example.boatbooking_1.ui.MyBookingAdapter
+import com.example.boatbooking_1.adapter.MyBookingAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 

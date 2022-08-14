@@ -1,17 +1,15 @@
 package com.example.boatbooking_1.viewmodel
 
-import android.app.ProgressDialog
 import android.net.Uri
 import android.util.Log
 import android.widget.ImageButton
-import androidx.compose.runtime.key
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.R
+import com.example.boatbooking_1.adapter.PublicImageAdapter
+import com.example.boatbooking_1.adapter.PublicServiceAdapter
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
-import com.example.boatbooking_1.ui.*
 import com.example.boatbooking_1.utils.Util
-import com.google.firebase.firestore.ktx.toObject
 
 class DetailsAnnouncementViewModel : ViewModel() {
     fun getImageForAnnouncement(

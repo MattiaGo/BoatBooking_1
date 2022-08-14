@@ -1,7 +1,6 @@
 package com.example.boatbooking_1
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.boatbooking_1.databinding.FragmentSearchBinding
 import com.example.boatbooking_1.databinding.FragmentSearchResultsBinding
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.ui.FavoritesAnnouncementAdapter
-import com.example.boatbooking_1.ui.SearchResultAnnouncementAdapter
+import com.example.boatbooking_1.adapter.SearchResultAnnouncementAdapter
 import com.example.boatbooking_1.viewmodel.SearchViewModel
-import java.util.*
 import kotlin.collections.ArrayList
 
 

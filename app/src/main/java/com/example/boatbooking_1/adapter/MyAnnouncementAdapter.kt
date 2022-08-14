@@ -1,4 +1,4 @@
-package com.example.boatbooking_1.ui
+package com.example.boatbooking_1.adapter
 
 import android.app.ProgressDialog
 import android.content.Context
@@ -9,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.boatbooking_1.R
@@ -19,8 +17,6 @@ import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.repository.AnnouncementRepository
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
-import com.example.boatbooking_1.viewmodel.DetailsAnnouncementViewModel
-import com.example.boatbooking_1.viewmodel.MyBookingViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 

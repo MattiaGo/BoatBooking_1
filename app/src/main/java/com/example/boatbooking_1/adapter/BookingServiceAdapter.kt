@@ -1,4 +1,4 @@
-package com.example.boatbooking_1.ui
+package com.example.boatbooking_1.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
-import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.viewmodel.BookingViewModel
 

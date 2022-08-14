@@ -1,33 +1,29 @@
-package com.example.boatbooking_1.ui
+package com.example.boatbooking_1.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.repository.AnnouncementRepository
-import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 
 
-class FavoritesAnnouncementAdapter(
+class PublicAnnouncementAdapter(
     private val announcementList: ArrayList<Announcement>,
     private val context: Context,
     private val imagesURIList: MutableList<String>
-    ) :
-    RecyclerView.Adapter<FavoritesAnnouncementAdapter.MyViewHolder>() {
+) :
+    RecyclerView.Adapter<PublicAnnouncementAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_boat_favorite, parent, false)
+            .inflate(R.layout.layout_boat_snippet, parent, false)
 
         return MyViewHolder(itemView)
     }
@@ -37,6 +33,8 @@ class FavoritesAnnouncementAdapter(
 
         holder.tvName.text = currentItem.announce_name.toString()
         holder.tvLocation.text = currentItem.location
+
+//        Log.d("HomeImage", imagesURIList[position])
 
         if (imagesURIList[position].startsWith("https")) {
             Glide.with(context)
@@ -50,7 +48,8 @@ class FavoritesAnnouncementAdapter(
             val bundle = bundleOf("id" to id)
 
             // Test
-            Navigation.findNavController(view).navigate(R.id.action_like_to_announcementDetailsFragment, bundle)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_main_home_to_announcementDetailsFragment, bundle)
         }
 
     }

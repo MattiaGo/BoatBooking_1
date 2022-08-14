@@ -1,15 +1,11 @@
-package com.example.boatbooking_1.ui
+package com.example.boatbooking_1.adapter
 
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.BoatService

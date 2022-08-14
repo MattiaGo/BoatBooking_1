@@ -1,21 +1,17 @@
-package com.example.boatbooking_1.ui
+package com.example.boatbooking_1.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.repository.AnnouncementRepository
-import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 
 
 class SearchResultAnnouncementAdapter(

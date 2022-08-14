@@ -1,22 +1,15 @@
 package com.example.boatbooking_1.viewmodel
 
-import android.app.ProgressDialog
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.GeneratedAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Boat
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.model.Search
-import com.example.boatbooking_1.ui.FavoritesAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
-import com.example.boatbooking_1.ui.SearchResultAnnouncementAdapter
+import com.example.boatbooking_1.adapter.SearchResultAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 import me.moallemi.tools.daterange.date.rangeTo
-import java.util.*
 import kotlin.collections.ArrayList
 
 class SearchViewModel : ViewModel() {

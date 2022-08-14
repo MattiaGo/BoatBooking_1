@@ -1,23 +1,15 @@
-package com.example.boatbooking_1.ui
+package com.example.boatbooking_1.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.core.os.bundleOf
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.boatbooking_1.R
-import com.example.boatbooking_1.utils.Util
-import kotlinx.coroutines.NonDisposableHandle.parent
 
 
 class PublicImageAdapter(

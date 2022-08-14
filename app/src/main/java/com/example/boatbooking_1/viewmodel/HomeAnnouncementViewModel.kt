@@ -6,12 +6,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.ui.ImageAdapter
-import com.example.boatbooking_1.ui.MyAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicImageAdapter
+import com.example.boatbooking_1.adapter.PublicAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.toObject
 
 const val limit_of_query: Long = 4
 

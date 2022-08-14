@@ -6,8 +6,7 @@ import android.widget.ImageButton
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.ui.FavoritesAnnouncementAdapter
-import com.example.boatbooking_1.ui.PublicAnnouncementAdapter
+import com.example.boatbooking_1.adapter.FavoritesAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 
 class FavoritesBoatsViewModel : ViewModel() {

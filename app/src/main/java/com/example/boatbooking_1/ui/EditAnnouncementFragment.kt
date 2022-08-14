@@ -16,6 +16,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.boatbooking_1.adapter.ServiceAdapter
 import com.example.boatbooking_1.databinding.FragmentEditAnnouncementBinding
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Boat

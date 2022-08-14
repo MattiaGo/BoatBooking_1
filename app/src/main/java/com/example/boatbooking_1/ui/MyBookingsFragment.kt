@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.boatbooking_1.adapter.MyBookingAdapter
 import com.example.boatbooking_1.databinding.FragmentMyBookingsBinding
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.viewmodel.BookingViewModel

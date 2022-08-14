@@ -1,14 +1,12 @@
 package com.example.boatbooking_1.viewmodel
 
-import android.icu.util.Calendar
-import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.ui.MyBookingAdapter
+import com.example.boatbooking_1.adapter.MyBookingAdapter
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.firestore.FieldValue
 import java.util.*

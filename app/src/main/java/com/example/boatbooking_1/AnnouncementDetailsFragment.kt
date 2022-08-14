@@ -1,6 +1,5 @@
 package com.example.boatbooking_1
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.boatbooking_1.adapter.PublicImageAdapter
+import com.example.boatbooking_1.adapter.PublicServiceAdapter
 import com.example.boatbooking_1.databinding.FragmentAnnouncementDetailsBinding
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
-import com.example.boatbooking_1.ui.*
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.DetailsAnnouncementViewModel

@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.ui.MyBookingAdapter
+import com.example.boatbooking_1.adapter.MyBookingAdapter
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue

@@ -1,7 +1,6 @@
-package com.example.boatbooking_1.ui
+package com.example.boatbooking_1.adapter
 
 import android.content.Context
-import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +12,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.boatbooking_1.R
-import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.ui.auth.UserProfileFragmentDirections
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.MyBookingViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.w3c.dom.Text
 import java.sql.Date
 
 class MyBookingAdapter(
