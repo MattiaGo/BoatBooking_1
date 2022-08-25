@@ -18,6 +18,7 @@ import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.BookingViewModel
+import com.example.boatbooking_1.viewmodel.SearchViewModel
 import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,6 +39,7 @@ class BookingServicesFragment : Fragment() {
     private lateinit var binding: FragmentBookingServicesBinding
     private val bookingViewModel: BookingViewModel by activityViewModels()
     private val announcementViewModel: AnnouncementViewModel by activityViewModels()
+    private val searcViewModel: SearchViewModel by activityViewModels()
     private lateinit var announcementObserver: Observer<Announcement>
     private lateinit var bookingObserver: Observer<Booking>
     private lateinit var bookingServiceAdapter: BookingServiceAdapter
@@ -74,6 +76,7 @@ class BookingServicesFragment : Fragment() {
 
             binding.tvPrice.text = announcement.price.toString()
 
+            //bookingViewModel.setBookingDate(searcViewModel.searchData.startDate!!, searcViewModel.searchData.endDate!!)
             bookingViewModel.setBasePrice(announcement.price.toString().toInt())
 
             bookingServiceList = announcement.services!!

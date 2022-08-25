@@ -6,6 +6,15 @@
     app:startDestination="@+id/like">
 
     <fragment
+        android:id="@+id/chatFragmentFromAnnouncement"
+        android:name="com.example.boatbooking_1.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat">
+        <action
+            android:id="@+id/action_chatFragment2_to_announcementDetailsFragment"
+            app:destination="@id/announcementDetailsFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/bookingFragment"
         android:name="com.example.boatbooking_1.ui.BookingFragment"
         android:label="fragment_booking"
@@ -49,13 +58,15 @@
         <action
             android:id="@+id/action_announcementDetailsFragment_to_bookingFragment"
             app:destination="@id/bookingFragment" />
+        <action
+            android:id="@+id/action_announcementDetailsFragment_to_chatFragmentFromAnnouncement"
+            app:destination="@id/chatFragmentFromAnnouncement"
+            app:popUpTo="@+id/announcementDetailsFragment"
+            app:popUpToInclusive="true"
+            app:popUpToSaveState="true"
+            />
+
     </fragment>
-    <action
-        android:id="@+id/action_bookingServicesFragment_to_main_home"
-        app:destination="@id/like" />
-    <action
-        android:id="@+id/action_announcementDetailsFragment_to_main_home"
-        app:destination="@id/like" />
     <fragment
         android:id="@+id/like"
         android:name="com.example.boatbooking_1.ui.navigation.FavoritesFragment"
@@ -65,4 +76,7 @@
             android:id="@+id/action_like_to_announcementDetailsFragment"
             app:destination="@id/announcementDetailsFragment" />
     </fragment>
+    <action
+        android:id="@+id/action_announcementDetailsFragment_to_main_home"
+        app:destination="@id/like" />
 </navigation>

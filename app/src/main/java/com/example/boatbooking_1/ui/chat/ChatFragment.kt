@@ -118,7 +118,7 @@ class ChatFragment : Fragment() {
                 chatTitle.text = receiverUser?.name
 
                 // First message
-                if (!boatName.isNullOrBlank()) {
+                /*if (!boatName.isNullOrBlank()) {
                     val messageObject =
                         MyMessage(message, senderRoom)
 
@@ -127,6 +127,7 @@ class ChatFragment : Fragment() {
 
                     addMessageOnDatabase(messageObject, receiverUser)
                 }
+                 */
             }
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this.context)

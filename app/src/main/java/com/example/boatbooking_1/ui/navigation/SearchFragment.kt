@@ -12,6 +12,8 @@ import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.compose.ui.text.toUpperCase
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -43,18 +45,6 @@ class SearchFragment : Fragment() {
         arguments?.let {
         }
 
-        /*locationList =
-            arrayOf(
-            "Brescia",
-            "Bergamo",
-                "LIVORNO",
-            "Milano",
-            "Verona",
-            "Torino"
-        )
-
-         */
-
         locationList = ArrayList()
         searchViewModel.getLocationsFromDatabase(locationList)
 
@@ -67,6 +57,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         binding.dateContainer.isVisible = false
