@@ -6,6 +6,15 @@
     app:startDestination="@+id/main_search">
 
     <fragment
+        android:id="@+id/chatFragmentFromAnnouncement"
+        android:name="com.example.boatbooking_1.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat">
+        <action
+            android:id="@+id/action_chatFragment2_to_announcementDetailsFragment"
+            app:destination="@id/announcementDetailsFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/announcementDetailsFragment"
         android:name="com.example.boatbooking_1.AnnouncementDetailsFragment"
         android:label="fragment_announcement_details"

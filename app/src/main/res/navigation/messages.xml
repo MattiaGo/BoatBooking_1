@@ -11,11 +11,11 @@
         tools:layout="@layout/fragment_messages">
         <action
             android:id="@+id/action_main_messages_to_chatFragment"
-            app:destination="@id/chatFragment"
+            app:destination="@id/chatFragment"/>
 
-            app:popUpTo="@+id/messages"
+            <!--app:popUpTo="@+id/messages"
             app:popUpToInclusive="true"
-            app:popUpToSaveState="true" />
+            app:popUpToSaveState="true" -->
     </fragment>
 
     <fragment
@@ -26,8 +26,7 @@
 
         <action
             android:id="@+id/action_chat_fragment_to_main_messages"
-            app:destination="@id/main_messages"
-            app:popUpToInclusive="true"
-            />
+            app:destination="@id/main_messages"/>
+<!--            app:popUpToInclusive="true"-->
     </fragment>
 </navigation>

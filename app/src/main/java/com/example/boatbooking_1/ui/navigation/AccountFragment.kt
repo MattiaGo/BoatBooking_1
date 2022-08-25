@@ -133,7 +133,7 @@ class AccountFragment : Fragment() {
             )
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Util.setStringSharePreferences(requireContext(), "password", password.text.toString())
+                        //Util.setStringSharePreferences(requireContext(), "password", password.text.toString())
                         updateUI()
                     } else {
                         loginMessageError.text = task.exception?.message
