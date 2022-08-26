@@ -183,9 +183,9 @@ class SearchViewModel : ViewModel() {
                     for (it in snapshot) {
                         Log.d("Search", it.reference.id)
                         al.add(it.reference.id)
-                        adapter.notifyDataSetChanged()
+                        //adapter.notifyDataSetChanged()
                     }
-                    adapter.notifyDataSetChanged()
+                    //adapter.notifyDataSetChanged()
                 }
 
                 locationList.value = al
