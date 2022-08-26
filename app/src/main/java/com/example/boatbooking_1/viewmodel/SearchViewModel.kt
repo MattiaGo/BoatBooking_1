@@ -2,6 +2,9 @@ package com.example.boatbooking_1.viewmodel
 
 import android.net.Uri
 import android.util.Log
+import android.widget.ArrayAdapter
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.boatbooking_1.adapter.SearchResultAnnouncementAdapter
 import com.example.boatbooking_1.model.Announcement
@@ -16,8 +19,18 @@ class SearchViewModel : ViewModel() {
     val searchData: Search
         get() = _searchData
 
+    var locationList = MutableLiveData<ArrayList<String>>()
+
+    init {
+        locationList.value = arrayListOf()
+    }
+
     fun resetData() {
         _searchData = Search()
+    }
+
+    fun resetLocationList() {
+        locationList.value = arrayListOf()
     }
 
     fun resetFilterParam() {
@@ -155,13 +168,28 @@ class SearchViewModel : ViewModel() {
                 boat.bathrooms!! in searchParam.lvBath!!..searchParam.hvBath!!
     }
 
-    fun getLocationsFromDatabase(arrayList: ArrayList<String>) {
+    fun getLocationsFromDatabase(adapter: ArrayAdapter<String>) {
+
         Util.fDatabase.collection("Locations")
-            .get()
-            .addOnSuccessListener { documents ->
-                documents.forEach { document ->
-                    arrayList.add(document.get("location").toString())
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Log.d("Search", "Listen failed.", e)
+                    return@addSnapshotListener
                 }
+
+                val al = arrayListOf<String>()
+
+                if (snapshot != null) {
+                    for (it in snapshot) {
+                        Log.d("Search", it.reference.id)
+                        al.add(it.reference.id)
+                        adapter.notifyDataSetChanged()
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+
+                locationList.value = al
+                adapter.notifyDataSetChanged()
             }
     }
 }
