@@ -1,21 +1,16 @@
 package com.example.boatbooking_1.ui.navigation
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintSet.GONE
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentMessagesBinding
 import com.example.boatbooking_1.model.ChatPreview
 import com.example.boatbooking_1.ui.chat.ChatPreviewAdapter
@@ -78,7 +73,6 @@ class MessagesFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_messages, container, false)
-
         binding = FragmentMessagesBinding.inflate(inflater, container, false)
 
         chatPreviewRecyclerView = binding.rvChatPreview

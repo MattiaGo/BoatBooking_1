@@ -3,14 +3,13 @@ package com.example.boatbooking_1.viewmodel
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.boatbooking_1.adapter.SearchResultAnnouncementAdapter
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Boat
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.model.Search
-import com.example.boatbooking_1.adapter.SearchResultAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 import me.moallemi.tools.daterange.date.rangeTo
-import kotlin.collections.ArrayList
 
 class SearchViewModel : ViewModel() {
     private var _searchData = Search()
@@ -33,23 +32,25 @@ class SearchViewModel : ViewModel() {
         _searchData.endDate = endDate
     }
 
-//TODO location
     fun searchAnnouncement(
-    arrayList: ArrayList<Announcement>,
-    searchParam: Search,
-    adapter: SearchResultAnnouncementAdapter,
-    remoteImageURIList: MutableList<String> ){
+        arrayList: ArrayList<Announcement>,
+        searchParam: Search,
+        adapter: SearchResultAnnouncementAdapter,
+        remoteImageURIList: MutableList<String>
+    ) {
         Util.fDatabase.collectionGroup("Announcement")
             .whereEqualTo("location", searchParam.location!!)
             .whereEqualTo("available", true)
             .whereEqualTo("licence_needed", searchParam.licenceNeeded!!)
             .whereEqualTo("capt_needed", searchParam.captainNeeded!!)
-            .whereGreaterThanOrEqualTo("price", searchParam.lvPrice!!)
-            .whereLessThanOrEqualTo("price", searchParam.hvPrice!!)
+//            .whereGreaterThanOrEqualTo("price", searchParam.lvPrice!!)
+//            .whereLessThanOrEqualTo("price", searchParam.hvPrice!!)
             .get()
             .addOnSuccessListener { documents ->
                 documents.forEachIndexed { i, document ->
                     val announcement = document.toObject(Announcement::class.java)
+
+//                    Log.d("Search", announcement.toString())
 
                     val rangeInputDate = searchParam.startDate!!.rangeTo(searchParam.endDate!!)
                     var available = false
@@ -63,8 +64,8 @@ class SearchViewModel : ViewModel() {
                             } else {
                                 available = true
 
-                                loop@for (document in it) {
-                                    val booking = document.toObject(Booking::class.java)
+                                loop@ for (doc in it) {
+                                    val booking = doc.toObject(Booking::class.java)
                                     val rangeDate = booking.startDate!!.rangeTo(booking.endDate!!)
 
                                     for (date in rangeDate) {
@@ -79,9 +80,14 @@ class SearchViewModel : ViewModel() {
                                 }
                             }
 
-                            if(available){
-                                if (filterBoatInfo(announcement.boat!!, searchParam)) {
+                            if (available) {
+                                if (filterBoatInfo(announcement.boat!!, searchParam) && checkPrice(
+                                        announcement,
+                                        searchParam
+                                    )
+                                ) {
                                     arrayList.add(i, announcement)
+                                    Log.d("Search", announcement.toString())
 
                                     if (announcement.imageList!!.isNotEmpty()) {
                                         getImageForAnnouncement(
@@ -98,7 +104,6 @@ class SearchViewModel : ViewModel() {
                             }
 
 
-
                         }
                         .addOnFailureListener {
                             Log.d("Booking", "Error: $it")
@@ -108,6 +113,10 @@ class SearchViewModel : ViewModel() {
             .addOnFailureListener {
                 Log.d("Error", it.toString())
             }
+    }
+
+    private fun checkPrice(announcement: Announcement, searchParam: Search): Boolean {
+        return announcement.price!! in searchParam.lvPrice!!..searchParam.hvPrice!!
     }
 
     private fun getImageForAnnouncement(
@@ -137,7 +146,7 @@ class SearchViewModel : ViewModel() {
     private fun filterBoatInfo(
         boat: Boat,
         searchParam: Search
-    ): Boolean{
+    ): Boolean {
         return boat.year!! in searchParam.lvYear!!..searchParam.hvYear!! &&
                 boat.length!! in searchParam.lvLength!!..searchParam.hvLength!! &&
                 boat.passengers!! in searchParam.lvPassengers!!..searchParam.hvPassengers!! &&
@@ -146,7 +155,7 @@ class SearchViewModel : ViewModel() {
                 boat.bathrooms!! in searchParam.lvBath!!..searchParam.hvBath!!
     }
 
-    fun getLocationsFromDatabase(arrayList: ArrayList<String>){
+    fun getLocationsFromDatabase(arrayList: ArrayList<String>) {
         Util.fDatabase.collection("Locations")
             .get()
             .addOnSuccessListener { documents ->

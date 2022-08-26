@@ -3,13 +3,12 @@ package com.example.boatbooking_1.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.boatbooking_1.adapter.MyBookingAdapter
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.model.Booking
 import com.example.boatbooking_1.repository.BookingRepository
-import com.example.boatbooking_1.adapter.MyBookingAdapter
 import java.util.*
-import kotlin.collections.ArrayList
 
 class BookingViewModel : ViewModel() {
     private val repository: BookingRepository = BookingRepository.instance
@@ -56,5 +55,9 @@ class BookingViewModel : ViewModel() {
 
     fun incrementReservationCounter(announcement: Announcement){
         repository.incrementReservationCounter(announcement)
+    }
+
+    fun setAvailability(availability: Boolean) {
+        repository.setAvailability(availability)
     }
 }

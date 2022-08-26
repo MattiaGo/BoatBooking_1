@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.boatbooking_1.adapter.MyBookingAdapter
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.adapter.MyBookingAdapter
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.firestore.FieldValue
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MyBookingViewModel : ViewModel() {
     private var _pastBookingLiveData = MutableLiveData<ArrayList<Booking>>()

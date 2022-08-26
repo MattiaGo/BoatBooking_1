@@ -5,16 +5,15 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.boatbooking_1.adapter.MyBookingAdapter
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.adapter.MyBookingAdapter
 import com.example.boatbooking_1.utils.Util
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
-import java.util.*
-import kotlin.collections.ArrayList
 import me.moallemi.tools.daterange.date.rangeTo
+import java.util.*
 
 class BookingRepository {
     private var _bookingLiveData = MutableLiveData<Booking>()
@@ -180,6 +179,13 @@ class BookingRepository {
                     .update("reservation_counter", FieldValue.increment(1))
             }
 
+    }
+
+    fun setAvailability(available: Boolean) {
+        val availability = _available
+        availability.value = available
+
+        _available = availability
     }
 
     companion object {

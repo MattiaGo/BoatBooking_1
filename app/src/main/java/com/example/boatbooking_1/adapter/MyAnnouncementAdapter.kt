@@ -51,10 +51,10 @@ class MyAnnouncementAdapter(
 
         var downloadUri: Uri?
 
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Caricamento immagini...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
+//        val progressDialog = ProgressDialog(context)
+//        progressDialog.setMessage("Caricamento immagini...")
+//        progressDialog.setCancelable(false)
+//        progressDialog.show()
 
         if (!currentItem.imageList.isNullOrEmpty()) {
             Util.fStorage.reference.child("/images/${currentItem.imageList!!.last()}")
@@ -70,20 +70,20 @@ class MyAnnouncementAdapter(
                             .into(holder.ivBoat)
                     }
 
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
+//                    if (progressDialog.isShowing) {
+//                        progressDialog.dismiss()
+//                    }
                 }
                 .addOnFailureListener {
-                    if (progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                    }
+//                    if (progressDialog.isShowing) {
+//                        progressDialog.dismiss()
+//                    }
                     Log.d("Adapter", "Error: $it")
                 }
         } else {
-            if (progressDialog.isShowing) {
-                progressDialog.dismiss()
-            }
+//            if (progressDialog.isShowing) {
+//                progressDialog.dismiss()
+//            }
         }
 
         holder.itemView.setOnClickListener { view ->

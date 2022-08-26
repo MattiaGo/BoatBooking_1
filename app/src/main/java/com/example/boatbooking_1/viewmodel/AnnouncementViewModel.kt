@@ -3,9 +3,9 @@ package com.example.boatbooking_1.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.boatbooking_1.adapter.MyAnnouncementAdapter
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.repository.AnnouncementRepository
-import com.example.boatbooking_1.adapter.MyAnnouncementAdapter
 import com.example.boatbooking_1.utils.Util
 
 class AnnouncementViewModel : ViewModel() {

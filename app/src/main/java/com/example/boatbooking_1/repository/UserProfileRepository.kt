@@ -5,14 +5,9 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.User
-import com.example.boatbooking_1.ui.auth.LoginFragment.Companion.TAG
 import com.example.boatbooking_1.utils.Util
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

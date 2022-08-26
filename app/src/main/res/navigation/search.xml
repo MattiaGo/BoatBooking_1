@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/announcementDetailsFragment"
-        android:name="com.example.boatbooking_1.AnnouncementDetailsFragment"
+        android:name="com.example.boatbooking_1.ui.AnnouncementDetailsFragment"
         android:label="fragment_announcement_details"
         tools:layout="@layout/fragment_announcement_details">
         <action
@@ -25,9 +25,6 @@
         <action
             android:id="@+id/action_announcementDetailsFragment_to_main_home"
             app:destination="@id/searchResultsFragment" />
-        <action
-            android:id="@+id/action_announcementDetailsFragment_to_zoomImageFragment"
-            app:destination="@id/zoomImageFragment" />
         <action
             android:id="@+id/action_announcementDetailsFragment_to_bookingFragment"
             app:destination="@id/bookingServicesFragment" />
@@ -52,15 +49,9 @@
         <action
             android:id="@+id/action_bookingServicesFragment_to_main_home"
             app:destination="@id/searchResultsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/zoomImageFragment"
-        android:name="com.example.boatbooking_1.ZoomImageFragment"
-        android:label="fragment_zoom_image"
-        tools:layout="@layout/fragment_zoom_image">
         <action
-            android:id="@+id/action_zoomImageFragment_to_announcementDetailsFragment"
-            app:destination="@id/announcementDetailsFragment" />
+            android:id="@+id/action_bookingServicesFragment_to_main_search"
+            app:destination="@id/main_search" />
     </fragment>
     <fragment
         android:id="@+id/main_search"
@@ -73,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchResultsFragment"
-        android:name="com.example.boatbooking_1.SearchResultsFragment"
+        android:name="com.example.boatbooking_1.ui.SearchResultsFragment"
         android:label="fragment_search_results"
         tools:layout="@layout/fragment_search_results" >
         <action
@@ -85,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFilterFragment"
-        android:name="com.example.boatbooking_1.SearchFilterFragment"
+        android:name="com.example.boatbooking_1.ui.SearchFilterFragment"
         android:label="fragment_search_filter"
         tools:layout="@layout/fragment_search_filter" >
         <action

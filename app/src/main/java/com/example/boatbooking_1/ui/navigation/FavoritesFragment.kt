@@ -10,9 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.boatbooking_1.adapter.FavoritesAnnouncementAdapter
 import com.example.boatbooking_1.databinding.FragmentFavoritesBinding
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.adapter.FavoritesAnnouncementAdapter
 import com.example.boatbooking_1.viewmodel.FavoritesBoatsViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth

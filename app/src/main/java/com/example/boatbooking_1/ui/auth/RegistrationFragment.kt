@@ -14,12 +14,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentRegistrationBinding
-import com.example.boatbooking_1.model.User
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
 class RegistrationFragment : Fragment() {

@@ -3,9 +3,8 @@ package com.example.boatbooking_1.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.boatbooking_1.repository.UserProfileRepository
 import com.example.boatbooking_1.model.User
-import com.example.boatbooking_1.utils.Util
+import com.example.boatbooking_1.repository.UserProfileRepository
 
 
 class UserProfileViewModel : ViewModel() {

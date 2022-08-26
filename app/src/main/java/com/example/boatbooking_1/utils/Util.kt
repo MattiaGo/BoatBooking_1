@@ -18,7 +18,7 @@ import java.util.*
 object Util {
 
     val path: String = Environment.getExternalStorageDirectory().path
-    
+
     val fStorage = FirebaseStorage.getInstance()
     val mDatabase = FirebaseDatabase.getInstance().reference
     private val _firebaseAuth = FirebaseAuth.getInstance()
@@ -40,25 +40,22 @@ object Util {
 
     }
 
-    fun getStringSharePreferences(context: Context, key: String) : String {
-        sharedPreferences = context.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
+    fun getStringSharePreferences(context: Context, key: String): String {
+        sharedPreferences =
+            context.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
 
         return sharedPreferences.getString(key, "")!!
     }
 
     fun setStringSharePreferences(context: Context, key: String, value: String) {
-        sharedPreferences = context.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
+        sharedPreferences =
+            context.getSharedPreferences("UserInfo&Preferences", Context.MODE_PRIVATE)
         sharedPreferencesEdit = sharedPreferences.edit()
         sharedPreferencesEdit.putString(key, value).apply()
     }
 
     fun getUID(): String? {
         return firebaseAuth.uid
-    }
-
-    fun currentData(): String? {
-        val calendar = Calendar.getInstance()
-        return sdf().format(calendar.timeInMillis)
     }
 
     fun sdf(): SimpleDateFormat {
@@ -78,45 +75,9 @@ object Util {
     }
 
     fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
-
-    fun getTimeAgo(time: Long): String? {
-        var time = time
-        if (time < 1000000000000L) {
-            time *= 1000
-        }
-        val now = System.currentTimeMillis()
-        if (time > now || time <= 0) {
-            return null
-        }
-        val diff = now - time
-        return if (diff < MINUTE_MILLIS) {
-            "just now"
-        } else if (diff < 2 * MINUTE_MILLIS) {
-            "a minute ago"
-        } else if (diff < 50 * MINUTE_MILLIS) {
-            (diff / MINUTE_MILLIS).toString() + " minutes ago"
-        } else if (diff < 90 * MINUTE_MILLIS) {
-            "an hour ago"
-        } else if (diff < 24 * HOUR_MILLIS) {
-            (diff / HOUR_MILLIS).toString() + " hours ago"
-        } else if (diff < 48 * HOUR_MILLIS) {
-            "yesterday"
-        } else {
-            (diff / DAY_MILLIS).toString() + " days ago"
-        }
-    }
-
-    fun updateOnlineStatus(status: String) {
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(
-            getUID()!!
-        )
-        val map: MutableMap<String, Any> = HashMap()
-        map["online"] = status
-        databaseReference.updateChildren(map)
-    }
-
 
 }

@@ -5,16 +5,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.Booking
-import com.example.boatbooking_1.ui.MainActivity
 import com.example.boatbooking_1.ui.NotificationBookingActivity
 import com.example.boatbooking_1.utils.Util
-import kotlin.coroutines.coroutineContext
 
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -101,32 +98,6 @@ class AlarmReceiver : BroadcastReceiver() {
                                 NotificationCompat.BigTextStyle()
                                     .bigText("Hai una prenotazione per oggi\n$booking")
                             )
-
-//                        val dismissIntent = Intent(activity, NotificationBookingActivity::class.java).apply {
-//                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                        }
-////                        dismissIntent.action = "VIEW_BOOKING"
-////                        dismissIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-//
-//                        val dismissPendingIntent: PendingIntent? = TaskStackBuilder.create(activity).run {
-//                            // Add the intent, which inflates the back stack
-//                            addNextIntentWithParentStack(dismissIntent)
-//                            // Get the PendingIntent containing the entire back stack
-//                            getPendingIntent(requestCode,
-//                                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-//                        }
-//
-//                        val bundle = Bundle()
-//                        bundle.putString("id", booking.id)
-//                        dismissIntent.putExtras(bundle)
-
-//                        val dismissAction = NotificationCompat.Action(
-//                            null,
-//                            "VISUALIZZA",
-//                            dismissPendingIntent
-//                        )
-
-//                        builder.addAction(dismissAction)
 
                         val notification = builder.build()
 

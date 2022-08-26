@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
+import com.example.boatbooking_1.adapter.ImageAdapter
 import com.example.boatbooking_1.adapter.ServiceAdapter
 import com.example.boatbooking_1.databinding.FragmentAddAnnouncementBinding
 import com.example.boatbooking_1.model.Announcement
@@ -24,7 +25,6 @@ import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.BoatViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Timestamp
-import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.

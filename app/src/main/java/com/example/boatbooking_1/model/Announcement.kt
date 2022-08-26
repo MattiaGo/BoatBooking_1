@@ -1,7 +1,6 @@
 package com.example.boatbooking_1.model
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 data class Announcement(
     var id: String? = null,

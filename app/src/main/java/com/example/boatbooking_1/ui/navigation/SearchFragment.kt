@@ -1,19 +1,13 @@
 package com.example.boatbooking_1.ui.navigation
 
-import android.R
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.compose.ui.text.toUpperCase
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -25,7 +19,6 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class SearchFragment : Fragment() {
@@ -45,11 +38,23 @@ class SearchFragment : Fragment() {
         arguments?.let {
         }
 
+        /*locationList =
+            arrayOf(
+            "Brescia",
+            "Bergamo",
+            "LIVORNO",
+            "Milano",
+            "Verona",
+            "Torino"
+        )
+         */
+
         locationList = ArrayList()
         searchViewModel.getLocationsFromDatabase(locationList)
 
         locationAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_list_item_1,
+            requireContext(),
+            android.R.layout.simple_list_item_1,
             locationList
         )
     }
@@ -64,13 +69,11 @@ class SearchFragment : Fragment() {
 
         val sdf = Util.sdfBooking()
 
-
         if(searchViewModel.searchData.location != null){
             binding.searchView.setQuery(searchViewModel.searchData.location!!,true)
         }
 
         if(searchViewModel.searchData.startDate != null && searchViewModel.searchData.startDate != null){
-
             binding.tvStartDate.text = sdf.format(searchViewModel.searchData.startDate!!).toString()
             binding.tvEndDate.text = sdf.format(searchViewModel.searchData.endDate!!).toString()
             binding.dateContainer.isVisible = true

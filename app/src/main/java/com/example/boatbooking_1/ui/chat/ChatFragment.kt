@@ -1,8 +1,6 @@
 package com.example.boatbooking_1.ui.chat
 
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.inputmethodservice.InputMethodService
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,13 +10,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.databinding.FragmentChatBinding
 import com.example.boatbooking_1.model.MyMessage
 import com.example.boatbooking_1.model.User
@@ -27,11 +26,6 @@ import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.UserProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import androidx.core.content.ContextCompat.getSystemService
-
-
-
-
 
 /**
  * A simple [Fragment] subclass.
@@ -79,7 +73,7 @@ class ChatFragment : Fragment() {
         myMessageAdapter = MyMessageAdapter(messageArrayList)
     }
 
-    fun EditText.showSoftKeyboard(){
+    fun EditText.showSoftKeyboard() {
         (this.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
             .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
@@ -158,17 +152,21 @@ class ChatFragment : Fragment() {
                 })
 
         binding.btnBack.setOnClickListener {
-            if (arguments?.getString("id_owner").isNullOrBlank()) {
-//                val action = ChatFragmentDirections.actionChatFragmentToMainMessages()
-                findNavController().navigate(com.example.boatbooking_1.R.id.main_messages)
-            } else {
-                val bundle = Bundle()
-                bundle.putString("id", announcementViewModel.getAnnouncement().value?.id)
-                findNavController().navigate(
-                    com.example.boatbooking_1.R.id.announcementDetailsFragment,
-                    bundle
-                )
-            }
+            findNavController().popBackStack()
+//            activity!!.onBackPressed()
+//            currentFragment.fragmentManager!!.popBackStack()
+
+//            if (arguments?.getString("id_owner").isNullOrBlank()) {
+////                val action = ChatFragmentDirections.actionChatFragmentToMainMessages()
+//                findNavController().navigate(R.id.main_messages)
+//            } else {
+//                val bundle = Bundle()
+//                bundle.putString("id", announcementViewModel.getAnnouncement().value?.id)
+//                findNavController().navigate(
+//                    R.id.announcementDetailsFragment,
+//                    bundle
+//                )
+//            }
         }
 
         // Update chat messages on Firebase
@@ -225,11 +223,6 @@ class ChatFragment : Fragment() {
                             .child("timestamp").setValue(messageObject.timestamp)
                     }
             }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     companion object {

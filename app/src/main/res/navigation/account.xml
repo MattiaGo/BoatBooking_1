@@ -49,15 +49,12 @@
     </fragment>
     <fragment
         android:id="@+id/announcementDetailsFragment"
-        android:name="com.example.boatbooking_1.AnnouncementDetailsFragment"
+        android:name="com.example.boatbooking_1.ui.AnnouncementDetailsFragment"
         android:label="fragment_announcement_details"
         tools:layout="@layout/fragment_announcement_details">
         <action
             android:id="@+id/action_announcementDetailsFragment_to_main_home"
             app:destination="@id/myBookingsFragment" />
-        <action
-            android:id="@+id/action_announcementDetailsFragment_to_zoomImageFragment"
-            app:destination="@id/zoomImageFragment" />
         <action
             android:id="@+id/action_announcementDetailsFragment_to_bookingFragment"
             app:destination="@id/bookingFragment" />

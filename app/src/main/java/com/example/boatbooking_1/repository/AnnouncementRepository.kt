@@ -5,18 +5,11 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.ui.text.toUpperCase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.boatbooking_1.model.Announcement
-import com.example.boatbooking_1.model.Booking
-
 import com.example.boatbooking_1.utils.Util
-
-import com.google.firebase.firestore.FirebaseFirestore
-import me.moallemi.tools.daterange.date.rangeTo
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AnnouncementRepository {
     private var _announcementLiveData = MutableLiveData<Announcement>()
@@ -60,24 +53,6 @@ class AnnouncementRepository {
                 }
             }
     }
-
-
-//        Log.d("Firestore", _announcementLiveData.value.toString())
-
-//            Util.mDatabase.child("announcements")
-//                .child(Util.getUID().toString())
-//                .child(id!!)
-//                .addListenerForSingleValueEvent(object: ValueEventListener {
-//                    override fun onDataChange(snapshot: DataSnapshot) {
-//                        val announcement = snapshot.getValue(Announcement::class.java)
-//                        _announcementLiveData.value = announcement
-//                        Log.d("Firebase", announcement.toString())
-//                    }
-//
-//                    override fun onCancelled(error: DatabaseError) {
-//                    }
-//
-//                })
 
     fun addAnnouncementToDatabase(
         announcement: Announcement,

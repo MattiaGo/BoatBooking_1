@@ -18,7 +18,7 @@ class SearchResultAnnouncementAdapter(
     private val announcementList: ArrayList<Announcement>,
     private val context: Context,
     private val imagesURIList: MutableList<String>
-    ) :
+) :
     RecyclerView.Adapter<SearchResultAnnouncementAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -44,9 +44,10 @@ class SearchResultAnnouncementAdapter(
             val id: String = currentItem.id.toString()
             //val uid: String = currentItem.user!!.uid.toString()
             val bundle = bundleOf("id" to id)
+            bundle.putBoolean("search", true)
 
-            // Test
-            Navigation.findNavController(view).navigate(R.id.action_searchResultsFragment_to_announcementDetailsFragment2, bundle)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_searchResultsFragment_to_announcementDetailsFragment2, bundle)
         }
 
     }

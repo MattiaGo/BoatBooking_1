@@ -5,13 +5,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boatbooking_1.R
 import com.example.boatbooking_1.model.ChatPreview
+import com.example.boatbooking_1.ui.navigation.MessagesFragment
 
 
-class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
+class ChatPreviewAdapter(
+    private val chatPreviewList: ArrayList<ChatPreview>
+) :
     RecyclerView.Adapter<ChatPreviewAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -31,7 +36,9 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
             val uid: String = currentItem.user!!.uid.toString()
             //val uid: String = currentItem.user!!.uid.toString()
             val bundle = bundleOf("uid" to uid, "name" to currentItem.user!!.name.toString())
-            Navigation.findNavController(view).navigate(R.id.action_main_messages_to_chatFragment, bundle)
+
+            Navigation.findNavController(view)
+                .navigate(R.id.action_main_messages_to_chatFragment, bundle)
         }
     }
 
@@ -40,8 +47,8 @@ class ChatPreviewAdapter(private val chatPreviewList: ArrayList<ChatPreview>) :
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvName: TextView = itemView.findViewById(R.id.tv_location)
-        val tvLastMessage: TextView = itemView.findViewById(R.id.tv_name)
+        val tvName: TextView = itemView.findViewById(R.id.tv_name)
+        val tvLastMessage: TextView = itemView.findViewById(R.id.tv_last_message)
     }
 
 }

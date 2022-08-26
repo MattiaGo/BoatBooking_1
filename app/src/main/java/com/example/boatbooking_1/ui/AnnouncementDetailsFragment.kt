@@ -1,10 +1,12 @@
-package com.example.boatbooking_1
+package com.example.boatbooking_1.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.compose.ui.graphics.Color
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -12,16 +14,15 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.boatbooking_1.R
 import com.example.boatbooking_1.adapter.PublicImageAdapter
 import com.example.boatbooking_1.adapter.PublicServiceAdapter
 import com.example.boatbooking_1.databinding.FragmentAnnouncementDetailsBinding
 import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.model.BoatService
+import com.example.boatbooking_1.ui.navigation.SearchFragmentDirections
 import com.example.boatbooking_1.utils.Util
-import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
-import com.example.boatbooking_1.viewmodel.DetailsAnnouncementViewModel
-import com.example.boatbooking_1.viewmodel.FavoritesBoatsViewModel
-import com.example.boatbooking_1.viewmodel.UserProfileViewModel
+import com.example.boatbooking_1.viewmodel.*
 import com.google.android.material.snackbar.Snackbar
 
 class AnnouncementDetailsFragment : Fragment() {
@@ -63,6 +64,10 @@ class AnnouncementDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+//        requireActivity().onBackPressedDispatcher.addCallback(this) {
+//            // With blank your fragment BackPressed will be disabled.
+//        }
 
         remoteImageURIList.clear()
         imagesName.clear()
@@ -228,9 +233,20 @@ class AnnouncementDetailsFragment : Fragment() {
             }
 
             binding.bookBtn.setOnClickListener {
-                val action =
-                    AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToBookingFragment()
-                findNavController().navigate(action)
+                // TODO: Add flags (also one) -> 0 => Home booking, 1 => Search booking
+                // TODO: With flag "Search" change action (below)
+//                AnnouncementDetailsFragmentDirections.
+                val searchFlag = arguments?.getBoolean("search")
+                if (searchFlag == true) // From search
+                {
+                    val bundle = bundleOf()
+                    bundle.putBoolean("search", true)
+                    findNavController().navigate(R.id.action_announcementDetailsFragment_to_bookingFragment, bundle)
+                } else { // From homepage
+                    val action =
+                        AnnouncementDetailsFragmentDirections.actionAnnouncementDetailsFragmentToBookingFragment()
+                    findNavController().navigate(action)
+                }
             }
         }
 
