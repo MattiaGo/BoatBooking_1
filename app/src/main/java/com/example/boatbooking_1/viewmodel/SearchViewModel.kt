@@ -71,7 +71,6 @@ class SearchViewModel : ViewModel() {
                         .whereEqualTo("aid", announcement.id)
                         .get()
                         .addOnSuccessListener {
-//                var availableUpdated = _available.value
                             if (it.isEmpty) {
                                 available = it.isEmpty
                             } else {
@@ -149,7 +148,6 @@ class SearchViewModel : ViewModel() {
                 downloadUri = it
                 remoteImageURIList.add(position, downloadUri.toString())
                 adapter.notifyDataSetChanged()
-//                adapter.notifyDataSetChanged()
             }
             .addOnFailureListener {
                 Log.d("HomeImage", "Error: $it")
@@ -168,7 +166,7 @@ class SearchViewModel : ViewModel() {
                 boat.bathrooms!! in searchParam.lvBath!!..searchParam.hvBath!!
     }
 
-    fun getLocationsFromDatabase(adapter: ArrayAdapter<String>) {
+    fun getLocationsFromDatabase() {
 
         Util.fDatabase.collection("Locations")
             .addSnapshotListener { snapshot, e ->
@@ -183,13 +181,10 @@ class SearchViewModel : ViewModel() {
                     for (it in snapshot) {
                         Log.d("Search", it.reference.id)
                         al.add(it.reference.id)
-                        //adapter.notifyDataSetChanged()
                     }
-                    //adapter.notifyDataSetChanged()
                 }
 
                 locationList.value = al
-                adapter.notifyDataSetChanged()
             }
     }
 }

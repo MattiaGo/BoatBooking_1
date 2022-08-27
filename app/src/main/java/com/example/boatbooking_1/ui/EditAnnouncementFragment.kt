@@ -211,7 +211,6 @@ class EditAnnouncementFragment : Fragment() {
 
         binding.editBtn.setOnClickListener {
 
-            // TODO: Update imageList
             updateImageList()
 
             val boat = Boat(
@@ -233,7 +232,7 @@ class EditAnnouncementFragment : Fragment() {
                 boat = boat,
                 capt_needed = binding.checkBoxCaptainNeeded.isChecked,
                 licence_needed = binding.checkBoxLicense.isChecked,
-                location = binding.etPort.text.toString(),
+                location = binding.etPort.text.toString().uppercase(),
                 description = binding.etDescription.text.toString(),
                 services = serviceList,
                 imageList = newImageList,

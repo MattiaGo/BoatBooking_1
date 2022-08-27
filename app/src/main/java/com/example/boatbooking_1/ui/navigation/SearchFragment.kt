@@ -11,15 +11,16 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.boatbooking_1.databinding.FragmentSearchBinding
+import com.example.boatbooking_1.model.Announcement
 import com.example.boatbooking_1.utils.Util
 import com.example.boatbooking_1.viewmodel.SearchViewModel
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import java.util.*
-
+import java.sql.Date
 
 class SearchFragment : Fragment() {
 
@@ -28,10 +29,15 @@ class SearchFragment : Fragment() {
     private lateinit var locationAdapter: ArrayAdapter<String>
 
     private val searchViewModel: SearchViewModel by activityViewModels()
+    private lateinit var locationObserver: Observer<ArrayList<String>>
 
     private var startDate: Date? = null
     private var endDate: Date? = null
 
+    override fun onStart() {
+        super.onStart()
+        searchViewModel.getLocationsFromDatabase()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,7 +47,6 @@ class SearchFragment : Fragment() {
             searchViewModel.locationList.value!!
         )
 
-        searchViewModel.getLocationsFromDatabase(locationAdapter)
     }
 
     override fun onCreateView(
@@ -53,7 +58,23 @@ class SearchFragment : Fragment() {
         binding.dateContainer.isVisible = false
 
         searchView = binding.searchView
-        binding.lvLocation.adapter = locationAdapter
+
+        locationObserver = Observer<ArrayList<String>> { locations ->
+
+            Log.d("Search", "Observer!")
+
+            locationAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_list_item_1,
+                locations
+            )
+
+            binding.lvLocation.adapter = locationAdapter
+
+            locationAdapter.notifyDataSetChanged()
+        }
+
+        searchViewModel.locationList.observe(viewLifecycleOwner, locationObserver)
 
         val sdf = Util.sdfBooking()
 

@@ -87,30 +87,20 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        //LAST ADDED
         rvLastAdded = binding.rvLastAdded
         rvLastAdded.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvLastAdded.adapter = lastAddedAdapter
 
-        //BEST CHARTER
-//        rvLastAdded = binding.rvLastAdded
-//        rvLastAdded.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
-//        rvLastAdded.adapter = lastAddedAdapter
-
-        //LAST SEEN
         rvRecentSeen = binding.rvRecentSeen
         rvRecentSeen.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvRecentSeen.adapter = lastSeenAdapter
 
-        //MOST REQ
         rvMostRequested = binding.rvMostRequested
         rvMostRequested.layoutManager =
             LinearLayoutManager(this.context, LinearLayoutManager.HORIZONTAL, false)
         rvMostRequested.adapter = mostRequestedAdapter
-
-
 
         homeAnnouncementViewModel.getLastAddedAnnouncement(
             lastAddedList,

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageButton
+import androidx.compose.ui.text.toUpperCase
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,8 @@ import com.example.boatbooking_1.viewmodel.AnnouncementViewModel
 import com.example.boatbooking_1.viewmodel.BoatViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.Timestamp
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -123,7 +126,7 @@ class AddAnnouncementFragment : Fragment() {
                     boat = boatViewModel.boat!!,
                     capt_needed = checkBoxCaptain.isChecked,
                     licence_needed = checkBoxLicense.isChecked,
-                    location = etPort.text.toString(),
+                    location = etPort.text.toString().uppercase(Locale.getDefault()),
                     description = etDescription.text.toString(),
                     services = serviceList,
                     imageList = imageList,
