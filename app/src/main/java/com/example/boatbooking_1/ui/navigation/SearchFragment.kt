@@ -176,12 +176,18 @@ class SearchFragment : Fragment() {
         }
 
         binding.btnContinue.setOnClickListener {
-            if (!validateDate()) {
+            if (!validateLocation()) {
                 Toast.makeText(
                     context,
-                    "Inserisci un periodo in cui vuoi effettuare la prenotazione!",
+                    "Inserisci un luogo dove cercare una barca",
                     Toast.LENGTH_SHORT
                 ).show()
+            } else if (!validateDate()) {
+                    Toast.makeText(
+                        context,
+                        "Inserisci un periodo in cui vuoi effettuare la prenotazione!",
+                        Toast.LENGTH_SHORT
+                    ).show()
             } else {
                 val action = SearchFragmentDirections.actionMainSearchToSearchFilterFragment()
                 findNavController().navigate(action)
@@ -205,5 +211,13 @@ class SearchFragment : Fragment() {
 //        )
         return searchViewModel.searchData.startDate != null ||
                 searchViewModel.searchData.endDate != null
+    }
+
+    private fun validateLocation(): Boolean {
+//        Log.d(
+//            "MyDebug", (binding.tvStartDate.text.trim().isEmpty() ||
+//                    binding.tvEndDate.text.trim().isEmpty()).toString()
+//        )
+        return  searchViewModel.searchData.location != null
     }
 }
