@@ -107,8 +107,8 @@ class SearchFilterFragment : Fragment() {
             myList.add(searchViewModel.searchData.lvPrice!!.toFloat())
             myList.add(searchViewModel.searchData.hvPrice!!.toFloat())
 
-            binding.lvYear.setText(searchViewModel.searchData.lvPrice!!.toString())
-            binding.hvYear.setText(searchViewModel.searchData.hvPrice!!.toString())
+            binding.lvPrice.setText(searchViewModel.searchData.lvPrice!!.toString())
+            binding.hvPrice.setText(searchViewModel.searchData.hvPrice!!.toString())
             binding.sliderPrice.values = myList
         }
 
